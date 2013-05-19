@@ -1,0 +1,9 @@
+filesystem.noarch: W: non-standard-group BLFS/AfterLFS
+filesystem.noarch: W: no-documentation
+filesystem.noarch: E: non-standard-dir-perm /root 0750L
+filesystem.noarch: E: non-root-group-log-file /var/log/lastlog utmp
+filesystem.noarch: E: non-standard-dir-perm /var/tmp 01777L
+filesystem.noarch: E: non-standard-dir-perm /tmp 01777L
+filesystem.noarch: W: dangling-symlink /etc/mtab /proc/self/mounts
+filesystem.noarch: W: log-files-without-logrotate /var/log/lastlog
+1 packages and 0 specfiles checked; 4 errors, 4 warnings.

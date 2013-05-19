@@ -1,0 +1,13 @@
+random.number.generator.noarch: W: spelling-error %description -l en_US urandom -> random, u random
+random.number.generator.noarch: W: non-standard-group BLFS/AfterLFS
+random.number.generator.noarch: W: no-documentation
+random.number.generator.noarch: E: non-standard-executable-perm /etc/rc.d/init.d/random 0754L
+random.number.generator.noarch: E: init-script-without-chkconfig-postin /etc/rc.d/init.d/random
+random.number.generator.noarch: E: init-script-without-chkconfig-preun /etc/rc.d/init.d/random
+random.number.generator.noarch: W: service-default-enabled /etc/rc.d/init.d/random
+random.number.generator.noarch: E: no-status-entry /etc/rc.d/init.d/random
+random.number.generator.noarch: W: no-reload-entry /etc/rc.d/init.d/random
+random.number.generator.noarch: E: no-chkconfig-line /etc/rc.d/init.d/random
+random.number.generator.noarch: E: subsys-not-used /etc/rc.d/init.d/random
+random.number.generator.noarch: W: incoherent-init-script-name random ('random.number.generator', 'random.number.generatord')
+1 packages and 0 specfiles checked; 6 errors, 6 warnings.

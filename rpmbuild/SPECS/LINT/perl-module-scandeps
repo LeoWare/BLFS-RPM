@@ -1,0 +1,4 @@
+perl-module-scandeps.noarch: W: spelling-error %description -l en_US executables -> executable, executable s, executrices
+perl-module-scandeps.noarch: W: non-standard-group Perl/Module
+perl-module-scandeps.noarch: W: invalid-license Artistic
+1 packages and 0 specfiles checked; 0 errors, 3 warnings.
