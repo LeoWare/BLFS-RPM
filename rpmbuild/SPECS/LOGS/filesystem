@@ -1,0 +1,170 @@
+Building target platforms: i686
+Building for target i686
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.bejC5o
++ umask 022
++ cd /home/scrat/rpmbuild/BUILD
++ exit 0
+Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.m7qKaz
++ umask 022
++ cd /home/scrat/rpmbuild/BUILD
++ exit 0
+Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.93LWgJ
++ umask 022
++ cd /home/scrat/rpmbuild/BUILD
++ '[' /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386 '!=' / ']'
++ rm -rf /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386
+++ dirname /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386
++ mkdir -p /home/scrat/rpmbuild/BUILDROOT
++ mkdir /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386
++ '[' /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386 '!=' '/]'
+/var/tmp/rpm-tmp.93LWgJ: line 33: [: missing `]'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/dev /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/proc /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/sys
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/dev'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/proc'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/sys'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/bin /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/boot /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/opt /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/profile.d /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/skel /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/sysconfig /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/home /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/lib /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/mnt /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/opt /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/run
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/bin'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/boot'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/opt'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/profile.d'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/skel'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/sysconfig'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/home'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/lib'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/mnt'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/opt'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/run'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/media/floppy /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/media/cdrom /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/sbin /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/srv /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/media'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/media/floppy'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/media/cdrom'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/sbin'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/srv'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var'
++ install -vdm 0750 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/root
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/root'
++ install -vdm 1777 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/tmp /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/tmp
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/tmp'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/tmp'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/bin /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/include /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/lib /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/sbin /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/src /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/bin /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/include /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/lib /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/sbin /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/src
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/bin'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/include'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/lib'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/sbin'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/src'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/bin'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/include'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/lib'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/sbin'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/src'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/doc /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/info /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/locale /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/doc /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/info /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/locale /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/doc'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/info'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/locale'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/doc'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/info'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/locale'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/misc /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/terminfo /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/zoneinfo /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/misc /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/terminfo /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/zoneinfo
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/misc'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/terminfo'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/zoneinfo'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/misc'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/terminfo'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/zoneinfo'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man1 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man2 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man3 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man4 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man5 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man6 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man7 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man8 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man1 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man2 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man3 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man4 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man5 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man6 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man7 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man8
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man1'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man2'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man3'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man4'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man5'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man6'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man7'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/share/man/man8'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man1'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man2'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man3'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man4'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man5'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man6'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man7'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/usr/local/share/man/man8'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/log /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/mail /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/spool
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/log'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/mail'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/spool'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/opt /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/cache /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/lib/misc /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/lib/locate /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/local
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/opt'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/cache'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/lib'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/lib/misc'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/lib/locate'
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/local'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386//usr/lib/locale
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386//usr/lib/locale'
++ install -vdm 755 /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/run/lock
+install: creating directory '/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/run/lock'
++ ln -sv /run /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/run
+'/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/run' -> '/run'
++ ln -sv /run/lock /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/lock
+'/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/lock' -> '/run/lock'
++ ln -sv /proc/self/mounts /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/mtab
+'/home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/mtab' -> '/proc/self/mounts'
++ touch /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/mtab
++ touch /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/log/btmp /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/log/lastlog /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/var/log/wtmp
++ cat
++ cat
++ touch /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386/etc/mtab
++ cat
++ cat
++ cat
++ cat
++ echo HOSTNAME=lfs
++ cat
++ cat
++ cat
++ cat
++ echo 20130519
++ cat
++ cat
++ cat
++ cat
++ cat
++ cat
++ cat
++ cat
++ cat
++ cat
++ cat
++ cat
++ cat
++ clear
++ cat
++ /usr/lib/rpm/check-buildroot
++ /usr/lib/rpm/redhat/brp-compress
++ /usr/lib/rpm/redhat/brp-strip /usr/bin/strip
++ /usr/lib/rpm/redhat/brp-strip-comment-note /usr/bin/strip /usr/bin/objdump
++ /usr/lib/rpm/redhat/brp-strip-static-archive /usr/bin/strip
++ /usr/lib/rpm/brp-python-bytecompile /usr/bin/python 1
++ /usr/lib/rpm/redhat/brp-python-hardlink
++ /usr/lib/rpm/redhat/brp-java-repack-jars
+Processing files: filesystem-20130519-1.noarch
+Provides: config(filesystem) = 20130519-1 filesystem = 20130519-1
+Requires(interp): /bin/sh
+Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(FileDigests) <= 4.6.0-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+Requires(post): /bin/sh
+Checking for unpackaged file(s): /usr/lib/rpm/check-files /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386
+warning: Could not canonicalize hostname: localhost.localdomain
+Wrote: /home/scrat/rpmbuild/SRPMS/filesystem-20130519-1.src.rpm
+Wrote: /home/scrat/rpmbuild/RPMS/noarch/filesystem-20130519-1.noarch.rpm
+Executing(%clean): /bin/sh -e /var/tmp/rpm-tmp.FcdnBh
++ umask 022
++ cd /home/scrat/rpmbuild/BUILD
++ rm -rf /home/scrat/rpmbuild/BUILDROOT/filesystem-20130519-1.i386
++ exit 0

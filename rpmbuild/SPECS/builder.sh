@@ -3,11 +3,14 @@ set -o errexit	# exit if error
 set -o nounset	# exit if variable not initalized
 set +h		# disable hashall
 shopt -s -o pipefail
-export FAILURE="/rpmbuild/FAILURE"
+export FAILURE="../FAILURE"
 #	set correct file ownership
 #	Start of build process
 build=$(uname -m)
-list=""
+
+list="filesystem random.number.generator perl-module-scandeps"
+echo $list
+
 die() {
 	local msg=$1
 	printf "BLFS build failed: ${msg}\n"
@@ -34,12 +37,11 @@ installpkg() {
 }
 for i in ${list}; do
 	[ -f ${FAILURE} ] && die "FAILURE: ${i}: detected exiting script\n"
-	RPM=""
-	findpkg ${i}
+	RPM="";findpkg ${i}
 	[ -z $RPM ] && printf "Building --> ${i}\n" || printf "Skipping --> ${i}\n"
 	[ -z $RPM ] && buildpkg ${i} || continue
-	installpkg ${i}
-	rpm -ql ${i} > FILES/${i} 2>&1
+	#installpkg ${i}
 	findpkg ${i};rpm -qilp ${RPM} > INFO/${i} 2>&1
+	rpmlint ${RPM} > LINT/${i} 2>&1 || true
 done
 rm -rf ../BUILD/*
