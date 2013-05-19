@@ -8,7 +8,7 @@ export FAILURE="../FAILURE"
 #	Start of build process
 build=$(uname -m)
 
-list="filesystem random.number.generator perl-module-scandeps"
+list="filesystem random.number.generator perl-module-scandeps which"
 echo $list
 
 die() {
