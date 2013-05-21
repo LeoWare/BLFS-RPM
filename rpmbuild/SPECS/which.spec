@@ -33,7 +33,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %{_bindir}/*
-%{_libdir}/*
 %{_mandir}/man1/which.1.gz
 %changelog
 *	Sun May 19 2013 baho-utot <baho-utot@columbus.rr.com> 2.20-1

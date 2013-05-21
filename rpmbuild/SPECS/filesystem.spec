@@ -304,7 +304,7 @@ fi
 EOF
 cat > %{buildroot}/etc/profile.d/i18n.sh << "EOF"
 # Set up i18n variables
-export LANG=<ll>_<CC>.<charmap><@modifiers>
+#	export LANG=<ll>_<CC>.<charmap><@modifiers>
 EOF
 cat > %{buildroot}/etc/bashrc << "EOF"
 # Begin /etc/bashrc
@@ -387,13 +387,6 @@ cat > %{buildroot}/etc/skel/.bash_logout <<- "EOF"
 # Personal items to perform on logout.
 # End ~/.bash_logout
 EOF
-cat > %{buildroot}/etc/vimrc <<- "EOF"
-	" Begin .vimrc
-	set columns=80
-	set wrapmargin=8
-	set ruler
-	" End .vimrc
-EOF
 cat > %{buildroot}/etc/skel/.vimrc <<- "EOF"
 	" Begin .vimrc
 	set columns=80
@@ -475,7 +468,6 @@ EOF
 %config(noreplace) /etc/skel/.bash_profile
 %config(noreplace) /etc/skel/.bashrc
 %config(noreplace) /etc/skel/.vimrc
-%config(noreplace) /etc/vimrc
 %clean
 rm -rf %{buildroot}
 %post
