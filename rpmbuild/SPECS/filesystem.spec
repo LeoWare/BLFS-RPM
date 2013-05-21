@@ -472,8 +472,8 @@ EOF
 rm -rf %{buildroot}
 %post
 if [ -e /bin/mknod ]; then
-[ -e /dev/console ] || /bin/mknod -m 600 /dev/console c 5 1
-[ -e /dev/null ]    || /bin/mknod -m 666 /dev/null c 1 3
+	[ -e /dev/console ] || /bin/mknod -m 600 /dev/console c 5 1
+	[ -e /dev/null ]    || /bin/mknod -m 666 /dev/null c 1 3
 fi
 %changelog
 *	Sun May 19 2013 baho-utot <baho-utot@columbus.rr.com> 20130519-1
