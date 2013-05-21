@@ -17,8 +17,10 @@ for further information.
 %prep
 %setup -q -n Module-ScanDeps-%{version}
 %build
-%{__perl} Makefile.PL INSTALLDIRS=vendor
+%{__perl} Makefile.PL
+# INSTALLDIRS=vendor
 make %{?_smp_mflags}
+exit 99
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 rm -rf inc
