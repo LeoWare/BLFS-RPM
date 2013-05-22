@@ -51,6 +51,8 @@ fi
 if ! getent passwd sshd >/dev/null; then
 	useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
 fi
+ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
+ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
 %postun
 /sbin/ldconfig
 if getent passwd sshd >/dev/null; then
