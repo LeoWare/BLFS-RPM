@@ -21,6 +21,8 @@ make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 make BASEDIR=%{buildroot} update
+rm %{buildroot}/bin/hostname
+rm %{buildroot}%{_mandir}/man1/hostname.1
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}

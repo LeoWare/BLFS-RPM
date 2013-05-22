@@ -1,7 +1,7 @@
 Summary:	'Free version of the SSH connectivity tools
 Name:		openssh
 Version:	6.2p1
-Release:	1
+Release:	2
 License:	BSD
 URL:		http://openssh.org
 Group:		BLFS/Security
@@ -32,8 +32,8 @@ tar xf %{SOURCE1}
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
-install -v -m700 -d %{buildroot}/var/lib/sshd
 make DESTDIR=%{buildroot} install
+mkdir -vp %{buildroot}/var/lib/sshd
 echo "PermitRootLogin no" >> %{buildroot}/etc/ssh/sshd_config
 #	Install daemon script
 pushd blfs-bootscripts-20130512
@@ -79,6 +79,7 @@ rm -rf %{buildroot}/*
 %{_mandir}/man1/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
+%attr(700,root,sys)/var/lib/sshd
 %changelog
 *	Wed May 22 2013 baho-utot <baho-utot@columbus.rr.com> 6.2p1-1
 -	Initial build.	First version
