@@ -17,9 +17,9 @@ Procedure for the setting up of the build:
 	git clone https://github.com/baho-utot/BLFS-RPM.git
 						- clone repository
 	ln -vfs BLFS-RPM/rpmbuild		- create symlink
-	vi /mnt/lfs/rpmbuild/complete.sh	- edit flags/configuration
 	pushd rpmbuild/SOURCES			- switch directory
-	wget -nc  http://search.cpan.org/CPAN/authors/id/R/RS/RSCHUPP/Module-ScanDeps-1.10.tar.gz
+	vim  wget-list				- edit to remove packages
+						- not needed
 	wget -nc -i wget-list 			- fetch packages
 	popd					- back to parent
 	./complete.sh				- build system & install
