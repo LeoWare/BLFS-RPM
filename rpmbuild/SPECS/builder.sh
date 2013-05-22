@@ -8,7 +8,7 @@ export FAILURE="../FAILURE"
 #	Start of build process
 build=$(uname -m)
 
-list="filesystem random.number.generator which b43-fwcutter broadcom-wl " #perl-module-scandeps"
+list="filesystem random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh" #perl-module-scandeps"
 
 echo $list
 
@@ -42,7 +42,8 @@ for i in ${list}; do
 	[ -z $RPM ] && printf "Building --> ${i}\n" || printf "Skipping --> ${i}\n"
 	[ -z $RPM ] && buildpkg ${i} || continue
 	#installpkg ${i}
-	findpkg ${i};rpm -qilp ${RPM} > INFO/${i} 2>&1
+	findpkg ${i};rpm -qilp ${RPM} > INFO/${i} 2>&1 || true
+	printf "RPM: $RPM\n"
 	rpmlint ${RPM} > LINT/${i} 2>&1 || true
 	rpm -qp --provides ${RPM} > PROVIDES/${i} 2>&1 || true
 	rpm -qp --requires ${RPM} > REQUIRES/${i} 2>&1 || true
