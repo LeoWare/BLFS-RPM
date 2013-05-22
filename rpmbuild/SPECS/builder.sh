@@ -44,5 +44,7 @@ for i in ${list}; do
 	#installpkg ${i}
 	findpkg ${i};rpm -qilp ${RPM} > INFO/${i} 2>&1
 	rpmlint ${RPM} > LINT/${i} 2>&1 || true
+	rpm -qp --provides ${RPM} > PROVIDES/${i} 2>&1 || true
+	rpm -qp --requires ${RPM} > REQUIRES/${i} 2>&1 || true
 done
 rm -rf ../BUILD/*
