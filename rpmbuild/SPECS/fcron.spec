@@ -32,15 +32,18 @@ export CXXFLAGS="%{optflags}"
 	--libdir=%{_libdir} \
 	--sysconfdir=/etc/fcron \
 	--localstatedir=/var \
+	--with-editor=/usr/bin/vim \
 	--with-sendmail=no \
 	--with-piddir=/run \
-	--with-editor=/usr/bin/vim \
 	--with-answer-all=no \
-	--with-boot-install=no
+	--with-boot-install=no \
+	--with-username=fcron \
+	--with-groupname=fcron
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 install -vdm 755 %{buildroot}/usr/sbin
+install -vdm 775 %{buildroot}/var/spool/fcron
 make DESTDIR=%{buildroot} install-staged
 #	Install daemon script
 pushd blfs-bootscripts-20130512
@@ -59,6 +62,7 @@ cat >> /etc/syslog.conf <<- "EOF"
 # End fcron addition
 EOF
 /etc/rc.d/init.d/sysklogd reload
+%pre
 if ! getent group fcron >/dev/null; then
 	groupadd -g 22 fcron
 fi
@@ -76,10 +80,12 @@ fi
 %clean
 rm -rf %{buildroot}/*
 %files
-%defattr(-,root,root)
-%config(noreplace) /etc/fcron/fcron.allow
-%config(noreplace) /etc/fcron/fcron.conf
-%config(noreplace) /etc/fcron/fcron.deny
+%defattr(-,root,root,-)
+%dir %attr(770,fcron,fcron) /var/spool/fcron
+%ghost /var/run/fcron.pid
+%config(noreplace) %attr(644,root,fcron) /etc/fcron/fcron.allow
+%config(noreplace) %attr(644,root,fcron) /etc/fcron/fcron.conf
+%config(noreplace) %attr(644,root,fcron) /etc/fcron/fcron.deny
 /etc/rc.d/init.d/fcron
 /etc/rc.d/rc0.d/K08fcron
 /etc/rc.d/rc1.d/K08fcron
@@ -88,7 +94,9 @@ rm -rf %{buildroot}/*
 /etc/rc.d/rc4.d/S40fcron
 /etc/rc.d/rc5.d/S40fcron
 /etc/rc.d/rc6.d/K08fcron
-%{_bindir}/*
+%{_bindir}/fcrondyn
+%attr(04754,root,fcron) %{_bindir}/fcronsighup
+%attr(06755,fcron,fcron) %{_bindir}/fcrontab
 %{_sbindir}/*
 %{_docdir}/%{name}-%{version}/*
 %{_mandir}/man1/*

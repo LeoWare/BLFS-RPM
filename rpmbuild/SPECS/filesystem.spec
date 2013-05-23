@@ -1,7 +1,7 @@
 Summary:	Default file system
 Name:		filesystem
 Version:	20130519
-Release:	1
+Release:	2
 License:	GPLv3
 Group:		BLFS/AfterLFS
 Vendor:		Bildanet
@@ -50,6 +50,7 @@ cat > %{buildroot}/etc/passwd <<- "EOF"
 	root::0:0:root:/root:/bin/bash
 	bin:x:1:1:bin:/dev/null:/bin/false
 	nobody:x:99:99:Unprivileged User:/dev/null:/bin/false
+	fcron:x:22:22:Fcron User:/dev/null:/bin/false
 EOF
 cat > %{buildroot}/etc/group <<- "EOF"
 	root:x:0:
@@ -70,6 +71,7 @@ cat > %{buildroot}/etc/group <<- "EOF"
 	cdrom:x:15:
 	mail:x:34:
 	nogroup:x:99:
+	fcron:x:22:
 EOF
 touch %{buildroot}/etc/mtab
 cat > %{buildroot}/etc/sysconfig/ifconfig.eth0 <<- "EOF"
@@ -476,5 +478,7 @@ if [ -e /bin/mknod ]; then
 	[ -e /dev/null ]    || /bin/mknod -m 666 /dev/null c 1 3
 fi
 %changelog
+*	Thu May 23 2013 baho-utot <baho-utot@columbus.rr.com> 20130519-2
+-	Added fcron group and user
 *	Sun May 19 2013 baho-utot <baho-utot@columbus.rr.com> 20130519-1
 -	Initial version
