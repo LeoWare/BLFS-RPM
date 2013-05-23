@@ -45,7 +45,7 @@ make DESTDIR=%{buildroot} install
 #make PREFIX=%{buildroot}/usr install
 #find %{buildroot}/%{_libdir} -name '*.a'  -delete
 #find %{buildroot}/%{_libdir} -name '*.la' -delete
-rm %{buildroot}/%{_infodir}
+#rm %{buildroot}/%{_infodir}
 #%find_lang %{name}
 %{_fixperms} %{buildroot}/*
 %check
