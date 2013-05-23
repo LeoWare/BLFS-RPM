@@ -8,7 +8,7 @@ export FAILURE="../FAILURE"
 #	Start of build process
 build=$(uname -m)
 
-list="filesystem random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh fcron" #perl-module-scandeps"
+list="filesystem random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh fcron attr acl rsync iptables" #perl-module-scandeps"
 
 echo $list
 
