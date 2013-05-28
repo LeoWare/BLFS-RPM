@@ -38,7 +38,7 @@ make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 rm -rf %{buildroot}/*
 %files
 %defattr(-,root,root)
-%{_sysconfdir}/ssl/*
+/etc/ssl/*
 %{_bindir}/*
 %{_libdir}/*
 %{_includedir}/*

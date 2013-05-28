@@ -20,7 +20,6 @@ for further information.
 %{__perl} Makefile.PL
 # INSTALLDIRS=vendor
 make %{?_smp_mflags}
-exit 99
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 rm -rf inc
@@ -33,13 +32,14 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 %check
 make -k test |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %clean
-rm -rf %{buildroot} %{pkgdir}
+rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %{_bindir}/*
 %{_mandir}/man1/*
 %{_mandir}/man3/*
-%{perl_vendorlib}/*
+%{_libdir}/perl5/site_perl/*
+#%{perl_vendorlib}/*
 %changelog
 *	Thu May 16 2013 baho-utot <baho-utot@columbus.rr.com> 1.10-1
 -	Initial build.	First version

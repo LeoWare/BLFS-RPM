@@ -8,6 +8,9 @@ Group:		BLFS/Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
 Source0:	%{name}-%{version}.src.tar.gz
+Provides:	libattr.so.1
+Provides:	libattr.so.1(ATTR_1.0)
+Provides:	libattr.so.1(ATTR_1.2)
 %description
 The attr package contains utilities to administer the extended 
 attributes on filesystem objects.
@@ -15,24 +18,21 @@ attributes on filesystem objects.
 %setup -q -n %{name}-%{version}
 sed -i -e 's|/@pkg_name@|&-@pkg_version@|' include/builddefs.in
 %build
-
-INSTALL_USER=root  \
-INSTALL_GROUP=root \
-CFLAGS="%{optflags}" \
-CXXFLAGS="%{optflags}" \
+export CFLAGS="%{optflags}"
+export CXXFLAGS="%{optflags}"
 ./configure \
 	--prefix=%{_prefix} \
 	--bindir=%{_bindir} \
 	--libdir=%{_libdir} \
 	--libexecdir=%{_libexecdir} \
+	--docdir=%{_datadir}/doc/%{name}-%{version}
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 make DIST_ROOT=%{buildroot} install install-dev install-lib
 find %{buildroot} -name '*.a'  -delete
 find %{buildroot} -name '*.la' -delete
-#rm %{buildroot}/%{_infodir}
-#%find_lang %{name}
+%find_lang %{name}
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
@@ -40,23 +40,17 @@ make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %postun	-p /sbin/ldconfig
 %clean
 rm -rf %{buildroot}/*
-#%files -f %{name}.lang
-%files
+%files -f %{name}.lang
+#%files
 %defattr(-,root,root)
-#%{_bindir}/*
-#%{_libdir}/*
-#%{_includedir}/*
-#%{_datarootdir}/
-#%{_docdir}/%{name}-%{version}/*
-#%{_infodir}/*
-#%{_mandir}/man1/*
-#%{_mandir}/man2/*
-#%{_mandir}/man3/*
-#%{_mandir}/man4/*
-#%{_mandir}/man5/*
-#%{_mandir}/man6/*
-#%{_mandir}/man7/*
-#%{_mandir}/man8/*
+%{_bindir}/*
+%{_libdir}/*
+%{_includedir}/*
+%{_datadir}/doc/%{name}-2.4.47/*
+%{_mandir}/man1/*
+%{_mandir}/man2/*
+%{_mandir}/man3/*
+%{_mandir}/man5/*
 %changelog
 *	Thu May 23 2013 baho-utot <baho-utot@columbus.rr.com> 2.4.46-1
 -	Initial build.	First version

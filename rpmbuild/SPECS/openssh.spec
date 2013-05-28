@@ -67,15 +67,15 @@ rm -rf %{buildroot}/*
 #%files -f %{name}.lang
 %files
 %defattr(-,root,root)
-%{_sysconfdir}/ssh/*
-%{_sysconfdir}/rc.d/init.d/sshd
-%{_sysconfdir}/rc.d/rc0.d/K30sshd
-%{_sysconfdir}/rc.d/rc1.d/K30sshd
-%{_sysconfdir}/rc.d/rc2.d/K30sshd
-%{_sysconfdir}/rc.d/rc3.d/S30sshd
-%{_sysconfdir}/rc.d/rc4.d/S30sshd
-%{_sysconfdir}/rc.d/rc5.d/S30sshd
-%{_sysconfdir}/rc.d/rc6.d/K30sshd
+/etc/ssh/*
+/etc/rc.d/init.d/sshd
+/etc/rc.d/rc0.d/K30sshd
+/etc/rc.d/rc1.d/K30sshd
+/etc/rc.d/rc2.d/K30sshd
+/etc/rc.d/rc3.d/S30sshd
+/etc/rc.d/rc4.d/S30sshd
+/etc/rc.d/rc5.d/S30sshd
+/etc/rc.d/rc6.d/K30sshd
 %{_bindir}/*
 %{_sbindir}/*
 %{_libexecdir}/*

@@ -61,7 +61,6 @@ cat >> /etc/syslog.conf <<- "EOF"
 	cron.* -/var/log/cron.log
 # End fcron addition
 EOF
-/etc/rc.d/init.d/sysklogd reload
 %pre
 if ! getent group fcron >/dev/null; then
 	groupadd -g 22 fcron
@@ -77,6 +76,7 @@ fi
 if getent group fcron >/dev/null; then
 	groupdel fcron
 fi
+#/etc/rc.d/init.d/sysklogd reload`
 %clean
 rm -rf %{buildroot}/*
 %files
