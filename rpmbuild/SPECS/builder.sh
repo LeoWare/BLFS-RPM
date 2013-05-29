@@ -7,8 +7,7 @@ export FAILURE="../FAILURE"
 #	set correct file ownership
 #	Start of build process
 build=$(uname -m)
-
-list="filesystem perl-module-scandeps man-pages random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh fcron attr acl rsync iptables" 
+list="filesystem perl-module-scandeps man-pages random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh attr acl rsync iptables fcron ca-certificates curl expat libffi python2"
 
 echo $list
 
@@ -44,7 +43,8 @@ for i in ${list}; do
 	#installpkg ${i}
 	findpkg ${i};rpm -qilp ${RPM} > INFO/${i} 2>&1 || true
 	printf "RPM: $RPM\n"
-	rpmlint ${RPM} > LINT/${i} 2>&1 || true
+	rpmlint ${i}.spec > LINT/${i} 2>&1 || true
+	rpmlint ${RPM} > LINT/${i}.r.p.m 2>&1 || true
 	rpm -qp --provides ${RPM} > PROVIDES/${i} 2>&1 || true
 	rpm -qp --requires ${RPM} > REQUIRES/${i} 2>&1 || true
 done

@@ -7,7 +7,7 @@ URL:		http://linuxwireless.org
 Group:		Network/Wireless
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	http://bues.ch/b43/fwcutter/%{name}-%{version}.tar.bz2
 %description
 A firmware cutter for broadcomm wireless devices
 %prep

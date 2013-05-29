@@ -47,6 +47,7 @@ make DESTDIR=%{buildroot} install
 #find %{buildroot}/%{_libdir} -name '*.la' -delete
 #rm %{buildroot}/%{_infodir}
 #%find_lang %{name}
+#install -D -m644 LICENSE %{buildroot}/usr/share/licenses/%{name}/LICENSE
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
@@ -58,7 +59,8 @@ rm -rf %{buildroot}/*
 %files
 %defattr(-,root,root)
 #%{_bindir}/*
-#%{_libdir}/*
+#%{_libdir}/*.so*
+#%{_libdir}/pkgconfig/*
 #%{_includedir}/*
 #%{_datarootdir}/
 #%{_docdir}/%{name}-%{version}/*

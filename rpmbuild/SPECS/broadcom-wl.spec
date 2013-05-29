@@ -7,12 +7,12 @@ URL:		http://linuxwireless.org
 Group:		Network/Wireless
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	http://www.lwfinger.com/b43-firmware/%{name}-%{version}.tar.bz2
+Requires:	b43-fwcutter >= 017
 %description
 Firmware for broadcomm b43 kernel drivers
 %prep
 %setup -q
-#-n %{name}-%{version}
 %build
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*

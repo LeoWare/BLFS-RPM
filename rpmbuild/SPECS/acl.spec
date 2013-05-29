@@ -7,9 +7,9 @@ URL:		http://savannah.nongnu.org/projects/acl
 Group:		BLFS/Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.src.tar.gz
-Provides:	libacl.so.1
-Provides:	libacl.so.1(ACL_1.0)
+Source0:	http://download.savannah.gnu.org/releases/acl/%{name}-%{version}.src.tar.gz
+Provides:	libacl.so.1 = %{version}
+Provides:	libacl.so.1(ACL_1.0) = %{version}
 %description
 The acl package contains utilities to administer Access Control Lists
 which are used to define more fine-grained discretionary access 
@@ -31,7 +31,7 @@ make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 make DIST_ROOT=%{buildroot} install install-lib install-dev
-find %{buildroot}/ -name '*.a'  -delete
+find %{buildroot}/ -name '*.a' -delete
 find %{buildroot}/ -name '*.la' -delete
 %find_lang %{name}
 %{_fixperms} %{buildroot}/*
@@ -42,7 +42,6 @@ make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %clean
 rm -rf %{buildroot}/*
 %files -f %{name}.lang
-#%files
 %defattr(-,root,root)
 %{_bindir}/*
 %{_libdir}/*

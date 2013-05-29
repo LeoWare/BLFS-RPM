@@ -8,7 +8,7 @@ Group:		BLFS/AfterLFS
 Vendor:		Bildanet
 Distribution:	Octothorpe
 BuildArch:	noarch
-Source0:	blfs-bootscripts-20130512.tar.bz2
+Source0:	http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20130512.tar.bz2
 %description
 The Linux kernel supplies a random number generator which is accessed
 through /dev/random and /dev/urandom. Programs that utilize the 

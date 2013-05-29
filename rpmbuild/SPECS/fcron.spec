@@ -15,8 +15,8 @@ URL:		http://fcron.free.fr
 Group:		BLFS/SystemUtilities
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.src.tar.gz
-Source1:	blfs-bootscripts-20130512.tar.bz2
+Source0:	http://fcron.free.fr/archives/%{name}-%{version}.src.tar.gz
+Source1:	http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20130512.tar.bz2
 %description
 The Fcron package contains a periodical command scheduler which aims
 at replacing Vixie Cron.

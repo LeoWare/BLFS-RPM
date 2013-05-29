@@ -3,11 +3,11 @@ Name:		wireless_tools
 Version:	29
 Release:	1
 License:	GPLv1
-URL:		 http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux
+URL:		http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux
 Group:		BLFS/Networking
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}.%{version}.tar.gz
+Source0:	http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/%{name}.%{version}.tar.gz
 
 %description
 The Wireless Extension (WE) is a generic API in the Linux kernel
@@ -29,9 +29,6 @@ make \
 	INSTALL_INC="%{buildroot}/usr/include" \
 	INSTALL_MAN="%{buildroot}/usr/share/man" \
 	install
-#find %{buildroot}/%{_libdir} -name '*.a'  -delete
-#find %{buildroot}/%{_libdir} -name '*.la' -delete
-#rm %{buildroot}/%{_infodir}
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}

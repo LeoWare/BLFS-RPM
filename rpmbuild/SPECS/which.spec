@@ -7,7 +7,7 @@ URL:		http://www.gnu.org
 Group:		BLFS/System-Utilities
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.gnu.org/gnu/which/%{name}-%{version}.tar.gz
 %description
 GNU which - is a utility that is used to find which executable 
 (or alias or shell function) is executed when entered on the 

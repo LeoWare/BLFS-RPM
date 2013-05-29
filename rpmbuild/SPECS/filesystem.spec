@@ -211,7 +211,7 @@ cat > %{buildroot}/etc/profile <<- "EOF"
 # Functions to help us manage paths.  Second argument is the name of the
 # path variable to be modified (default: PATH)
 pathremove () {
-        local IFS=':'
+	local IFS=':'
         local NEWPATH
         local DIR
         local PATHVARIABLE=${2:-PATH}

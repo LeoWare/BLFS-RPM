@@ -7,7 +7,7 @@ URL:		http://www.openssl.org
 Group:		BLFS/Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.tar.gz
+Source0:	http://www.openssl.org/source/%{name}-%{version}.tar.gz
 Patch0:		openssl-1.0.1e-fix_parallel_build-1.patch
 %description
 The OpenSSL package contains management tools and libraries relating

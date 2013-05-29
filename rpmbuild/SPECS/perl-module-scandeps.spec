@@ -8,7 +8,7 @@ Group:		Perl/Module
 Vendor:		Bildanet
 Distribution:	Octothorpe
 BuildArch:	noarch
-Source0:	Module-ScanDeps-%{version}.tar.gz
+Source0:	http://search.cpan.org/CPAN/authors/id/R/RS/RSCHUPP/Module-ScanDeps-%{version}.tar.gz
 %description
 An application of Module::ScanDeps is to generate executables from scripts
 that contains necessary modules; this module supports two such projects,
@@ -24,7 +24,6 @@ make %{?_smp_mflags}
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 rm -rf inc
 find . -name 'debug*'
-#make DESTDIR=%{buildroot} install
 make pure_install PERL_INSTALL_ROOT=%{buildroot}
 find %{buildroot} -type f -name .packlist -exec rm -f {} \;
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
@@ -39,7 +38,6 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*
 %{_mandir}/man3/*
 %{_libdir}/perl5/site_perl/*
-#%{perl_vendorlib}/*
 %changelog
 *	Thu May 16 2013 baho-utot <baho-utot@columbus.rr.com> 1.10-1
 -	Initial build.	First version

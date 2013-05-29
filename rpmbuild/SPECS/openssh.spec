@@ -7,8 +7,8 @@ URL:		http://openssh.org
 Group:		BLFS/Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.tar.gz
-Source1:	blfs-bootscripts-20130512.tar.bz2
+Source0:	http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/%{name}-%{version}.tar.gz
+Source1:	http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20130512.tar.bz2
 
 %description
 The OpenSSH package contains ssh clients and the sshd daemon. This is
@@ -25,9 +25,9 @@ tar xf %{SOURCE1}
 	--prefix=%{_prefix} \
 	--bindir=%{_bindir} \
 	--libdir=%{_libdir} \
-	--sysconfdir=/etc/ssh     \
+	--sysconfdir=/etc/ssh \
 	--datadir=/usr/share/sshd \
-	--with-md5-passwords      \
+	--with-md5-passwords \
 	--with-privsep-path=/var/lib/sshd
 make %{?_smp_mflags}
 %install
@@ -51,9 +51,9 @@ fi
 if ! getent passwd sshd >/dev/null; then
 	useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
 fi
-ssh-keygen -f /etc/ssh/ssh_host_rsa_key   -N '' -t rsa
-ssh-keygen -f /etc/ssh/ssh_host_dsa_key   -N '' -t dsa
-ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
+ssh-keygen -f /etc/ssh/ssh_host_rsa_key		-N '' -t rsa
+ssh-keygen -f /etc/ssh/ssh_host_dsa_key		-N '' -t dsa
+ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key	-N '' -t ecdsa
 %postun
 /sbin/ldconfig
 if getent passwd sshd >/dev/null; then
@@ -64,7 +64,6 @@ if getent group sshd >/dev/null; then
 fi
 %clean
 rm -rf %{buildroot}/*
-#%files -f %{name}.lang
 %files
 %defattr(-,root,root)
 /etc/ssh/*

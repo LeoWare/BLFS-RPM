@@ -7,7 +7,7 @@ URL:		http://www.kernel.org/doc/man-pages
 Group:		System Environment/Base
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source:		%{name}-%{version}.tar.xz
+Source:		http://www.kernel.org/pub/linux/docs/man-pages/%{name}-%{version}.tar.xz
 BuildArch:	noarch
 %description
 The Man-pages package contains over 1,900 man pages.

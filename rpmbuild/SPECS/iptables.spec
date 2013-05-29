@@ -7,7 +7,7 @@ URL:		http://www.netfilter.org/projects/iptables
 Group:		BLFS/ Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	http://www.netfilter.org/projects/iptables/files/%{name}-%{version}.tar.bz2
 %description
 The next part of this chapter deals with firewalls. The principal 
 firewall tool for Linux is Iptables. You will need to install 
@@ -31,11 +31,6 @@ make %{?_smp_mflags}
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 make DESTDIR=%{buildroot} install
 ln -sfv ../../sbin/xtables-multi %{buildroot}%{_libdir}/iptables-xml
-#for file in libip4tc libip6tc libipq libiptc libxtables
-#do
-#  ln -sfv ../../lib/`readlink /lib/${file}.so` %{buildroot}%{_libdir}/${file}.so
-#  rm -v %{buildroot}/lib/${file}.so
-#done
 find %{buildroot}/%{_libdir} -name '*.a'  -delete
 find %{buildroot}/%{_libdir} -name '*.la' -delete
 %{_fixperms} %{buildroot}/*

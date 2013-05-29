@@ -7,10 +7,10 @@ URL:		http://savannah.nongnu.org/projects/attr
 Group:		BLFS/Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.src.tar.gz
-Provides:	libattr.so.1
-Provides:	libattr.so.1(ATTR_1.0)
-Provides:	libattr.so.1(ATTR_1.2)
+Source0:	http://download.savannah.gnu.org/releases/attr/%{name}-%{version}.src.tar.gz
+Provides:	libattr.so.1 = %{version}
+Provides:	libattr.so.1(ATTR_1.0) = %{version}
+Provides:	libattr.so.1(ATTR_1.2) = %{version}
 %description
 The attr package contains utilities to administer the extended 
 attributes on filesystem objects.
@@ -25,7 +25,8 @@ export CXXFLAGS="%{optflags}"
 	--bindir=%{_bindir} \
 	--libdir=%{_libdir} \
 	--libexecdir=%{_libexecdir} \
-	--docdir=%{_datadir}/doc/%{name}-%{version}
+	--docdir=%{_datadir}/doc/%{name}-%{version} \
+	--disable-static
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
@@ -41,7 +42,6 @@ make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %clean
 rm -rf %{buildroot}/*
 %files -f %{name}.lang
-#%files
 %defattr(-,root,root)
 %{_bindir}/*
 %{_libdir}/*

@@ -7,7 +7,7 @@ URL:		http://samba.anu.edu.au/rsync/
 Group:		BLFS/NetworkingPrograms
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	%{name}-%{version}.tar.gz
+Source0:	http://samba.org/ftp/rsync/src/%{name}-%{version}.tar.gz
 %description
 The rsync package contains the rsync utility. This is useful for 
 synchronizing large file archives over a network.
