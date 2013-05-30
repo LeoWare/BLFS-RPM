@@ -39,7 +39,6 @@ make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %post
 git config --system http.sslCAPath /etc/ssl/certs
 exit 0
-
 %clean
 rm -rf %{buildroot}/*
 %files -f %{name}.lang
