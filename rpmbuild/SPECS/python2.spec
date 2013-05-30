@@ -12,6 +12,7 @@ Requires:	expat >= 2.1.0
 Requires:	libffi >= 3.0.13
 Requires:	pkg-config >= 0.28
 Requires:	python2 >= 2.7.5
+Provides:	python >= 2.7.5
 %description
 The Python 2 package contains the Python development environment. It 
 is useful for object-oriented programming, writing scripts, 

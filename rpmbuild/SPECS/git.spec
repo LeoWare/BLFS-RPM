@@ -8,6 +8,7 @@ Group:		BLFS/Programming
 Vendor:		Bildanet
 Distribution:	Octothorpe
 Source0:	http://git-core.googlecode.com/files/%{name}-%{version}.tar.gz
+
 %description
 Git is a free and open source, distributed version control system 
 designed to handle everything from small to very large projects with
@@ -52,7 +53,6 @@ rm -rf %{buildroot}/*
 %{_datarootdir}/git-gui/*
 %{_datarootdir}/gitk/*
 %{_datarootdir}/gitweb/*
-%{_datarootdir}/perl5/*
 %changelog
 *	Wed May 29 2013 baho-utot <baho-utot@columbus.rr.com> 1.8.2.3-1
 -	Initial build.	First version
