@@ -48,6 +48,10 @@ make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 rm -rf %{buildroot}/*
 %files
 %defattr(-,root,root)
+/etc/rc.d/init.d/*
+/etc/rc.d/rc3.d/*
+/etc/rc.d/rc4.d/*
+/etc/rc.d/rc5.d/*
 /sbin/*
 %{_bindir}/*
 %{_libdir}/*.so*
