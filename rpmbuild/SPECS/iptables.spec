@@ -8,12 +8,14 @@ Group:		BLFS/ Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
 Source0:	http://www.netfilter.org/projects/iptables/files/%{name}-%{version}.tar.bz2
+Source1:	http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20130512.tar.bz2
 %description
 The next part of this chapter deals with firewalls. The principal 
 firewall tool for Linux is Iptables. You will need to install 
 Iptables if you intend on using any form of a firewall.
 %prep
 %setup -q
+tar xf %{SOURCE1}
 %build
 ./configure \
 	CFLAGS="%{optflags}" \
@@ -31,6 +33,10 @@ make %{?_smp_mflags}
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 make DESTDIR=%{buildroot} install
 ln -sfv ../../sbin/xtables-multi %{buildroot}%{_libdir}/iptables-xml
+#	Install daemon script
+pushd blfs-bootscripts-20130512
+make DESTDIR=%{buildroot} install-iptables
+popd
 find %{buildroot}/%{_libdir} -name '*.a'  -delete
 find %{buildroot}/%{_libdir} -name '*.la' -delete
 %{_fixperms} %{buildroot}/*
