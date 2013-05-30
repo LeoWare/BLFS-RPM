@@ -7,9 +7,7 @@ export FAILURE="../FAILURE"
 #	set correct file ownership
 #	Start of build process
 build=$(uname -m)
-list="filesystem perl-module-scandeps man-pages random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh attr acl rsync iptables fcron ca-certificates curl expat libffi python2"
-
-echo $list
+list="filesystem perl-module-scandeps man-pages random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh attr acl rsync iptables fcron ca-certificates curl expat libffi python2 git"
 
 die() {
 	local msg=$1
