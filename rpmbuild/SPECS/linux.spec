@@ -52,7 +52,7 @@ rm -rf %{buildroot}/lib/modules/%{version}/build
 rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
-/boot/System.map-%{version}
+/boot/system.map-%{version}
 /boot/config-%{version}
 /boot/vmlinuz-%{version}
 %config(noreplace)/etc/modprobe.d/usb.conf
