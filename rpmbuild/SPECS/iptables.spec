@@ -1,7 +1,7 @@
 Summary:	'Linux kernel packet control tool
 Name:		iptables
 Version:	1.4.18
-Release:	1
+Release:	2
 License:	GPLv2
 URL:		http://www.netfilter.org/projects/iptables
 Group:		BLFS/ Security
@@ -61,9 +61,8 @@ rm -rf %{buildroot}/*
 /etc/rc.d/rc5.d/*
 /sbin/*
 %{_bindir}/*
-/lib/*.so*
-/lib/xtables/*
-%{_libdir}/*.so
+%{_libdir}/*.so*
+%{_libdir}/iptables/*
 %{_libdir}/pkgconfig/*
 %{_libdir}/iptables-xml
 %{_includedir}/*
@@ -71,5 +70,7 @@ rm -rf %{buildroot}/*
 %{_mandir}/man3/*
 %{_mandir}/man8/*
 %changelog
+*	Fri May 31 2013 baho-utot <baho-utot@columbus.rr.com> 1.4.18-2
+-	fixed directories, place into /usr/<path>
 *	Thu May 23 2013 baho-utot <baho-utot@columbus.rr.com> 1.4.18-1
 -	Initial build.	First version
