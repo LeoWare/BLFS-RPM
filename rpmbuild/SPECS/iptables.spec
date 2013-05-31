@@ -24,22 +24,22 @@ tar xf %{SOURCE1}
 	--prefix=%{_prefix} \
 	--exec-prefix= \
 	--bindir=%{_bindir} \
-	--with-xtlibdir=/lib/xtables \
+	--libdir=%{_libdir} \
+	--with-xtlibdir=%{_libdir}/iptables \
 	--with-pkgconfigdir=%{_libdir}/pkgconfig \
 	--enable-libipq \
 	--enable-devel
 	
-#		--libdir=%{_libdir} \
 make V=0 %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 make DESTDIR=%{buildroot} install
 ln -sfv ../../sbin/xtables-multi %{buildroot}%{_libdir}/iptables-xml
-for file in libip4tc libip6tc libipq libiptc libxtables
-do
-  ln -sfv ../../lib/`readlink %{buildroot}/lib/${file}.so` %{buildroot}/usr/lib/${file}.so
-  rm -v %{buildroot}/lib/${file}.so
-done
+#for file in libip4tc libip6tc libipq libiptc libxtables
+#do
+#  ln -sfv ../../lib/`readlink %{buildroot}/lib/${file}.so` %{buildroot}/usr/lib/${file}.so
+#  rm -v %{buildroot}/lib/${file}.so
+#done
 #	Install daemon script
 pushd blfs-bootscripts-20130512
 make DESTDIR=%{buildroot} install-iptables
