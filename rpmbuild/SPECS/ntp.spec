@@ -59,9 +59,9 @@ popd
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %pre
 if ! getent group ntp >/dev/null; then
-	groupadd -g 87 fcron
+	groupadd -g 87 ntp
 fi
-if ! getent passwd fcron >/dev/null; then
+if ! getent passwd ntp >/dev/null; then
 	useradd -c "Network Time Protocol" -d /var/lib/ntp -u 87 -g ntp -s /bin/false ntp
 fi
 %postun

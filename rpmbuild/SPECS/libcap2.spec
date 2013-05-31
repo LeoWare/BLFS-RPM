@@ -8,6 +8,7 @@ Group:		BLFS/Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
 Source0:	http://ftp.de.debian.org/debian/pool/main/libc/libcap2/%{name}_%{version}.orig.tar.gz
+Provides:	libcap.so.2 = 2.22
 %description
 The libcap2 package implements the user-space interfaces to the 
 POSIX 1003.1e capabilities available in Linux kernels. 
