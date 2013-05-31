@@ -9,6 +9,8 @@ export FAILURE="../FAILURE"
 build=$(uname -m)
 list="filesystem perl-module-scandeps man-pages random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh attr acl rsync iptables fcron ca-certificates curl expat libffi python2 git"
 
+list="cpio initd-tools ntp" #libcap2 dep for ntp? 
+
 die() {
 	local msg=$1
 	printf "BLFS build failed: ${msg}\n"
