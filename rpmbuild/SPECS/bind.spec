@@ -8,10 +8,12 @@ Group:		BLFS/MajorServers
 Vendor:		Bildanet
 Distribution:	Octothorpe
 Source0:	ftp://ftp.isc.org/isc/bind9/%{version}/%{name}-%{version}-P2.tar.gz
+Source1:	http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20130512.tar.bz2
 %description
 The BIND package provides a DNS server and client utilities.
 %prep
 %setup -q -n %{name}-%{version}-P2
+tar xf %{SOURCE1}
 %build
 ./configure \
 	CFLAGS="%{optflags}" \
@@ -198,6 +200,10 @@ $ORIGIN 0.0.127.IN-ADDR.ARPA.
 	IN	NS	localhost.
 1	IN	PTR	localhost.
 EOF
+#	daemonize
+pushd blfs-bootscripts-20130512
+make DESTDIR=%{buildroot} install-bind
+popd
 find %{buildroot}/%{_libdir} -name '*.la' -delete
 %{_fixperms} %{buildroot}/*
 %check
@@ -227,6 +233,14 @@ rm -rf %{buildroot}/*
 %config(noreplace) /etc/namedb/localhost.fwd
 %config(noreplace) /etc/namedb/localhost.rev
 %config(noreplace) /etc/namedb/named.root
+/etc/rc.d/init.d/bind
+/etc/rc.d/rc0.d/K49bind
+/etc/rc.d/rc1.d/K49bind
+/etc/rc.d/rc2.d/K49bind
+/etc/rc.d/rc3.d/S22bind
+/etc/rc.d/rc4.d/S22bind
+/etc/rc.d/rc5.d/S22bind
+/etc/rc.d/rc6.d/K49bind
 %{_bindir}/*
 %{_includedir}/*
 %{_libdir}/*.so*
