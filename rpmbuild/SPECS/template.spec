@@ -59,6 +59,7 @@ rm -rf %{buildroot}/*
 #%files -f %{name}.lang
 %files
 %defattr(-,root,root)
+#%config(noreplace) /etc/*
 #%{_bindir}/*
 #%{_libdir}/*.so*
 #%{_libdir}/pkgconfig/*
