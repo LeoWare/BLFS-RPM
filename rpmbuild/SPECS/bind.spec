@@ -44,20 +44,11 @@ install -v -m644 doc/arm/*.html %{buildroot}%{_datadir}/doc/%{name}-%{version}/a
 install -v -m644 doc/misc/{dnssec,ipv6,migrat*,options,rfc-compliance,roadmap,sdb} \
 	%{buildroot}%{_datadir}/doc/%{name}-%{version}/misc
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
-
 #	Build chroot
-install -d -m770 %{buildroot}/srv/named
-pushd %{buildroot}/srv/named
-install -vdm 755 dev 
-install -vdm 755 etc/namedb/{slave,pz} 
-install -vdm 755 usr/lib/engines 
-install -vdm 755 var/run/named
-cp /etc/localtime etc
-touch managed-keys.bind
-cp /usr/lib/engines/libgost.so usr/lib/engines
-[ $(uname -m) = x86_64 ] && ln -sv lib usr/lib64
-popd 
-
+install -d -m770 %{buildroot}/srv/named/{dev,etc/namedb/{slave,pz},usr/lib/engines,var/run/named}
+cp /etc/localtime %{buildroot}/srv/named/etc
+touch %{buildroot}/srv/named/managed-keys.bind
+cp /usr/lib/engines/libgost.so %{buildroot}/srv/named/usr/lib/engines
 #
 #	Bind configuration caching server
 #
@@ -87,7 +78,7 @@ logging {
 	category default { default_syslog; default_debug; };
 	category unmatched { null; };
 	channel default_syslog {
-		syslog daemon;		// send to syslog's daemon facility
+		syslog daemon;		// send to syslogs daemon facility
 		severity info;		// only send priority >= info
 	};
 	channel default_debug {
@@ -228,7 +219,6 @@ find %{buildroot}/%{_libdir} -name '*.la' -delete
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
-%post	-p /sbin/ldconfig
 %pre
 if ! getent group named >/dev/null; then
 	groupadd -g 20 named
@@ -236,14 +226,14 @@ fi
 if ! getent passwd named >/dev/null; then
 	useradd -c "BIND Owner" -g named -s /bin/false -u 20 named
 fi
+%post 
+/sbin/ldconfig
 #
 #	For chroot
-pushd /srv/named
-mknod /srv/named/dev/null c 1 3
-mknod /srv/named/dev/random c 1 8 
+mknod /srv/named/dev/null c 1 3 
+mknod /srv/named/dev/random c 1 8
 chmod 666 /srv/named/dev/{null,random}
-cp /etc/localtime etc
-popd
+cp /etc/localtime /srv/named/etc
 #	generate key
 rndc-confgen -r /dev/urandom -b 512 > /etc/rndc.conf
 sed '/conf/d;/^#/!d;s:^# ::' /etc/rndc.conf > /srv/named/etc/named.conf
@@ -281,13 +271,15 @@ rm -rf %{buildroot}/*
 %{_mandir}/man8/*
 #	Added for chroot
 %attr(-,named,named) %dir /srv/named
-%config(noreplace) /srv/named/etc/localtime
+/srv/named/etc/localtime
 %config(noreplace) /srv/named/etc/named.conf
 %config(noreplace) /srv/named/etc/namedb/localhost.fwd
 %config(noreplace) /srv/named/etc/namedb/localhost.rev
 %config(noreplace) /srv/named/etc/namedb/named.root
 %config(noreplace) /srv/named/managed-keys.bind
-
+/srv/named/usr/lib/engines/libgost.so
+%ghost /srv/named/dev/null
+%ghost /srv/named/dev/random
 %changelog
 *	Sat Jun 01 2013 baho-utot <baho-utot@columbus.rr.com> 9.9.2-1
 -	Initial build.	First version
