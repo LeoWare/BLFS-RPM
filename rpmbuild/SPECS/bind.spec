@@ -44,10 +44,24 @@ install -v -m644 doc/arm/*.html %{buildroot}%{_datadir}/doc/%{name}-%{version}/a
 install -v -m644 doc/misc/{dnssec,ipv6,migrat*,options,rfc-compliance,roadmap,sdb} \
 	%{buildroot}%{_datadir}/doc/%{name}-%{version}/misc
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
+
+#	Build chroot
+install -d -m770 %{buildroot}/srv/named
+pushd %{buildroot}/srv/named
+install -vdm 755 dev 
+install -vdm 755 etc/namedb/{slave,pz} 
+install -vdm 755 usr/lib/engines 
+install -vdm 755 var/run/named
+cp /etc/localtime etc
+touch managed-keys.bind
+cp /usr/lib/engines/libgost.so usr/lib/engines
+[ $(uname -m) = x86_64 ] && ln -sv lib usr/lib64
+popd 
+
 #
 #	Bind configuration caching server
 #
-cat >> %{buildroot}/etc/named.conf << "EOF"
+cat >> %{buildroot}/srv/named/etc/named.conf << "EOF"
 options {
 	directory "/etc/namedb";
 	pid-file "/var/run/named.pid";
@@ -90,7 +104,7 @@ logging {
 };
 EOF
 
-cat > %{buildroot}/etc/namedb/named.root << "EOF"
+cat > %{buildroot}/srv/named/etc/namedb/named.root << "EOF"
 ;       This file holds the information on root name servers needed to
 ;       initialize cache of Internet domain name servers
 ;       (e.g. reference this file in the "cache  .  <file>"
@@ -181,10 +195,10 @@ M.ROOT-SERVERS.NET.      3600000      AAAA  2001:DC3::35
 ; End of File
 EOF
 
-cat > %{buildroot}/etc/namedb/localhost.fwd << "EOF"
+cat > %{buildroot}/srv/named/etc/namedb/localhost.fwd << "EOF"
 $TTL 24H
 $ORIGIN localhost.
-@	IN	SOA	hostmaster	(
+@	IN	SOA	@ hostmaster	(
 	1	; Serial
 	12H	; Refresh
 	2H	; Retry
@@ -194,7 +208,7 @@ localhost.	IN	NS	localhost.
 localhost.	IN	A	127.0.0.1
 EOF
 
-cat > %{buildroot}/etc/namedb/localhost.rev << "EOF"
+cat > %{buildroot}/srv/named/etc/namedb/localhost.rev << "EOF"
 $TTL 24H
 $ORIGIN 0.0.127.IN-ADDR.ARPA.
 @	IN	SOA	localhost. hostmaster.localhost	(
@@ -222,6 +236,18 @@ fi
 if ! getent passwd named >/dev/null; then
 	useradd -c "BIND Owner" -g named -s /bin/false -u 20 named
 fi
+#
+#	For chroot
+pushd /srv/named
+mknod /srv/named/dev/null c 1 3
+mknod /srv/named/dev/random c 1 8 
+chmod 666 /srv/named/dev/{null,random}
+cp /etc/localtime etc
+popd
+#	generate key
+rndc-confgen -r /dev/urandom -b 512 > /etc/rndc.conf
+sed '/conf/d;/^#/!d;s:^# ::' /etc/rndc.conf > /srv/named/etc/named.conf
+#
 %postun
 /sbin/ldconfig
 if getent passwd named >/dev/null; then
@@ -234,11 +260,7 @@ fi
 rm -rf %{buildroot}/*
 %files
 %defattr(-,root,root)
-%config(noreplace) /etc/bind.keys
-%config(noreplace) /etc/named.conf
-%config(noreplace) /etc/namedb/localhost.fwd
-%config(noreplace) /etc/namedb/localhost.rev
-%config(noreplace) /etc/namedb/named.root
+%config(noreplace)/etc/bind.keys
 /etc/rc.d/init.d/bind
 /etc/rc.d/rc0.d/K49bind
 /etc/rc.d/rc1.d/K49bind
@@ -257,6 +279,15 @@ rm -rf %{buildroot}/*
 %{_mandir}/man3/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
+#	Added for chroot
+%attr(-,named,named) %dir /srv/named
+%config(noreplace) /srv/named/etc/localtime
+%config(noreplace) /srv/named/etc/named.conf
+%config(noreplace) /srv/named/etc/namedb/localhost.fwd
+%config(noreplace) /srv/named/etc/namedb/localhost.rev
+%config(noreplace) /srv/named/etc/namedb/named.root
+%config(noreplace) /srv/named/managed-keys.bind
+
 %changelog
 *	Sat Jun 01 2013 baho-utot <baho-utot@columbus.rr.com> 9.9.2-1
 -	Initial build.	First version
