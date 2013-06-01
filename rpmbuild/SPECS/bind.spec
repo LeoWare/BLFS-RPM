@@ -9,6 +9,12 @@ Vendor:		Bildanet
 Distribution:	Octothorpe
 Source0:	ftp://ftp.isc.org/isc/bind9/%{version}/%{name}-%{version}-P2.tar.gz
 Source1:	http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20130512.tar.bz2
+Provides:	libbind9.so.9 = 9.9.2
+Provides:	libdns.so.95 = 9.9.2
+Provides:	libisc.so.92 = 9.9.2
+Provides:	libisccc.so.90 = 9.9.2
+Provides:	libisccfg.so.90 = 9.9.2
+Provides:	liblwres.so.90 = 9.9.2
 %description
 The BIND package provides a DNS server and client utilities.
 %prep
