@@ -1,7 +1,7 @@
 Summary:	The ISC BIND nameserver
 Name:		bind
 Version:	9.9.2
-Release:	1
+Release:	2
 License:	ISC
 URL:		http://www.isc.org/software/bind/
 Group:		BLFS/MajorServers
@@ -30,7 +30,7 @@ tar xf %{SOURCE1}
 	--libdir=%{_libdir} \
 	--localstatedir=/var \
 	--mandir=%{_mandir} \
-	--sysconfdir=/etc \
+	--sysconfdir=/etc/bind \
 	--disable-static \
 	--enable-threads \
 	--with-libtool
@@ -38,64 +38,55 @@ make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
 make DESTDIR=%{buildroot} install
-install -vdm 755 %{buildroot}/etc/namedb
+install -vdm 755 %{buildroot}/etc/bind/namedb
+install -vdm 755 %{buildroot}/var/log/bind
 install -v -m755 -d %{buildroot}%{_datadir}/doc/%{name}-%{version}/{arm,misc}
 install -v -m644 doc/arm/*.html %{buildroot}%{_datadir}/doc/%{name}-%{version}/arm
 install -v -m644 doc/misc/{dnssec,ipv6,migrat*,options,rfc-compliance,roadmap,sdb} \
 	%{buildroot}%{_datadir}/doc/%{name}-%{version}/misc
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
-#	Build chroot
-install -d -m770 %{buildroot}/srv/named/{dev,etc/namedb/{slave,pz},usr/lib/engines,var/run/named}
-cp /etc/localtime %{buildroot}/srv/named/etc
-touch %{buildroot}/srv/named/managed-keys.bind
-cp /usr/lib/engines/libgost.so %{buildroot}/srv/named/usr/lib/engines
-#
 #	Bind configuration caching server
-#
-cat >> %{buildroot}/srv/named/etc/named.conf << "EOF"
+cat >> %{buildroot}/etc/bind/named.conf << "EOF"
 options {
-	directory "/etc/namedb";
+	directory "/etc/bind/namedb";
 	pid-file "/var/run/named.pid";
 	statistics-file "/var/run/named.stats";
 	recursion yes;
-	allow-recursion {192.168.1.0/24;};
+	// allow-recursion {192.168.1.0/24;};
+	allow-update {none;};
+};
+controls {
 };
 zone "." {
-    type hint;
-    file "named.root";
+	type hint;
+	file "named.root";
 };
 zone "localhost" in {
 	type master;
 	file "localhost.fwd";
-	allow-update {none;};
 };
-zone "0.0.127.in-addr.arpa" {
+zone "0.0.127.in-addr.arpa" in {
 	type master;
 	file "localhost.rev";
-	allow-update {none;};
 };
 logging {
-	category default { default_syslog; default_debug; };
-	category unmatched { null; };
-	channel default_syslog {
-		syslog daemon;		// send to syslogs daemon facility
-		severity info;		// only send priority >= info
+	channel single_log {
+		file "/var/log/bind/bind.log" versions 3 size 5m;
+		severity info;
+		print-time yes;
+		print-severity yes;
+		print-category yes;
 	};
-	channel default_debug {
-		file "named.run";
-		severity dynamic;
+	category default {
+		single_log;
 	};
-	channel default_stderr {
-		stderr;			// writes to stderr
-		severity info;		// only send priority >= info
-	};
-	channel null {
-		null;			// toss anything sent to
+	category lame-servers {
+		null;
 	};
 };
 EOF
 
-cat > %{buildroot}/srv/named/etc/namedb/named.root << "EOF"
+cat > %{buildroot}/etc/bind/namedb/named.root << "EOF"
 ;       This file holds the information on root name servers needed to
 ;       initialize cache of Internet domain name servers
 ;       (e.g. reference this file in the "cache  .  <file>"
@@ -186,7 +177,7 @@ M.ROOT-SERVERS.NET.      3600000      AAAA  2001:DC3::35
 ; End of File
 EOF
 
-cat > %{buildroot}/srv/named/etc/namedb/localhost.fwd << "EOF"
+cat > %{buildroot}/etc/bind/namedb/localhost.fwd << "EOF"
 $TTL 24H
 $ORIGIN localhost.
 @	IN	SOA	@ hostmaster	(
@@ -199,7 +190,7 @@ localhost.	IN	NS	localhost.
 localhost.	IN	A	127.0.0.1
 EOF
 
-cat > %{buildroot}/srv/named/etc/namedb/localhost.rev << "EOF"
+cat > %{buildroot}/etc/bind/namedb/localhost.rev << "EOF"
 $TTL 24H
 $ORIGIN 0.0.127.IN-ADDR.ARPA.
 @	IN	SOA	localhost. hostmaster.localhost	(
@@ -215,6 +206,9 @@ EOF
 pushd blfs-bootscripts-20130512
 make DESTDIR=%{buildroot} install-bind
 popd
+sed -i 's|-t /srv/named ||'	%{buildroot}/etc/rc.d/init.d/bind
+sed -i 's|-c /etc/named.conf||'	%{buildroot}/etc/rc.d/init.d/bind
+#	Remove libtool files
 find %{buildroot}/%{_libdir} -name '*.la' -delete
 %{_fixperms} %{buildroot}/*
 %check
@@ -228,15 +222,9 @@ if ! getent passwd named >/dev/null; then
 fi
 %post 
 /sbin/ldconfig
-#
-#	For chroot
-mknod /srv/named/dev/null c 1 3 
-mknod /srv/named/dev/random c 1 8
-chmod 666 /srv/named/dev/{null,random}
-cp /etc/localtime /srv/named/etc
 #	generate key
-rndc-confgen -r /dev/urandom -b 512 > /etc/rndc.conf
-sed '/conf/d;/^#/!d;s:^# ::' /etc/rndc.conf > /srv/named/etc/named.conf
+#rndc-confgen -r /dev/urandom -b 512 > /etc/bind/rndc.conf
+#sed '/conf/d;/^#/!d;s:^# ::' /etc/rndc.conf > /etc/bind/named.conf.rndc.conf
 #
 %postun
 /sbin/ldconfig
@@ -250,7 +238,13 @@ fi
 rm -rf %{buildroot}/*
 %files
 %defattr(-,root,root)
-%config(noreplace)/etc/bind.keys
+%attr(-,named,root) %dir /etc/bind
+%attr(-,named,root) %config(noreplace)/etc/bind/bind.keys
+%attr(-,named,root) %config(noreplace)/etc/bind/named.conf
+%attr(-,named,root) %config(noreplace)/etc/bind/namedb/localhost.fwd
+%attr(-,named,root) %config(noreplace)/etc/bind/namedb/localhost.rev
+%attr(-,named,root) %config(noreplace)/etc/bind/namedb/named.root
+%attr(-,named,named) %dir /var/log/bind
 /etc/rc.d/init.d/bind
 /etc/rc.d/rc0.d/K49bind
 /etc/rc.d/rc1.d/K49bind
@@ -269,17 +263,8 @@ rm -rf %{buildroot}/*
 %{_mandir}/man3/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
-#	Added for chroot
-%attr(-,named,named) %dir /srv/named
-/srv/named/etc/localtime
-%config(noreplace) /srv/named/etc/named.conf
-%config(noreplace) /srv/named/etc/namedb/localhost.fwd
-%config(noreplace) /srv/named/etc/namedb/localhost.rev
-%config(noreplace) /srv/named/etc/namedb/named.root
-%config(noreplace) /srv/named/managed-keys.bind
-/srv/named/usr/lib/engines/libgost.so
-%ghost /srv/named/dev/null
-%ghost /srv/named/dev/random
 %changelog
+*	Sun Jun 02 2013 baho-utot <baho-utot@columbus.rr.com> 9.9.2-2
+-	Removed chroot, removed rcdc key, runs as named, caching name server
 *	Sat Jun 01 2013 baho-utot <baho-utot@columbus.rr.com> 9.9.2-1
 -	Initial build.	First version
