@@ -27,11 +27,12 @@ export CFLAGS="%{optflags} -fno-strict-aliasing " CXXFLAGS="%{optflags}"
 	--disable-atomicsupport
 make %{?_smp_mflags} LIB=-lpthread
 %install
-[ %{buildroot} != "/"] && rm -rf %{buildroot}/*
+[ %{buildroot} != "/" ] && rm -rf %{buildroot}/*
 cd build_unix
 make DESTDIR=%{buildroot} docdir=%{_defaultdocdir}/%{name}-%{version} fmode=644 install
 install -D -m644 ../LICENSE %{buildroot}%{_datadir}/licenses/%{name}/LICENSE
 find %{buildroot}%{_libdir} -name '*.la' -delete
+%{_fixperms} %{buildroot}/*
 %clean
 rm -rf %{buildroot}
 %post	-p /sbin/ldconfig

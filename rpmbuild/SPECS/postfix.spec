@@ -9,6 +9,9 @@ Vendor:		Bildanet
 Distribution:	Octothorpe
 Source0:	ftp://ftp.porcupine.org/mirrors/postfix-release/official/%{name}-%{version}.tar.gz
 Source1:	http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20130512.tar.bz2
+%define	postfix_uid	32
+%define postfix_gid	32
+%define	postdrop_gid	33
 %description
 The Postfix package contains a Mail Transport Agent (MTA). This is 
 useful for sending email to other users of your host machine. It can
@@ -43,6 +46,8 @@ sh postfix-install -non-interactive \
 	readme_directory=%{_datadir}/doc/%{name}-%{version}/readme \
 	install_root="%{buildroot}"
 install -vdm 755 %{buildroot}/var/mail
+install -vdm 755 %{buildroot}/var/lib/postfix
+install -vdm 755 %{buildroot}/var/spool/postfix
 install -D -m644 LICENSE %{buildroot}/usr/share/licenses/%{name}/LICENSE
 #	daemonize
 pushd blfs-bootscripts-20130512
@@ -74,11 +79,11 @@ if getent group postdrop >/dev/null; then
 fi
 %post
 /sbin/ldconfig
-chown -v postfix:postfix /var/mail	
+chown -v postfix:postfix /var/mail
 %clean
 rm -rf %{buildroot}/*
 %files
-%defattr(-,root,root)
+#%defattr(-,root,root)
 /etc/rc.d/init.d/postfix
 /etc/rc.d/rc0.d/K25postfix
 /etc/rc.d/rc1.d/K25postfix
@@ -91,13 +96,27 @@ rm -rf %{buildroot}/*
 %{_bindir}/*
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/*
-%{_sbindir}/*
+%{_sbindir}/postalias
+%{_sbindir}/postcat
+%{_sbindir}/postconf
+%attr(2755,root,postdrop) %{_sbindir}/postdrop
+%{_sbindir}/postfix
+%{_sbindir}/postkick
+%{_sbindir}/postlock
+%{_sbindir}/postlog
+%{_sbindir}/postmap
+%{_sbindir}/postmulti
+%attr(2755,root,postdrop) %{_sbindir}/postqueue
+%{_sbindir}/postsuper
+%{_sbindir}/sendmail
 %dir %{_datadir}/doc/%{name}-%{version}
 %{_datadir}/doc/%{name}-%{version}/*
 %{_datadir}/licenses/postfix/LICENSE
 %{_mandir}/man1/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
+%dir %attr(-,postfix,postdrop) /var/lib/postfix
+%dir %attr(-,root,postdrop) /var/spool/postfix
 %changelog
 *	Mon Jun 03 2013 baho-utot <baho-utot@columbus.rr.com> 2.10.0-1
 -	Initial build.	First version
