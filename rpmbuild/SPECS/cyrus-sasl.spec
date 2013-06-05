@@ -34,7 +34,15 @@ popd
 	--libdir=%{_libdir} \
 	--sysconfdir=/etc \
 	--with-dbpath=/var/lib/sasl/sasldb2 \
-	--with-saslauthd=/var/run/saslauthd
+	--with-saslauthd=/var/run/saslauthd \
+	--with-plugindir=%{_libdir}/sasl2 \
+	--enable-anon\
+	--enable-login \
+	--enable-plain \
+	--enable-cram \
+	--enable-digest \
+	--disable-krb4 \
+	--disable-otp
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
