@@ -8,6 +8,7 @@ Group:		BLFS/Security
 Vendor:		Bildanet
 Distribution:	Octothorpe
 Source0:	ftp://ftp.cyrusimap.org/cyrus-sasl/%{name}-%{version}.tar.gz
+Source1:	http://www.linuxfromscratch.org/blfs/downloads/svn/blfs-bootscripts-20130512.tar.bz2
 Patch0:		http://www.linuxfromscratch.org/patches/blfs/svn/cyrus-sasl-2.1.26-fixes-1.patch
 %description
 The Cyrus SASL package contains a Simple Authentication and Security 
@@ -20,6 +21,7 @@ protocol and the connection.
 %prep
 %setup -q
 %patch0 -p1
+tar xf %{SOURCE1}
 %build
 autoreconf -fi
 pushd saslauthd
@@ -49,6 +51,10 @@ make %{?_smp_mflags}
 make DESTDIR=%{buildroot} install
 find %{buildroot}/%{_libdir} -name '*.la' -delete
 install -D -m644 COPYING %{buildroot}/usr/share/licenses/%{name}/LICENSE
+#	daemonize
+pushd blfs-bootscripts-20130512
+make DESTDIR=%{buildroot} install-saslauthd
+popd
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
