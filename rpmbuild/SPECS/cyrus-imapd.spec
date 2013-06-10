@@ -26,6 +26,7 @@ Cyrus Imap server
 	--with-openssl \
 	--without-ucdsnmp
 #	--with-cryus-prefix=%{_bindir}/%{name}
+make depend
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
