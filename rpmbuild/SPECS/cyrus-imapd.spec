@@ -34,6 +34,51 @@ install -vdm 755 %{buildroot}/etc
 cp ./master/conf/normal.conf %{buildroot}/etc/cyrus.conf
 find %{buildroot}/%{_libdir} -name '*.a'  -delete
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
+install -vdm 755 %{buildroot}/etc/rc.d/{,rc{0,1,2,3,4,5,6}.d,init.d}
+cat >> /etc/rc.d/init.d/imapd <<- "EOF"
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:            imap
+# Required-Start:      $syslog $local_fs $network
+# Should-Start:        saslauthd
+# Required-Stop:       $network
+# Should-Stop:         saslauthd
+# Default-Start:       3 4 5
+# Default-Stop:        0 1 2 6
+# Short-Description:   Cyrus imap MTA
+# Description:         Controls the Cyrus Imap Mail Transfer Agent
+### END INIT INFO
+. /lib/lsb/init-functions
+case "$1" in
+	start)
+		log_info_msg "Starting Cyrus Imap..."
+		start_daemon /usr/cyrus/bin/master
+		evaluate_retval
+		;;
+	stop)
+		log_info_msg "Stopping Cyrus Imap..."
+		killproc /usr/cyrus/bin/master
+		evaluate_retval
+		;;
+	restart)
+		$0 stop
+		sleep 1
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
+esac
+# End /etc/rc.d/init.d/cyrus-imapd
+EOF
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc0.d/K50imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc1.d/K50imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc2.d/S35imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc3.d/S35imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc4.d/S35imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc5.d/S35imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc6.d/K50imapd
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
