@@ -35,6 +35,7 @@ popd
 	--bindir=%{_bindir} \
 	--libdir=%{_libdir} \
 	--sysconfdir=/etc \
+	--with-dblib=berkeley \
 	--with-dbpath=/var/lib/sasl/sasldb2 \
 	--with-saslauthd=/var/run/saslauthd \
 	--with-plugindir=%{_libdir}/sasl2 \
@@ -64,6 +65,15 @@ make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 rm -rf %{buildroot}/*
 %files
 %defattr(-,root,root)
+/etc/rc.d/init.d/saslauthd
+/etc/rc.d/rc0.d/K49saslauthd
+/etc/rc.d/rc1.d/K49saslauthd
+/etc/rc.d/rc2.d/S24saslauthd
+/etc/rc.d/rc3.d/S24saslauthd
+/etc/rc.d/rc4.d/S24saslauthd
+/etc/rc.d/rc5.d/S24saslauthd
+/etc/rc.d/rc6.d/K49saslauthd
+/etc/sysconfig/saslauthd
 %{_includedir}/*
 %{_libdir}/*.so*
 %{_libdir}/pkgconfig/*
