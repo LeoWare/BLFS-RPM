@@ -30,7 +30,6 @@ popd
 ./configure \
 	CFLAGS="%{optflags} -fPIC" \
 	CXXFLAGS="%{optflags}" \
-	--disable-silent-rules \
 	--prefix=%{_prefix} \
 	--bindir=%{_bindir} \
 	--libdir=%{_libdir} \
@@ -44,8 +43,12 @@ popd
 	--enable-plain \
 	--enable-cram \
 	--enable-digest \
+	--enable-ntlm \
+	--enable-auth-sasldb \
+	--disable-java \
 	--disable-krb4 \
 	--disable-otp
+ 
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*

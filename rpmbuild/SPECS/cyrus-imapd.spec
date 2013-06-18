@@ -26,7 +26,7 @@ Cyrus Imap server
 	--with-openssl \
 	--without-ucdsnmp
 #	--with-cryus-prefix=%{_bindir}/%{name}
-make depend
+#make depend
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
@@ -35,6 +35,15 @@ install -vdm 755 %{buildroot}/etc
 cp ./master/conf/normal.conf %{buildroot}/etc/cyrus.conf
 find %{buildroot}/%{_libdir} -name '*.a'  -delete
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
+install -vdm 755 %{buildroot}/etc
+install -vdm 755 %{buildroot}/var/imap
+install -vdm 755 %{buildroot}/var/spool/imap
+cat >> %{buildroot}/etc/imapd.conf <<- "EOF"
+configdirectory:	/var/imap
+partition-default:	/var/spool/imap
+admins:			cryus
+sasl_pwcheck_method:	saslauthd
+EOF
 install -vdm 755 %{buildroot}/etc/rc.d/{,rc{0,1,2,3,4,5,6}.d,init.d}
 cat >> %{buildroot}/etc/rc.d/init.d/imapd <<- "EOF"
 #!/bin/sh
@@ -85,13 +94,23 @@ rm %{buildroot}%{_mandir}/man8/master.8
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
-%post	-p /sbin/ldconfig
+%post
+/sbin/ldconfig
+cat >> /etc/syslog.conf <<- "EOF"
+#	Addition for cyrus-impad
+local6.debug  /var/log/imapd.log_info_msg
+auth.debug /var/log/auth.log
+#	End cyrus-imapd
+EOF
+touch /var/log/auth.log
+touch /var/log/imapd.log
 %postun	-p /sbin/ldconfig
 %clean
 rm -rf %{buildroot}/*
 %files
 %defattr(-,root,root)
 %config(noreplace) /etc/cyrus.conf
+%config(noreplace) /etc/imapd.conf
 %attr(755,root,root) /etc/rc.d/init.d/imapd
 /etc/rc.d/rc0.d/K50imapd
 /etc/rc.d/rc1.d/K50imapd
@@ -111,6 +130,10 @@ rm -rf %{buildroot}/*
 %{_mandir}/man3/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
+%ghost /var/log/auth.log
+%ghost /var/log/imapd.log
+%dir %attr(750,cyrus,mail)	/var/imap
+%dir %attr(750,cyrus,mail)	/var/spool/imap
 %changelog
 *	Mon Jun 10 2013 baho-utot <baho-utot@columbus.rr.com> 2.4.17-1
 -	Initial build.	First version
