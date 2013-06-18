@@ -59,12 +59,11 @@ find . -type f -name "*.pl" | xargs %{__perl} -pi -e "s@/usr/local/bin/perl@%{__
 # Fix permissions on perl programs
 find . -type f -name "*.pl" -exec chmod 755 {} \;
 %build
-CPPFLAGS="%{optflags} -fno-strict-aliasing"; export CPPFLAGS
-CFLAGS="%{optflags} -fPIC -fno-strict-aliasing"; export CFLAGS
-CCDLFLAGS="-rdynamic"; export CCDLFLAGS
-LDFLAGS="-Wl,-z,now -Wl,-z,relro"
+export CPPFLAGS="%{optflags} -fno-strict-aliasing"
+export CFLAGS="%{optflags} -fPIC -fno-strict-aliasing"
+export CCDLFLAGS="-rdynamic"
+export LDFLAGS="-Wl,-z,now -Wl,-z,relro"
 ./configure \
-	--disable-silent-rules \
 	--prefix=%{_prefix} \
 	--bindir=%{_bindir} \
 	--libdir=%{_libdir} \
@@ -73,14 +72,17 @@ LDFLAGS="-Wl,-z,now -Wl,-z,relro"
 	--with-service-path=%{_cyrexecdir} \
 	--with-sasl \
 	--with-perl \
-	--with-auth=unix \
 	--with-openssl \
 	--without-ucdsnmp \
 	--without-snmp
+#	--disable-silent-rules
+#	--with-auth=unix
+
 #make depend
 #make %{?_smp_mflags}
+
 make -C man -f Makefile.dist
-make -C doc -f Makefile.dist
+#make -C doc -f Makefile.dist
 make %{?_smp_mflags}
 make -C notifyd notifytest
 %install
@@ -103,13 +105,15 @@ for tool in tools/* ; do
   test -f ${tool} && install -m 755 ${tool} %{buildroot}%{_cyrexecdir}/
 done
 # Create directories
-install -d \
+install -vd \
 	%{buildroot}%{_libdir}/sasl \
 	%{buildroot}%{_var}/spool/imap \
 	%{buildroot}%{_var}/lib/imap/{user,quota,proc,log,msg,socket,db,sieve,sync,md5,backup,meta} \
 	%{buildroot}%{_var}/lib/imap/ptclient \
+	%{buildroot}%{_sysconfdir}/logrotate.d \
 	%{buildroot}%{_sysconfdir}/pki/%{name} \
-	%{buildroot}%{_sysconfdir}/cron.daily/%{name} \
+	%{buildroot}%{_sysconfdir}/cron.daily \
+	%{buildroot}%{_datadir}/%{name}/rpm \
 	doc/contrib
 # Install additional files
 #install -p -m 644 master/conf/prefork.conf %{buildroot}%{_sysconfdir}/cyrus.conf
@@ -131,7 +135,7 @@ tls_ca_file: /etc/pki/tls/certs/ca-bundle.crt
 # uncomment this if you're operating in a DSCP environment (RFC-4594)
 # qosmarking: af13
 EOF
-cat >>  %{buildroot}%{_sysconfdir}/logrotate.d/%{name} << "EOF"
+cat >> %{buildroot}%{_sysconfdir}/logrotate.d/%{name}.conf << "EOF"
 /var/log/imapd.log /var/log/auth.log {
 	missingok
 	sharedscripts
@@ -186,19 +190,19 @@ mv %{buildroot}%{_mandir}/man8/pop3d.8 %{buildroot}%{_mandir}/man8/pop3d.8cyrus
 # Install templates
 install -m 755 -d doc/conf
 install -m 644 master/conf/*.conf doc/conf/
-#############################################
 # Generate db config file
 ( grep '^{' lib/imapoptions | grep _db | cut -d'"' -f 2,4 | \
   sed -e 's/^ *//' -e 's/-nosync//' -e 's/ *$//' -e 's/"/=/'
   echo sieve_version=2.2.3 ) | sort > %{buildroot}%{_datadir}/%{name}/rpm/db.cfg
-##############################################
 # create the ghost pem file
 touch %{buildroot}%{ssl_pem_file}
 # Rename 'master' binary and manpage to avoid clash with postfix
 mv -f %{buildroot}%{_cyrexecdir}/master         %{buildroot}%{_cyrexecdir}/cyrus-master
 mv -f %{buildroot}%{_mandir}/man8/master.8      %{buildroot}%{_mandir}/man8/cyrus-master.8
 # Rename 'fetchnews' binary and manpage to avoid clash with leafnode
-mv -f %{buildroot}%{_cyrexecdir}/fetchnews      %{buildroot}%{_cyrexecdir}/cyrus.fetchnews
+####################
+#mv -f %{buildroot}%{_cyrexecdir}/fetchnews      %{buildroot}%{_cyrexecdir}/cyrus.fetchnews
+###################
 mv -f %{buildroot}%{_mandir}/man8/fetchnews.8   %{buildroot}%{_mandir}/man8/cyrus.fetchnews.8
 %{__perl} -pi -e 's|fetchnews|cyrus.fetchnews|g;s|Fetchnews|Cyrus.fetchnews|g;s/FETCHNEWS/CYRUS.FETCHNEWS/g' \
         %{buildroot}%{_mandir}/man8/cyrus.fetchnews.8
@@ -251,7 +255,7 @@ case "$1" in
 	*)
 		echo "Usage: $0 {start|stop|restart}"
 		exit 1
-		;;
+	;;
 esac
 # End /etc/rc.d/init.d/cyrus-imapd
 EOF
@@ -303,7 +307,7 @@ rm -rf %{buildroot}/*
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/cyrus.conf
 %config(noreplace) %{_sysconfdir}/imapd.conf
-%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}.conf
 %attr(755,root,root) %{_sysconfdir}/rc.d/init.d/imapd
 %{_sysconfdir}/rc.d/rc0.d/K50imapd
 %{_sysconfdir}/rc.d/rc1.d/K50imapd
