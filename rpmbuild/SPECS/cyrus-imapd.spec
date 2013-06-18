@@ -1,15 +1,40 @@
-Summary:	pop3/imap mail server
+Summary:	A high-performance mail server with IMAP, POP3, NNTP and SIEVE support
 Name:		cyrus-imapd
 Version:	2.4.17
 Release:	1
 License:	Custom
-URL:		http://cyrusimap.web.cmu.edu
+URL:		http://www.cyrusimap.org/
 Group:		BLFS/MailServer
 Vendor:		Bildanet
 Distribution:	Octothorpe
-Source0:	ftp://ftp.andrew.cmu.edu/pub/cyrus/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.cyrusimap.org/cyrus-imapd/%{name}-%{version}.tar.gz
 %description
-Cyrus Imap server
+The %{name} package contains the core of the Cyrus IMAP server.
+It is a scaleable enterprise mail system designed for use from
+small to large enterprise environments using standards-based
+internet mail technologies.
+
+A full Cyrus IMAP implementation allows a seamless mail and bulletin
+board environment to be set up across multiple servers. It differs from
+other IMAP server implementations in that it is run on "sealed"
+servers, where users are not normally permitted to log in and have no
+system account on the server. The mailbox database is stored in parts
+of the file system that are private to the Cyrus IMAP server. All user
+access to mail is through software using the IMAP, POP3 or KPOP
+protocols. It also includes support for virtual domains, NNTP,
+mailbox annotations, and much more. The private mailbox database design
+gives the server large advantages in efficiency, scalability and
+administratability. Multiple concurrent read/write connections to the
+same mailbox are permitted. The server supports access control lists on
+mailboxes and storage quotas on mailbox hierarchies.
+
+The Cyrus IMAP server supports the IMAP4rev1 protocol described
+in RFC 3501. IMAP4rev1 has been approved as a proposed standard.
+It supports any authentication mechanism available from the SASL
+library, imaps/pop3s/nntps (IMAP/POP3/NNTP encrypted using SSL and
+TLSv1) can be used for security. The server supports single instance
+store where possible when an email message is addressed to multiple
+recipients, SIEVE provides server side email filtering.
 %prep
 %setup -q
 %build
@@ -30,10 +55,10 @@ make depend
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}/*
-make DESTDIR=%{buildroot} install
+make install DESTDIR=%{buildroot} PREFIX=%{_prefix} mandir=%{_mandir}
+make -C man install DESTDIR=%{buildroot} PREFIX=%{_prefix} mandir=%{_mandir}
 install -vdm 755 %{buildroot}/etc
 cp ./master/conf/normal.conf %{buildroot}/etc/cyrus.conf
-find %{buildroot}/%{_libdir} -name '*.a'  -delete
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
 install -vdm 755 %{buildroot}/etc/rc.d/{,rc{0,1,2,3,4,5,6}.d,init.d}
 cat >> %{buildroot}/etc/rc.d/init.d/imapd <<- "EOF"
@@ -80,7 +105,10 @@ ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc3.d/S35imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc4.d/S35imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc5.d/S35imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc6.d/K50imapd
-find %{buildroot}/usr/lib -name 'perllocal.pod' -delete
+#	Kill files not packaged
+find %{buildroot} -name "perllocal.pod" -exec rm -f {} \;
+find %{buildroot} -name ".packlist" -exec rm -f {} \;
+find %{buildroot}/%{_libdir} -name '*.a' -delete
 rm %{buildroot}%{_mandir}/man8/master.8
 %{_fixperms} %{buildroot}/*
 %check
