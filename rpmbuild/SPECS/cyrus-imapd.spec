@@ -65,19 +65,21 @@ export LDFLAGS="-Wl,-z,now -Wl,-z,relro"
 make %{?_smp_mflags}
 %install
 [ %{buildroot} != "/"] && rm -rf %{buildroot}
+# Create directories
+install -vdm 755 \
+	%{buildroot}%{workdir}/{backup,db,log,md5,meta,msg,proc,ptclient,quota,sieve,socket,sync,user} \
+	%{buildroot}%{maildir}/{stage.,sync.} \
+	%{buildroot}%{cyrusdir}/tools \
+	%{buildroot}/%{_sysconfdir}/cyrus-imapd \
+	%{buildroot}/etc/rc.d/{,rc{0,1,2,3,4,5,6}.d,init.d}
+#	Install
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix} mandir=%{_mandir}
 # Install tools
 install -vdm755 %{buildroot}/%{cyrusdir}/tools
 for tool in tools/* ; do
 	test -f ${tool} && install -m 755 ${tool} %{buildroot}%{cyrusdir}/tools
 done
-# Create directories
-install -vdm 755 \
-	%{buildroot}%{workdir}/{backup,db,log,md5,meta,msg,proc,ptclient,quota,sieve,socket,sync,user} \
-	%{buildroot}%{maildir}/{stage.,sync.} \
-	%{buildroot}%{cyrusdir}/tools
 # Install additional files
-install -D -p -m 644 master/conf/normal.conf %{buildroot}%{_sysconfdir}/cyrus.conf
 cat >> %{buildroot}%{_sysconfdir}/imapd.conf << "EOF"
 admins:			cyrus
 configdirectory:	%{workdir}
@@ -86,18 +88,12 @@ sasl_pwcheck_method:	auxprop
 sasl_auxprop_plugin:	sasldb	
 EOF
 # Install templates
-install -vdm 755 			%{buildroot}/%{_sysconfdir}/cyrus-imapd
-install -m 644 master/conf/*.conf	%{buildroot}/%{_sysconfdir}/cyrus-imapd
+install -m 644 master/conf/*.conf		%{buildroot}/%{_sysconfdir}/cyrus-imapd
+install -D -p -m 644 master/conf/normal.conf	%{buildroot}%{_sysconfdir}/cyrus.conf
 # Rename 'master' binary and manpage to avoid clash with postfix
 mv -f %{buildroot}%{cyrusbindir}/master         %{buildroot}%{cyrusbindir}/cyrus-master
 mv -f %{buildroot}%{_mandir}/man8/master.8      %{buildroot}%{_mandir}/man8/cyrus-master.8
-# Remove installed but not packaged files
-rm -f %{buildroot}%{cyrusdir}/tools/not-mkdep
-rm -f %{buildroot}%{cyrusdir}/tools/config2header*
-rm -f %{buildroot}%{cyrusdir}/tools/config2man
-rm -f %{buildroot}%{cyrusbindir}/pop3proxyd
 #	daemonize!
-install -vdm 755 %{buildroot}/etc/rc.d/{,rc{0,1,2,3,4,5,6}.d,init.d}
 cat >> %{buildroot}/etc/rc.d/init.d/imapd << "EOF"
 #!/bin/sh
 ### BEGIN INIT INFO
@@ -143,30 +139,41 @@ ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc4.d/S35imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc5.d/S35imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc6.d/K50imapd
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
+# Remove installed but not packaged files
+rm -f %{buildroot}%{cyrusdir}/tools/not-mkdep
+rm -f %{buildroot}%{cyrusdir}/tools/config2header*
+rm -f %{buildroot}%{cyrusdir}/tools/config2man
+rm -f %{buildroot}%{cyrusbindir}/pop3proxyd
 #	Kill files not packaged
 find %{buildroot}/%{_libdir}	-name '*.a'		-delete
 find %{buildroot}%{perldir}	-name '*.bs'		-delete
 find %{buildroot}%{perldir}	-name '.packlist'	-delete
 find %{buildroot}%{perldir}	-name 'perllocal.pod'	-delete
+#	fixup file perms
 %{_fixperms} %{buildroot}/*
 %check
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %pre
 # Create 'cyrus' user on target host
 getent group saslauth >/dev/null || /usr/sbin/groupadd -g 76 -r saslauth 
-getent passwd cyrus >/dev/null || /usr/sbin/useradd -c "Cyrus IMAP Server" -d %{_var}/lib/imap -g mail -G saslauth -s /sbin/nologin -u 76 -r cyrus
+getent passwd cyrus >/dev/null || /usr/sbin/useradd -c "Cyrus IMAP Server" -d %{workdir} -g mail -G saslauth -s /sbin/nologin -u 76 -r cyrus
 %post
 /sbin/ldconfig
-#cat >> /etc/syslog.conf <<- "EOF"
+cat >> /etc/syslog.conf <<- "EOF"
 #	Addition for cyrus-impad
-#local6.debug  /var/log/imapd.log
-#auth.debug /var/log/auth.log
+local6.debug  /var/log/imapd.log
+auth.debug /var/log/auth.log
 #	End cyrus-imapd
-#EOF
-#touch /var/log/auth.log
-#touch /var/log/imapd.log
+EOF
 /etc/rc.d/init/sysklogd restart
 %postun	-p /sbin/ldconfig
+getent passwd cyrus >/dev/null && userdel cyrus
+#	Remove syslog entry
+sed -i '|#	Addition for cyrus-impad|d'	/etc/syslog.conf
+sed -i '|local6.debug  /var/log/imapd.log|d'	/etc/syslog.conf
+sed -i '|auth.debug /var/log/auth.log|d'	/etc/syslog.conf
+sed -i '|#	End cyrus-imapd|d'		/etc/syslog.conf
+/etc/rc.d/init/sysklogd restart
 %clean
 rm -rf %{buildroot}/*
 %files
@@ -213,7 +220,6 @@ rm -rf %{buildroot}/*
 %{cyrusbindir}/mbpath
 %{cyrusbindir}/notifyd
 %{cyrusbindir}/pop3d
-#%{cyrusbindir}/pop3proxyd
 %{cyrusbindir}/proxyd
 %{cyrusbindir}/quota
 %{cyrusbindir}/reconstruct
@@ -227,8 +233,6 @@ rm -rf %{buildroot}/*
 #	tools
 %dir %{cyrusdir}/tools
 %{cyrusdir}/tools/arbitronsort.pl
-#%{cyrusdir}/tools/config2header
-#%{cyrusdir}/tools/config2man
 %{cyrusdir}/tools/convert-sieve.pl
 %{cyrusdir}/tools/dohash
 %{cyrusdir}/tools/masssievec
@@ -236,7 +240,6 @@ rm -rf %{buildroot}/*
 %{cyrusdir}/tools/mkimap
 %{cyrusdir}/tools/mknewsgroups
 %{cyrusdir}/tools/mupdate-loadgen.pl
-#%{cyrusdir}/tools/not-mkdep
 %{cyrusdir}/tools/rehash
 %{cyrusdir}/tools/translatesieve
 %{cyrusdir}/tools/undohash
