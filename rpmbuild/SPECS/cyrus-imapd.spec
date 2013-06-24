@@ -133,10 +133,10 @@ esac
 EOF
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc0.d/K50imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc1.d/K50imapd
-ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc2.d/S35imapd
-ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc3.d/S35imapd
-ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc4.d/S35imapd
-ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc5.d/S35imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc2.d/S36imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc3.d/S36imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc4.d/S36imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc5.d/S36imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc6.d/K50imapd
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
 # Remove installed but not packaged files
@@ -193,10 +193,10 @@ rm -rf %{buildroot}/*
 %attr(755,root,root) %{_sysconfdir}/rc.d/init.d/imapd
 %{_sysconfdir}/rc.d/rc0.d/K50imapd
 %{_sysconfdir}/rc.d/rc1.d/K50imapd
-%{_sysconfdir}/rc.d/rc2.d/S35imapd
-%{_sysconfdir}/rc.d/rc3.d/S35imapd
-%{_sysconfdir}/rc.d/rc4.d/S35imapd
-%{_sysconfdir}/rc.d/rc5.d/S35imapd
+%{_sysconfdir}/rc.d/rc2.d/S36imapd
+%{_sysconfdir}/rc.d/rc3.d/S36imapd
+%{_sysconfdir}/rc.d/rc4.d/S36imapd
+%{_sysconfdir}/rc.d/rc5.d/S36imapd
 %{_sysconfdir}/rc.d/rc6.d/K50imapd
 %dir %{cyrusbindir}
 %{cyrusbindir}/arbitron
