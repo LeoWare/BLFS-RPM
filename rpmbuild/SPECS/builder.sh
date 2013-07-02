@@ -7,7 +7,8 @@ export FAILURE="../FAILURE"
 #	set correct file ownership
 #	Start of build process
 build=$(uname -m)
-list="filesystem perl-module-scandeps man-pages random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh attr acl rsync iptables fcron ca-certificates curl expat libffi python2 git cpio initd-tools libcap2 ntp wget whois traceroute bind db cyrus-sasl postfix cyrus-imapd"
+#perl-module-scandeps
+list="filesystem man-pages random.number.generator which b43-fwcutter broadcom-wl net-tools-CVS wireless_tools openssl openssh attr acl rsync iptables fcron ca-certificates curl expat libffi python2 git cpio initd-tools libcap2 ntp wget whois traceroute bind db cyrus-sasl postfix cyrus-imapd"
 
 die() {
 	local msg=$1
@@ -38,11 +39,11 @@ for i in ${list}; do
 	RPM="";findpkg ${i}
 	[ -z $RPM ] && printf "Building --> ${i}\n" || printf "Skipping --> ${i}\n"
 	[ -z $RPM ] && buildpkg ${i} || continue
-	#installpkg ${i}
-	findpkg ${i};rpm -qilp ${RPM} > INFO/${i} 2>&1 || true
-	printf "RPM: $RPM\n"
-	rpmlint ${i}.spec > LINT/${i} 2>&1 || true
-	rpmlint ${RPM} > LINT/${i}.r.p.m 2>&1 || true
+	installpkg ${i}
+	findpkg ${i};printf "RPM: $RPM\n"
+#	rpmlint ${i}.spec > LINT/${i} 2>&1 || true
+#	rpmlint ${RPM} > LINT/${i}.r.p.m 2>&1 || true
+	rpm -qilp ${RPM} > INFO/${i} 2>&1 || true
 	rpm -qp --provides ${RPM} > PROVIDES/${i} 2>&1 || true
 	rpm -qp --requires ${RPM} > REQUIRES/${i} 2>&1 || true
 done
