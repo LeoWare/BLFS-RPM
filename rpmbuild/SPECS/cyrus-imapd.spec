@@ -133,10 +133,10 @@ esac
 EOF
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc0.d/K50imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc1.d/K50imapd
-ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc2.d/S35imapd
-ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc3.d/S35imapd
-ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc4.d/S35imapd
-ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc5.d/S35imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc2.d/S36imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc3.d/S36imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc4.d/S36imapd
+ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc5.d/S36imapd
 ln -sf  ../init.d/imapd %{buildroot}/etc/rc.d/rc6.d/K50imapd
 install -D -m644 COPYRIGHT %{buildroot}/usr/share/licenses/%{name}/LICENSE
 # Remove installed but not packaged files
@@ -155,8 +155,8 @@ find %{buildroot}%{perldir}	-name 'perllocal.pod'	-delete
 make -k check |& tee %{_specdir}/%{name}-check-log || %{nocheck}
 %pre
 # Create 'cyrus' user on target host
-getent group saslauth >/dev/null || /usr/sbin/groupadd -g 76 -r saslauth 
-getent passwd cyrus >/dev/null || /usr/sbin/useradd -c "Cyrus IMAP Server" -d %{workdir} -g mail -G saslauth -s /sbin/nologin -u 76 -r cyrus
+getent group saslauth > /dev/null || /usr/sbin/groupadd -g 76 -r saslauth 
+getent passwd cyrus > /dev/null || /usr/sbin/useradd -c "Cyrus IMAP Server" -d %{workdir} -g mail -G saslauth -s /sbin/nologin -u 76 -r cyrus
 %post
 /sbin/ldconfig
 cat >> /etc/syslog.conf <<- "EOF"
@@ -165,15 +165,18 @@ local6.debug  /var/log/imapd.log
 auth.debug /var/log/auth.log
 #	End cyrus-imapd
 EOF
-/etc/rc.d/init/sysklogd restart
-%postun	-p /sbin/ldconfig
-getent passwd cyrus >/dev/null && userdel cyrus
+#/etc/rc.d/init.d/sysklogd restart
+chown -R %{_cyrususer}.%{_cyrusgroup} %{workdir}
+chown -R %{_cyrususer}.%{_cyrusgroup} %{maildir}
+%postun	
+/sbin/ldconfig
+getent passwd cyrus > /dev/null && userdel cyrus
 #	Remove syslog entry
-sed -i '|#	Addition for cyrus-impad|d'	/etc/syslog.conf
-sed -i '|local6.debug  /var/log/imapd.log|d'	/etc/syslog.conf
-sed -i '|auth.debug /var/log/auth.log|d'	/etc/syslog.conf
-sed -i '|#	End cyrus-imapd|d'		/etc/syslog.conf
-/etc/rc.d/init/sysklogd restart
+sed -i '/\#	Addition for cyrus-impad/d'	/etc/syslog.conf
+sed -i '/local6.debug  \/var\/log\/imapd.log/d'	/etc/syslog.conf
+sed -i '/auth.debug \/var\/log\/auth.log/d'	/etc/syslog.conf
+sed -i '/\#	End cyrus-imapd/d'		/etc/syslog.conf
+#/etc/rc.d/init.d/sysklogd restart
 %clean
 rm -rf %{buildroot}/*
 %files
@@ -190,10 +193,10 @@ rm -rf %{buildroot}/*
 %attr(755,root,root) %{_sysconfdir}/rc.d/init.d/imapd
 %{_sysconfdir}/rc.d/rc0.d/K50imapd
 %{_sysconfdir}/rc.d/rc1.d/K50imapd
-%{_sysconfdir}/rc.d/rc2.d/S35imapd
-%{_sysconfdir}/rc.d/rc3.d/S35imapd
-%{_sysconfdir}/rc.d/rc4.d/S35imapd
-%{_sysconfdir}/rc.d/rc5.d/S35imapd
+%{_sysconfdir}/rc.d/rc2.d/S36imapd
+%{_sysconfdir}/rc.d/rc3.d/S36imapd
+%{_sysconfdir}/rc.d/rc4.d/S36imapd
+%{_sysconfdir}/rc.d/rc5.d/S36imapd
 %{_sysconfdir}/rc.d/rc6.d/K50imapd
 %dir %{cyrusbindir}
 %{cyrusbindir}/arbitron
