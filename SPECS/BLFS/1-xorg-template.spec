@@ -8,41 +8,43 @@ Group:		BLFS/
 Vendor:		Octothorpe
 Distribution:	BLFS-8.1
 ExclusiveArch:	x86_64
-Requires:	
+Requires:	util-macros >= 1.19.1
 Requires(pre): /usr/sbin/useradd, /usr/bin/getent
 Requires(postun): /usr/sbin/userdel
 Source0:	%{name}-%{version}
 Patch0:		
 %description
-	The rsync package contains the rsync utility.
-	This is useful for synchronizing large file archives over a network.
 
+%define		XORG_CONFIG	--prefix=%{_prefix} --sysconfdir=/etc --localstatedir=/var --disable-static
 %prep
 %setup -q -n %{NAME}-%{VERSION}
 %patch0 -p1
 %build
-	#	CFLAGS='%_optflags ' \
-	#	CXXFLAGS='%_optflags ' \
-	./configure \
-		--prefix=%{_prefix}
+	./configure %{XORG_CONFIG}
 	make %{?_smp_mflags}
 %install
 	make DESTDIR=%{buildroot} install
-	#	rm -rf %{buildroot}/%{_infodir}
 	#	Copy license/copying file 
 	#	install -D -m644 LICENSE %{buildroot}/usr/share/licenses/%{name}/LICENSE
 	#	Create file list
-	#	find %{buildroot} -name '*.la' -delete
+	rm -rf %{buildroot}/usr/share/info/dir
+	find %{buildroot} -name '*.la' -delete
 	find "${RPM_BUILD_ROOT}" -not -type d -print > filelist.rpm
 	sed -i "s|^${RPM_BUILD_ROOT}||" filelist.rpm
 %pre
 	/usr/sbin/groupadd -g 
 	/usr/sbin/useradd  -c 
 %post
+	pushd /usr/share/info
+	rm -v dir
+	for f in *
+		do install-info $f dir 2>/dev/null
+	done
+	popd
 %postun
 	/usr/sbin/userdel
 %files -f filelist.rpm
 	%defattr(-,root,root)
 %changelog
-*	Tue Jan 09 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Mon Feb 11 2018 baho-utot <baho-utot@columbus.rr.com> -1
 -	Initial build.	First version

@@ -146,13 +146,14 @@ _post() {
 #
 msg "Building BLFS Tools"
 LIST=""
-LIST+="prepare "
-LIST+="pciutils "
+LIST+="prepare blfs "
+LIST+="pciutils rsync"
 #LIST+="post
 for i in ${LIST};do
 	rm -rf BUILD BUILDROOT
 	case ${i} in
 		prepare)	_prepare ${i}	;;
+		post)		_post ${i}	;;
 		*)	maker ${i}	
 			info  ${i}
 			installer ${i}

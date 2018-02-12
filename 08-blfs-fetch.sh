@@ -6,7 +6,7 @@
 #      Author:	baho-utot@columbus.rr.com	#
 #     Options:					#
 #################################################
-set -o errexit					# exit if error...insurance ;)
+#set -o errexit					# exit if error...insurance ;)
 set -o nounset					# exit if variable not initalized
 set +h						# disable hashall
 PRGNAME=${0##*/}				# script name minus the path

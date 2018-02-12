@@ -17,11 +17,11 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin
 export LC_ALL PATH
 #
 PARENT=/usr/src/Octothorpe
-LOGPATH=${TOPDIR}/LOGS/BASE
-INFOPATH=${TOPDIR}/INFO/BASE
-SPECPATH=${TOPDIR}/SPECS/BASE
-PROVIDESPATH=${TOPDIR}/PROVIDES/BASE
-REQUIRESPATH=${TOPDIR}/REQUIRES/BASE
+LOGPATH=${TOPDIR}/LOGS/BLFS
+INFOPATH=${TOPDIR}/INFO/BLFS
+SPECPATH=${TOPDIR}/SPECS/BLFS
+PROVIDESPATH=${TOPDIR}/PROVIDES/BLFS
+REQUIRESPATH=${TOPDIR}/REQUIRES/BLFS
 RPMPATH=${TOPDIR}/RPMS
 #
 #	Build functions
@@ -105,8 +105,7 @@ installer(){	#	$1:	name of package
 	msg_line "	Installing: ${1}: "
 	[ -z ${_pkg} ] && die "ERROR: rpm package not found"
 	if [ ! -e ${_log}.installed ]; then
-		rpm -Uvh --nodeps \
-			${_pkg} >> "${_log}" 2>&1  && msg_success || msg_failure
+		su -c "rpm -Uvh --nodeps ${_pkg}" >> "${_log}" 2>&1  && msg_success || msg_failure
 		mv ${_log} ${_log}.installed
 	else
 		msg "Skipped"
@@ -116,37 +115,7 @@ _prepare() {
 	local _log="${LOGPATH}/${1}"
 	msg "	Prepare processing:"
 	if [ ! -e ${LOGPATH}/${1} ]; then
-		msg_line "	BLFS: Prepare: " 
-		cat > /etc/rpm/macros <<- EOF
-			#
-			#	System settings
-			#
-			%_topdir		/usr/src/Octothorpe
-			%_prefix		/usr
-			%_lib			/lib
-			%_libdir		/usr/lib
-			%_lib64			/lib64
-			%_libdir64		/usr/lib64
-			%_var			/var
-			%_sharedstatedir	/var/lib
-			%_localstatedir		/var
-			#
-			#	Build flags
-			#
-			%optflags	-march=x86-64 -mtune=generic -O2 -pipe -fPIC
-			#		-fstack-protector-strong -fno-plt -fpie -pie
-			%_ldflags	-Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now,--build-id
-			%_tmppath	/var/tmp
-			%_dbpath	/var/lib/rpm
-			#
-			#	Do not compress man or info files - breaks file list
-			%__os_install_post \
-			    %{_rpmconfigdir}/brp-strip %{__strip} \
-			    %{_rpmconfigdir}/brp-strip-static-archive %{__strip} \
-			    %{_rpmconfigdir}/brp-strip-comment-note %{__strip} %{__objdump} \
-			%{nil}
-		EOF
-		msg_success
+		true
 	fi		
 	touch ${_log}
 	return
@@ -164,7 +133,6 @@ _post() {
 #
 #	Main line
 #
-[ ${EUID} -eq 0 ] 	|| die "${PRGNAME}: Need to be root user: FAILURE"
 [ -z ${PARENT} ]	&& die "${PRGNAME}: Variable: PARENT not set: FAILURE"
 #
 #	BLFS Desktop system
@@ -172,10 +140,18 @@ _post() {
 msg "Building BLFS Desktop"
 LIST=""
 #LIST+="prepare "
+#	Xorg
+LIST+="util-macros xorg-protocol-headers "
+#	KDE
+LIST+=""
+#	Other
+LIST+=""
 #LIST+="post
 for i in ${LIST};do
 	rm -rf BUILD BUILDROOT
 	case ${i} in
+		prepare)	_prepare ${i}	;;
+		post)		_post ${i}	;;
 		*)	maker ${i}	
 			info  ${i}
 			installer ${i}		;;

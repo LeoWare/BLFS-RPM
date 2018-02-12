@@ -8,7 +8,7 @@ Group:		BLFS/Configure
 Vendor:		Octothorpe
 Distribution:	BLFS-8.1
 ExclusiveArch:	x86_64
-Source0:	 blfs-bootscripts-20170731
+Source0:	 blfs-bootscripts-20170731.tar.xz
 %description
 	The intention of LFS is to provide a basic system which you can build upon.
 	There are several things about tidying up the system which many people wonder
@@ -20,6 +20,7 @@ Source0:	 blfs-bootscripts-20170731
 	#
 	#	/etc/profile
 	#
+	install --directory --mode=0755 %{buildroot}/etc
 	cat > %{buildroot}/etc/profile <<- "EOF"
 		# Begin /etc/profile
 		# Written for Beyond Linux From Scratch
@@ -99,7 +100,7 @@ Source0:	 blfs-bootscripts-20170731
 
 		# End /etc/profile
 	EOF
-	install --directory --mode=0755 --owner=root --group=root %{buildroot}/etc/profile.d
+	install --directory --mode=0755 %{buildroot}/etc/profile.d
 	#
 	#	Bash completion
 	#
@@ -114,7 +115,7 @@ Source0:	 blfs-bootscripts-20170731
 		done
 		# End /etc/profile.d/bash_completion.sh
 	EOF
-	install --directory --mode=0755 --owner=root --group=root %{buildroot}/etc/bash_completion.d
+	install --directory --mode=0755 %{buildroot}/etc/bash_completion.d
 	#
 	#	Directory colours
 	#
@@ -222,7 +223,7 @@ Source0:	 blfs-bootscripts-20170731
 	#
 	#	/etc/skel
 	#
-	install --directory --mode=0755 --owner=root --group=root %{buildroot}/etc/skel
+	install --directory --mode=0755 %{buildroot}/etc/skel
 	cat > %{buildroot}/etc/skel/.bash_profile <<- "EOF"
 		# Begin ~/.bash_profile
 		# Written for Beyond Linux From Scratch
@@ -329,13 +330,12 @@ Source0:	 blfs-bootscripts-20170731
 
 		" End .vimrc
 	EOF
-	install --directory --mode=0755 --owner=root --group=root %{buildroot}/usr/bin
+	install --directory --mode=0755 %{buildroot}/usr/bin
 	cat > %{buildroot}/usr/bin/which <<- "EOF"
 		#!/bin/bash
 		type -pa "$@" | head -n 1 ; exit ${PIPESTATUS[0]}
 	EOF
 	chmod -v 755 %{buildroot}/usr/bin/which
-	chown -v root:root %{buildroot}/usr/bin/which
 %install
 	make DESTDIR=%{buildroot} install-random
 	#	Create file list
@@ -344,5 +344,5 @@ Source0:	 blfs-bootscripts-20170731
 %files -f filelist.rpm
 	%defattr(-,root,root)
 %changelog
-*	Tue Jan 09 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Tue Jan 09 2018 baho-utot <baho-utot@columbus.rr.com> blfs-8.1-1
 -	Initial build.	First version

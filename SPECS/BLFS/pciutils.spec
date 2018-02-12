@@ -8,6 +8,7 @@ Group:		BLFS/System_Utilities
 Vendor:		Octothorpe
 Distribution:	BLFS-8.1
 ExclusiveArch:	x86_64
+Requires:	blfs >= 8.1, wget >= 1.19
 Source0:	%{name}-%{version}.tar.xz
 %description
 	The PCI Utils package contains a set of programs for listing PCI devices,
@@ -30,5 +31,5 @@ Source0:	%{name}-%{version}.tar.xz
 %files -f filelist.rpm
 	%defattr(-,root,root)
 %changelog
-*	Tue Jan 09 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Tue Jan 09 2018 baho-utot <baho-utot@columbus.rr.com> pciutils-3.5.5-1
 -	Initial build.	First version
