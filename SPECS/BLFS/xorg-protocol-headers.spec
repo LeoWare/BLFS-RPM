@@ -71,20 +71,110 @@ Source25:	xproto-7.0.31.tar.bz2
 
 %build
 %install
-	 LIST="bigreqsproto-1.1.2 compositeproto-0.4.2 damageproto-1.2.1 "
-	LIST+="dmxproto-2.3.1 dri2proto-2.8 dri3proto-1.0 fixesproto-5.0 "
-	LIST+="fontsproto-2.1.3 glproto-1.4.17 inputproto-2.3.2 kbproto-1.0.7 "
-	LIST+="presentproto-1.1 randrproto-1.5.0 recordproto-1.14.2 "
-	LIST+="renderproto-0.11.1 resourceproto-1.2.0 scrnsaverproto-1.2.2 "
-	LIST+="videoproto-2.3.3 xcmiscproto-1.2.2 xextproto-7.3.0 "
-	LIST+="xf86bigfontproto-1.2.0 xf86dgaproto-2.1 xf86driproto-2.1.1 "
-	LIST+="xf86vidmodeproto-2.3.1 xineramaproto-1.2.1 xproto-7.0.31 "
-	for i in $LIST; do
-		pushd ${i}
+	cd bigreqsproto-1.1.2
 		./configure %{XORG_CONFIG}
 		make DESTDIR=%{buildroot} install
-		popd
-	done
+	cd -
+	cd compositeproto-0.4.2
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd damageproto-1.2.1
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd dmxproto-2.3.1
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd dri2proto-2.8
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd dri3proto-1.0
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd fixesproto-5.0
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd fontsproto-2.1.3
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd glproto-1.4.17
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd inputproto-2.3.2
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd kbproto-1.0.7
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd presentproto-1.1
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd randrproto-1.5.0
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd recordproto-1.14.2
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd renderproto-0.11.1
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd resourceproto-1.2.0
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd scrnsaverproto-1.2.2
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd videoproto-2.3.3
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd xcmiscproto-1.2.2
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd xextproto-7.3.0
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd xf86bigfontproto-1.2.0
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd xf86dgaproto-2.1
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd xf86driproto-2.1.1
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd xf86vidmodeproto-2.3.1
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd xineramaproto-1.2.1
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
+	cd xproto-7.0.31
+		./configure %{XORG_CONFIG}
+		make DESTDIR=%{buildroot} install
+	cd -
 	#	Copy license/copying file 
 	#	install -D -m644 LICENSE %{buildroot}/usr/share/licenses/%{name}/LICENSE
 	#	Create file list

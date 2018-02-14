@@ -5,7 +5,7 @@ Version:	1.19.1
 Release:	1
 License:	Any
 URL:		Any
-Group:		BLFS/
+Group:		BLFS/Xorg
 Vendor:		Octothorpe
 Distribution:	BLFS-8.1
 ExclusiveArch:	x86_64

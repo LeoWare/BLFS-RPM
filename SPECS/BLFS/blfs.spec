@@ -46,7 +46,7 @@ Source0:	 blfs-bootscripts-20170731.tar.xz
 					NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
 				fi
 			done
-			xport $PATHVARIABLE="$NEWPATH"
+			export $PATHVARIABLE="$NEWPATH"
 		}
 
 		pathprepend () {

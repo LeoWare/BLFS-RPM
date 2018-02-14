@@ -140,8 +140,18 @@ _post() {
 msg "Building BLFS Desktop"
 LIST=""
 #LIST+="prepare "
+#	Dependences
+LIST+="libffi Python libxml2 wayland libgpg-error libgcrypt Python2 python2-funcsigs Beaker "
+LIST+="MarkupSafe Mako Certificate-Authority-Certificates curl libarchive cmake "
 #	Xorg
-LIST+="util-macros xorg-protocol-headers "
+LIST+="util-macros xorg-protocol-headers libXau libXdmcp xcb-proto libxcb "
+LIST+="freetype fontconfig "
+LIST+="xtrans libX11 libXext libFS libICE libSM libXScrnSaver libXt libXmu "
+LIST+="libXpm libXaw libXfixes libXcomposite libXrender libXcursor libXdamage "
+LIST+="libfontenc libXfont2 libXft libXi libXinerama libXrandr libXres libXtst "
+LIST+="libXv libXvMC libXxf86dga libXxf86vm libdmx libpciaccess libxkbfile libxshmfence "
+LIST+="xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm "
+LIST+="xcb-util-cursor libdrm nettle elfutils libvdpau xorg-libs "
 #	KDE
 LIST+=""
 #	Other
@@ -152,9 +162,9 @@ for i in ${LIST};do
 	case ${i} in
 		prepare)	_prepare ${i}	;;
 		post)		_post ${i}	;;
-		*)	maker ${i}	
-			info  ${i}
-			installer ${i}		;;
+		*)		maker ${i}	
+				info  ${i}
+				installer ${i}		;;
 	esac
 done
 end-run
