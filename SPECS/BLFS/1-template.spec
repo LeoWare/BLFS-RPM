@@ -1,4 +1,4 @@
-#	
+#
 Summary:	
 Name:		
 Version:	
@@ -24,8 +24,6 @@ Patch0:
 %setup -q -T -D -a 1  -n %{name}-%{version}
 %patch0 -p1
 %build
-	#	CFLAGS='%_optflags ' \
-	#	CXXFLAGS='%_optflags ' \
 	./configure \
 		--prefix=%{_prefix}
 	make %{?_smp_mflags}
@@ -53,5 +51,5 @@ Patch0:
 %files -f filelist.rpm
 	%defattr(-,root,root)
 %changelog
-*	Tue Feb 13 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Wed Feb 14 2018 baho-utot <baho-utot@columbus.rr.com> -1
 -	Initial build.	First version

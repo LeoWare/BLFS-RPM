@@ -38,5 +38,5 @@ Source0:	%{name}-%{version}.tar.bz2
 %files -f filelist.rpm
 	%defattr(-,root,root)
 %changelog
-*	Tue Feb 13 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Wed Feb 14 2018 baho-utot <baho-utot@columbus.rr.com> -1
 -	Initial build.	First version

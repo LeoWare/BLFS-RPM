@@ -89,6 +89,8 @@ _wget_list() {
 			https://curl.haxx.se/download/curl-7.55.1.tar.xz
 			http://www.libarchive.org/downloads/libarchive-3.3.2.tar.gz
 			https://cmake.org/files/v3.9/cmake-3.9.1.tar.gz
+			http://llvm.org/releases/4.0.1/llvm-4.0.1.src.tar.xz
+			https://ftp.gnu.org/gnu/screen/screen-4.5.1.tar.gz
 		EOF
 		#	Xorg
 		cat >> ${PARENT}/SOURCES/wget-blfs <<- EOF
@@ -167,6 +169,8 @@ _wget_list() {
 			https://xcb.freedesktop.org/dist/xcb-util-renderutil-0.3.9.tar.bz2
 			https://xcb.freedesktop.org/dist/xcb-util-wm-0.4.1.tar.bz2
 			https://xcb.freedesktop.org/dist/xcb-util-cursor-0.1.3.tar.bz2
+			https://mesa.freedesktop.org/archive/mesa-17.1.6.tar.xz
+			http://www.linuxfromscratch.org/patches/blfs/8.1/mesa-17.1.6-add_xdemos-1.patch
 		EOF
 	msg_success
 	return
@@ -199,6 +203,8 @@ _md5sum_list(){
 			ac4a59c38c47adc160ea71eace20257b	SOURCES/curl-7.55.1.tar.xz
 			4583bd6b2ebf7e0e8963d90879eb1b27	SOURCES/libarchive-3.3.2.tar.gz
 			00f43c6a56d4903436317c14f9ca7f37	SOURCE/cmake-3.9.1.tar.gz
+			a818e70321b91e2bb2d47e60edd5408f	SOURCES/llvm-4.0.1.src.tar.xz
+			a8c5da2f42f8a18fa4dada2419d1549b	SOURCES/screen-4.5.1.tar.gz
 
 		EOF
 		#	Xorg
@@ -274,6 +280,7 @@ _md5sum_list(){
 			468b119c94da910e1291f3ffab91019a	SOURCES/xcb-util-renderutil-0.3.9.tar.bz2
 			87b19a1cd7bfcb65a24e36c300e03129	SOURCES/xcb-util-wm-0.4.1.tar.bz2
 			6ac3b17cba51aaaa36ba035a53527214	SOURCES/xcb-util-cursor-0.1.3.tar.bz2
+			54758bf842f9ea53c8b57cce4311b87e	SOURCES/mesa-17.1.6.tar.xz
 		EOF
 	msg_success
 

@@ -112,6 +112,7 @@ installer(){	#	$1:	name of package
 	fi
 }
 _prepare() {
+	return
 	local _log="${LOGPATH}/${1}"
 	msg "	Prepare processing:"
 	if [ ! -e ${LOGPATH}/${1} ]; then
@@ -121,6 +122,7 @@ _prepare() {
 	return
 }
 _post() {
+	return
 	local _log="${LOGPATH}/${1}"
 	msg "	Post processing:"
 	if [ ! -e ${LOGPATH}/${1} ]; then
@@ -139,23 +141,24 @@ _post() {
 #
 msg "Building BLFS Desktop"
 LIST=""
-#LIST+="prepare "
+LIST+="prepare screen "
 #	Dependences
 LIST+="libffi Python libxml2 wayland libgpg-error libgcrypt Python2 python2-funcsigs Beaker "
-LIST+="MarkupSafe Mako Certificate-Authority-Certificates curl libarchive cmake "
+LIST+="MarkupSafe Mako Certificate-Authority-Certificates curl libarchive cmake llvm "
 #	Xorg
-LIST+="util-macros xorg-protocol-headers libXau libXdmcp xcb-proto libxcb "
-LIST+="freetype fontconfig "
-LIST+="xtrans libX11 libXext libFS libICE libSM libXScrnSaver libXt libXmu "
-LIST+="libXpm libXaw libXfixes libXcomposite libXrender libXcursor libXdamage "
-LIST+="libfontenc libXfont2 libXft libXi libXinerama libXrandr libXres libXtst "
-LIST+="libXv libXvMC libXxf86dga libXxf86vm libdmx libpciaccess libxkbfile libxshmfence "
-LIST+="xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm "
-LIST+="xcb-util-cursor libdrm nettle elfutils libvdpau xorg-libs "
+#LIST+="util-macros xorg-protocol-headers libXau libXdmcp xcb-proto libxcb "
+#LIST+="freetype fontconfig "
+#LIST+="xtrans libX11 libXext libFS libICE libSM libXScrnSaver libXt libXmu "
+#LIST+="libXpm libXaw libXfixes libXcomposite libXrender libXcursor libXdamage "
+#LIST+="libfontenc libXfont2 libXft libXi libXinerama libXrandr libXres libXtst "
+#LIST+="libXv libXvMC libXxf86dga libXxf86vm libdmx libpciaccess libxkbfile libxshmfence "
+#LIST+="xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm "
+#LIST+="xcb-util-cursor libdrm nettle elfutils libvdpau xorg-libs " 
+#mesa "
 #	KDE
-LIST+=""
+#LIST+=""
 #	Other
-LIST+=""
+#LIST+=""
 #LIST+="post
 for i in ${LIST};do
 	rm -rf BUILD BUILDROOT

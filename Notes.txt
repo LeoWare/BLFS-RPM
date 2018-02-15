@@ -1,0 +1,5 @@
+Notes:
+
+file:///C:/Users/GangGreene/Desktop/BLFS-RPM/BOOK/BLFS-BOOK-8.1-nochunks.html#llvm
+
+file:///C:/Users/GangGreene/Desktop/BLFS-RPM/BOOK/BLFS-BOOK-8.1-nochunks.html#mesa
