@@ -33,6 +33,7 @@ Source0:	%{name}-%{version}.src.tar.xz
 %install
 	cd build
 	make DESTDIR=%{buildroot} install
+	cd -
 	#	Copy license/copying file 
 	#	install -D -m644 LICENSE %{buildroot}/usr/share/licenses/%{name}/LICENSE
 	#	Create file list
