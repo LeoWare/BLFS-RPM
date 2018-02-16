@@ -12,15 +12,16 @@ ExclusiveArch:	x86_64
 Requires:	xorg-protocol-headers, Xorg Libraries
 Requires:	libdrm >= 2.4.82, Mako >= 1.0.4, Python2 >= 2.7.13 
 Requires:	libvdpau >= 1.1.1, llvm >= 4.0.1, libgcrypt >= 1.8.0, nettle >= 3.3, wayland >= 1.14.0
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	%{name}-%{version}.tar.xz
 Patch0:		mesa-17.1.6-add_xdemos-1.patch
 %description
 	Mesa is an OpenGL compatible 3D graphics library.
-%define		XORG_CONFIG	--prefix=%{_prefix} --sysconfdir=/etc --localstatedir=/var --disable-static
+%define		XORG_PREFIX	%{_prefix}
+%define		XORG_CONFIG	--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 %define		GLL_DRV		r300,r600,radeonsi,svga,swrast
 %prep
 %setup -q -n %{NAME}-%{VERSION}
-patch0% -p1
+%patch0 -p1
 sed -i "/pthread_stubs_possible=/s/yes/no/" configure.ac
 %build
 	./autogen.sh CFLAGS='-O2' CXXFLAGS='-O2' \
@@ -31,7 +32,7 @@ sed -i "/pthread_stubs_possible=/s/yes/no/" configure.ac
 		--enable-xa \
 		--enable-glx-tls \
 		--with-platforms="drm,x11" \
-		--with-gallium-drivers=$GLL_DRV
+		--with-gallium-drivers=%{GLL_DRV}
 		#		Archlinux
 		#		--with-gallium-drivers=r300,r600,radeonsi,nouveau,svga,swrast,virgl,swr \
 		#		--with-dri-drivers=i915,i965,r200,radeon,nouveau,swrast \
@@ -41,7 +42,7 @@ sed -i "/pthread_stubs_possible=/s/yes/no/" configure.ac
 		#		--enable-gles2 \
 		#		--enable-dri
 	make %{?_smp_mflags}
-	make %{?_smp_mflags} -C xdemos DEMOS_PREFIX=%{XORG_PREFIX}
+	make -C xdemos DEMOS_PREFIX=%{XORG_PREFIX}
 %install
 	make DESTDIR=%{buildroot} install
 	make DESTDIR=%{buildroot} -C xdemos DEMOS_PREFIX=%{XORG_PREFIX} install
