@@ -93,6 +93,8 @@ _wget_list() {
 			https://ftp.gnu.org/gnu/screen/screen-4.5.1.tar.gz
 			https://downloads.sourceforge.net/libpng/libpng-1.6.31.tar.xz
 			https://downloads.sourceforge.net/apng/libpng-1.6.31-apng.patch.gz
+			https://www.cairographics.org/releases/pixman-0.34.0.tar.gz
+			https://github.com/anholt/libepoxy/releases/download/1.4.3/libepoxy-1.4.3.tar.xz
 		EOF
 		#	Xorg
 		cat >> ${PARENT}/SOURCES/wget-blfs <<- EOF
@@ -211,6 +213,18 @@ _wget_list() {
 			https://www.x.org/pub/individual/app/xwd-1.0.6.tar.bz2
 			https://www.x.org/pub/individual/app/xwininfo-1.1.3.tar.bz2
 			https://www.x.org/pub/individual/app/xwud-1.0.4.tar.bz2
+			https://www.x.org/pub/individual/data/xcursor-themes-1.0.4.tar.bz2
+			https://www.x.org/pub/individual/font/font-util-1.3.1.tar.bz2
+			https://www.x.org/pub/individual/font/encodings-1.0.4.tar.bz2
+			https://www.x.org/pub/individual/font/font-alias-1.0.3.tar.bz2
+			https://www.x.org/pub/individual/font/font-adobe-utopia-type1-1.0.4.tar.bz2
+			https://www.x.org/pub/individual/font/font-bh-ttf-1.0.3.tar.bz2
+			https://www.x.org/pub/individual/font/font-bh-type1-1.0.3.tar.bz2
+			https://www.x.org/pub/individual/font/font-ibm-type1-1.0.3.tar.bz2
+			https://www.x.org/pub/individual/font/font-misc-ethiopic-1.0.3.tar.bz2
+			https://www.x.org/pub/individual/font/font-xfree86-type1-1.0.4.tar.bz2
+			https://www.x.org/pub/individual/data/xkeyboard-config/xkeyboard-config-2.21.tar.bz2
+			https://www.x.org/pub/individual/xserver/xorg-server-1.19.3.tar.bz2
 		EOF
 	msg_success
 	return
@@ -247,6 +261,8 @@ _md5sum_list(){
 			a8c5da2f42f8a18fa4dada2419d1549b	SOURCES/screen-4.5.1.tar.gz
 			1b34eab440263e32cfa39d19413fad54	SOURCES/libpng-1.6.31.tar.xz
 			1b34eab440263e32cfa39d19413fad54	SOURCES/libpng-1.6.31-apng.patch.gz
+			e80ebae4da01e77f68744319f01d52a3	SOURCES/pixman-0.34.0.tar.gz
+			af4c3ce0fb1143bdc4e43f85695a9bed	SOURCES/libepoxy-1.4.3.tar.xz
 		EOF
 		#	Xorg
 		cat >> ${PARENT}/SOURCES/md5sum-blfs <<- EOF
@@ -323,43 +339,55 @@ _md5sum_list(){
 			6ac3b17cba51aaaa36ba035a53527214	SOURCES/xcb-util-cursor-0.1.3.tar.bz2
 			54758bf842f9ea53c8b57cce4311b87e	SOURCES/mesa-17.1.6.tar.xz
 			7444bbbd999b53bec6a60608a5301f4c	SOURCES/xbitmaps-1.1.1.tar.bz2
-			25dab02f8e40d5b71ce29a07dc901b8c	iceauth-1.0.7.tar.bz2
-			c4a3664e08e5a47c120ff9263ee2f20c	luit-1.1.1.tar.bz2
-			18c429148c96c2079edda922a2b67632	mkfontdir-1.0.7.tar.bz2
-			9bdd6ebfa62b1bbd474906ac86a40fd8	mkfontscale-1.1.2.tar.bz2
-			e475167a892b589da23edf8edf8c942d	sessreg-1.1.1.tar.bz2
-			2c47a1b8e268df73963c4eb2316b1a89	setxkbmap-1.3.1.tar.bz2
-			3a93d9f0859de5d8b65a68a125d48f6a	smproxy-1.0.6.tar.bz2
-			f0b24e4d8beb622a419e8431e1c03cd7	x11perf-1.6.0.tar.bz2
-			f3f76cb10f69b571c43893ea6a634aa4	xauth-1.0.10.tar.bz2
-			0066f23f69ca3ef62dcaeb74a87fdc48	xbacklight-1.2.1.tar.bz2
-			9956d751ea3ae4538c3ebd07f70736a0	xcmsdb-1.0.5.tar.bz2
-			b58a87e6cd7145c70346adad551dba48	xcursorgen-1.0.6.tar.bz2
-			8809037bd48599af55dad81c508b6b39	xdpyinfo-1.3.2.tar.bz2
-			fceddaeb08e32e027d12a71490665866	xdriinfo-1.0.5.tar.bz2
-			249bdde90f01c0d861af52dc8fec379e	xev-1.2.2.tar.bz2
-			90b4305157c2b966d5180e2ee61262be	xgamma-1.0.6.tar.bz2
-			f5d490738b148cb7f2fe760f40f92516	xhost-1.0.7.tar.bz2
-			6a889412eff2e3c1c6bb19146f6fe84c	xinput-1.6.2.tar.bz2
-			cc22b232bc78a303371983e1b48794ab	xkbcomp-1.4.0.tar.bz2
-			c747faf1f78f5a5962419f8bdd066501	xkbevd-1.1.4.tar.bz2
-			502b14843f610af977dffc6cbf2102d5	xkbutils-1.0.4.tar.bz2
-			0ae6bc2a8d3af68e9c76b1a6ca5f7a78	xkill-1.0.4.tar.bz2
-			5dcb6e6c4b28c8d7aeb45257f5a72a7d	xlsatoms-1.1.2.tar.bz2
-			9fbf6b174a5138a61738a42e707ad8f5	xlsclients-1.1.3.tar.bz2
-			2dd5ae46fa18abc9331bc26250a25005	xmessage-1.0.4.tar.bz2
-			723f02d3a5f98450554556205f0a9497	xmodmap-1.0.9.tar.bz2
-			6101f04731ffd40803df80eca274ec4b	xpr-1.0.4.tar.bz2
-			fae3d2fda07684027a643ca783d595cc	xprop-1.2.2.tar.bz2
-			ebffac98021b8f1dc71da0c1918e9b57	xrandr-1.5.0.tar.bz2
-			b54c7e3e53b4f332d41ed435433fbda0	xrdb-1.1.0.tar.bz2
-			a896382bc53ef3e149eaf9b13bc81d42	xrefresh-1.0.5.tar.bz2
-			dcd227388b57487d543cab2fd7a602d7	xset-1.2.3.tar.bz2
-			7211b31ec70631829ebae9460999aa0b	xsetroot-1.1.1.tar.bz2
-			558360176b718dee3c39bc0648c0d10c	xvinfo-1.1.3.tar.bz2
-			6b5d48464c5f366e91efd08b62b12d94	xwd-1.0.6.tar.bz2
-			b777bafb674555e48fd8437618270931	xwininfo-1.1.3.tar.bz2
-			3025b152b4f13fdffd0c46d0be587be6	xwud-1.0.4.tar.bz2
+			25dab02f8e40d5b71ce29a07dc901b8c	SOURCES/iceauth-1.0.7.tar.bz2
+			c4a3664e08e5a47c120ff9263ee2f20c	SOURCES/luit-1.1.1.tar.bz2
+			18c429148c96c2079edda922a2b67632	SOURCES/mkfontdir-1.0.7.tar.bz2
+			9bdd6ebfa62b1bbd474906ac86a40fd8	SOURCES/mkfontscale-1.1.2.tar.bz2
+			e475167a892b589da23edf8edf8c942d	SOURCES/sessreg-1.1.1.tar.bz2
+			2c47a1b8e268df73963c4eb2316b1a89	SOURCES/setxkbmap-1.3.1.tar.bz2
+			3a93d9f0859de5d8b65a68a125d48f6a	SOURCES/smproxy-1.0.6.tar.bz2
+			f0b24e4d8beb622a419e8431e1c03cd7	SOURCES/x11perf-1.6.0.tar.bz2
+			f3f76cb10f69b571c43893ea6a634aa4	SOURCES/xauth-1.0.10.tar.bz2
+			0066f23f69ca3ef62dcaeb74a87fdc48	SOURCES/xbacklight-1.2.1.tar.bz2
+			9956d751ea3ae4538c3ebd07f70736a0	SOURCES/xcmsdb-1.0.5.tar.bz2
+			b58a87e6cd7145c70346adad551dba48	SOURCES/xcursorgen-1.0.6.tar.bz2
+			8809037bd48599af55dad81c508b6b39	SOURCES/xdpyinfo-1.3.2.tar.bz2
+			fceddaeb08e32e027d12a71490665866	SOURCES/xdriinfo-1.0.5.tar.bz2
+			249bdde90f01c0d861af52dc8fec379e	SOURCES/xev-1.2.2.tar.bz2
+			90b4305157c2b966d5180e2ee61262be	SOURCES/xgamma-1.0.6.tar.bz2
+			f5d490738b148cb7f2fe760f40f92516	SOURCES/xhost-1.0.7.tar.bz2
+			6a889412eff2e3c1c6bb19146f6fe84c	SOURCES/xinput-1.6.2.tar.bz2
+			cc22b232bc78a303371983e1b48794ab	SOURCES/xkbcomp-1.4.0.tar.bz2
+			c747faf1f78f5a5962419f8bdd066501	SOURCES/xkbevd-1.1.4.tar.bz2
+			502b14843f610af977dffc6cbf2102d5	SOURCES/xkbutils-1.0.4.tar.bz2
+			0ae6bc2a8d3af68e9c76b1a6ca5f7a78	SOURCES/xkill-1.0.4.tar.bz2
+			5dcb6e6c4b28c8d7aeb45257f5a72a7d	SOURCES/xlsatoms-1.1.2.tar.bz2
+			9fbf6b174a5138a61738a42e707ad8f5	SOURCES/xlsclients-1.1.3.tar.bz2
+			2dd5ae46fa18abc9331bc26250a25005	SOURCES/xmessage-1.0.4.tar.bz2
+			723f02d3a5f98450554556205f0a9497	SOURCES/xmodmap-1.0.9.tar.bz2
+			6101f04731ffd40803df80eca274ec4b	SOURCES/xpr-1.0.4.tar.bz2
+			fae3d2fda07684027a643ca783d595cc	SOURCES/xprop-1.2.2.tar.bz2
+			ebffac98021b8f1dc71da0c1918e9b57	SOURCES/xrandr-1.5.0.tar.bz2
+			b54c7e3e53b4f332d41ed435433fbda0	SOURCES/xrdb-1.1.0.tar.bz2
+			a896382bc53ef3e149eaf9b13bc81d42	SOURCES/xrefresh-1.0.5.tar.bz2
+			dcd227388b57487d543cab2fd7a602d7	SOURCES/xset-1.2.3.tar.bz2
+			7211b31ec70631829ebae9460999aa0b	SOURCES/xsetroot-1.1.1.tar.bz2
+			558360176b718dee3c39bc0648c0d10c	SOURCES/xvinfo-1.1.3.tar.bz2
+			6b5d48464c5f366e91efd08b62b12d94	SOURCES/xwd-1.0.6.tar.bz2
+			b777bafb674555e48fd8437618270931	SOURCES/xwininfo-1.1.3.tar.bz2
+			3025b152b4f13fdffd0c46d0be587be6	SOURCES/xwud-1.0.4.tar.bz2
+			fdfb0ad9cfceed60e3bfe9f18765aa0d	SOURCES/xcursor-themes-1.0.4.tar.bz2
+			23756dab809f9ec5011bb27fb2c3c7d6	SOURCES/font-util-1.3.1.tar.bz2
+			0f2d6546d514c5cc4ecf78a60657a5c1	SOURCES/encodings-1.0.4.tar.bz2
+			6d25f64796fef34b53b439c2e9efa562	SOURCES/font-alias-1.0.3.tar.bz2
+			fcf24554c348df3c689b91596d7f9971	SOURCES/font-adobe-utopia-type1-1.0.4.tar.bz2
+			e8ca58ea0d3726b94fe9f2c17344be60	SOURCES/font-bh-ttf-1.0.3.tar.bz2
+			53ed9a42388b7ebb689bdfc374f96a22	SOURCES/font-bh-type1-1.0.3.tar.bz2
+			bfb2593d2102585f45daa960f43cb3c4	SOURCES/font-ibm-type1-1.0.3.tar.bz2
+			6306c808f7d7e7d660dfb3859f9091d2	SOURCES/font-misc-ethiopic-1.0.3.tar.bz2
+			3eeb3fb44690b477d510bbd8f86cf5aa	SOURCES/font-xfree86-type1-1.0.4.tar.bz2
+			af9498e8954907d0a47f0f7b3d21e1ef	SOURCES/xkeyboard-config-2.21.tar.bz2
+			015d2fc4b9f2bfe7a626edb63a62c65e	SOURCES/xorg-server-1.19.3.tar.bz2
 		EOF
 	msg_success
 

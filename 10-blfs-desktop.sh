@@ -145,6 +145,7 @@ LIST+="prepare screen "
 #	Dependences
 LIST+="libffi Python libxml2 wayland libgpg-error libgcrypt Python2 python2-funcsigs Beaker "
 LIST+="MarkupSafe Mako Certificate-Authority-Certificates curl libarchive cmake llvm libpng "
+LIST+="pixman libepoxy "
 #	Xorg
 LIST+="util-macros xorg-protocol-headers libXau libXdmcp xcb-proto libxcb "
 LIST+="freetype fontconfig "
@@ -154,7 +155,7 @@ LIST+="libfontenc libXfont2 libXft libXi libXinerama libXrandr libXres libXtst "
 LIST+="libXv libXvMC libXxf86dga libXxf86vm libdmx libpciaccess libxkbfile libxshmfence "
 LIST+="xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm "
 LIST+="xcb-util-cursor libdrm nettle elfutils libvdpau xorg-libs mesa xbitmaps xorg-apps "
-#LIST+=""
+LIST+="xcursor-themes xorg-fonts xkeyboard-config xorg-server "
 #	KDE
 #LIST+=""
 #	Other
