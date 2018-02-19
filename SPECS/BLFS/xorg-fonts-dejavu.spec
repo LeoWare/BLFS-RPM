@@ -20,6 +20,12 @@ Source0:	%{name}-%{version}.tar.bz2
 	./configure %{XORG_CONFIG}
 	make %{?_smp_mflags}
 %install
+
+install -v -d -m755 /usr/share/fonts/dejavu &&
+install -v -m644 ttf/*.ttf /usr/share/fonts/dejavu &&
+fc-cache -v /usr/share/fonts/dejavu
+
+
 	make DESTDIR=%{buildroot} install
 	#	Copy license/copying file 
 	#	install -D -m644 LICENSE %{buildroot}/usr/share/licenses/%{name}/LICENSE

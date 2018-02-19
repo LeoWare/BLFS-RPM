@@ -1,5 +1,122 @@
 Notes:
 
-file:///C:/Users/GangGreene/Desktop/BLFS-RPM/BOOK/BLFS-BOOK-8.1-nochunks.html#llvm
+What exactly are these messages about? I don't recall seeing them before.
 
-file:///C:/Users/GangGreene/Desktop/BLFS-RPM/BOOK/BLFS-BOOK-8.1-nochunks.html#mesa
+dmesg | grep 'used greatest stack depth'
+
+Code:	
+
+[    0.132082] kworker/u16:0 (42) used greatest stack depth: 14040 bytes left
+[    1.056243] kworker/u16:5 (1235) used greatest stack depth: 13016 bytes left
+[    1.701475] systemd-fstab-g (1259) used greatest stack depth: 12840 bytes left
+[   10.345022] systemd-udevd (2024) used greatest stack depth: 11696 bytes left 
+
+You have stack instrumentation turned on in your kernel. These are benign until you hit 0 stack.
+
+It's enabled by CONFIG_DEBUG_STACK_USAGE in the debug options in your kernel config.
+
+Kernel hacking --->
+	Memory Debugging --->
+		Check for stack overflows [n]
+		Stack utilization instrumentation [n]
+
+Load LOOP kernel module
+
+enable info files
+rm -rf %{buildroot}/usr/share/info/dir
+%post
+	pushd /usr/share/info
+	rm -v dir
+	for f in *
+		do install-info $f dir 2>/dev/null
+	done
+	popd
+
+
+Change optimization flags:
+%define		_optflags	-march=x86-64 -mtune=generic -O2 -pipe -fPIC
+
+
+Move configure file(s) to filesystem
+
+Allow post processing by rpmbuild
+
+
+NON-STANDARD
+procps-ng
+
+	#	RPM add user
+Requires(pre):    /usr/sbin/useradd, /usr/bin/getent
+Requires(postun): /usr/sbin/userdel
+
+%pre
+/usr/bin/getent group myservice  || /usr/sbin/groupadd -r myservice
+/usr/bin/getent passwd myservice || /usr/sbin/useradd  -r -d /path/to/program -s /sbin/nologin myservice
+
+%postun
+/usr/sbin/userdel myservice
+
+
+Fix setup to copy kernel confg-4.12.7 file and graphics-firmware.tar.gz to SOURCES/
+Create config "patch" file then Rebuild kernel using defconfig and patching .config
+
+
+Kernel hacking --->
+	Memory Debugging --->
+		Check for stack overflows [n]
+		Stack utilization instrumentation [n]
+
+Device Drivers  --->
+  Graphics support --->
+   <*> Direct Rendering Manager (XFree86 ... support) ---> [CONFIG_DRM]
+   <*> ATI Radeon                                          [CONFIG_DRM_RADEON]
+
+Device Drivers  --->
+	  Generic Driver Options --->
+		Include in-kernel firmware blobs in kernel binary
+		Firmware blobs root directory
+
+CONFIG_EXTRA_FIRMWARE="radeon/BTC_rlc.bin radeon/CAICOS_mc.bin radeon/CAICOS_me.bin radeon/CAICOS_pfp.bin radeon/CAICOS_smc.bin radeon/JUNIPER_me.bin radeon/JUNIPER_pfp.bin radeon/JUNIPER_rlc.bin radeon/JUNIPER_smc.bin "
+CONFIG_EXTRA_FIRMWARE_DIR="/lib/firmware"
+
+
+#	Removed install-ti from xterm package.  Runs OK
+Preparing...                          ########################################
+	file /usr/share/terminfo/v/vs100 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm+256color from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm+kbs from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm+pcc0 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm+pcc2 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm+pce2 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm+pcfkeys from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm+tmux from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-16color from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-24 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-256color from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-88color from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-8bit from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-basic from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-bold from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-color from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-hp from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-new from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-noapp from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-old from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-r5 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-r6 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-sco from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-sun from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-vt220 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-vt52 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-xf86-v44 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterm-xfree86 from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+	file /usr/share/terminfo/x/xterms from install of xterm-330-1.x86_64 conflicts with file from package ncurses-6.0-1.x86_64
+#	Removed install-ti from xterm package.  Runs OK
+
+#	Complete	#
+Need to setuid 
+chmod u+s /usr/libexec/Xorg
+chmod u+s /usr/bin/Xorg
+#	Complete	#
+

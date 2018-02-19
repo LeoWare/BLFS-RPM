@@ -1,6 +1,6 @@
 #!/bin/bash
 #################################################
-#	Title:	10-blfs-desktop.sh		#
+#	Title:	10-KDE.sh			#
 #        Date:	2018-02-10			#
 #     Version:	1.1				#
 #      Author:	baho-utot@columbus.rr.com	#
@@ -139,28 +139,16 @@ _post() {
 #
 #	BLFS Desktop system
 #
-msg "Building BLFS Desktop"
+msg "Building KDE"
 LIST=""
-LIST+="prepare screen "
+LIST+="prepare "
 #	Dependences
-LIST+="libffi Python libxml2 wayland libgpg-error libgcrypt Python2 python2-funcsigs Beaker "
-LIST+="MarkupSafe Mako Certificate-Authority-Certificates curl libarchive cmake llvm libpng "
-LIST+="pixman libepoxy "
-#	Xorg
-LIST+="util-macros xorg-protocol-headers libXau libXdmcp xcb-proto libxcb "
-LIST+="freetype fontconfig "
-LIST+="xtrans libX11 libXext libFS libICE libSM libXScrnSaver libXt libXmu "
-LIST+="libXpm libXaw libXfixes libXcomposite libXrender libXcursor libXdamage "
-LIST+="libfontenc libXfont2 libXft libXi libXinerama libXrandr libXres libXtst "
-LIST+="libXv libXvMC libXxf86dga libXxf86vm libdmx libpciaccess libxkbfile libxshmfence "
-LIST+="xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm "
-LIST+="xcb-util-cursor libdrm nettle elfutils libvdpau xorg-libs mesa xbitmaps xorg-apps "
-LIST+="xcursor-themes xorg-fonts xkeyboard-config xorg-server "
+LIST+=""
 #	KDE
-#LIST+=""
+LIST+=""
 #	Other
-#LIST+=""
-#LIST+="post
+LIST+=""
+LIST+="post
 for i in ${LIST};do
 	rm -rf BUILD BUILDROOT
 	case ${i} in

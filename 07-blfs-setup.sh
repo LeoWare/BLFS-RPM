@@ -95,6 +95,7 @@ _wget_list() {
 			https://downloads.sourceforge.net/apng/libpng-1.6.31-apng.patch.gz
 			https://www.cairographics.org/releases/pixman-0.34.0.tar.gz
 			https://github.com/anholt/libepoxy/releases/download/1.4.3/libepoxy-1.4.3.tar.xz
+			http://bitmath.org/code/mtdev/mtdev-1.1.5.tar.bz2
 		EOF
 		#	Xorg
 		cat >> ${PARENT}/SOURCES/wget-blfs <<- EOF
@@ -225,6 +226,18 @@ _wget_list() {
 			https://www.x.org/pub/individual/font/font-xfree86-type1-1.0.4.tar.bz2
 			https://www.x.org/pub/individual/data/xkeyboard-config/xkeyboard-config-2.21.tar.bz2
 			https://www.x.org/pub/individual/xserver/xorg-server-1.19.3.tar.bz2
+			https://www.freedesktop.org/software/libevdev/libevdev-1.5.7.tar.xz
+			https://www.x.org/pub/individual/driver/xf86-input-evdev-2.10.5.tar.bz2
+			https://www.freedesktop.org/software/libinput/libinput-1.8.1.tar.xz
+			https://www.x.org/pub/individual/driver/xf86-input-libinput-0.25.1.tar.bz2
+			https://www.x.org/pub/individual/driver/xf86-input-synaptics-1.9.0.tar.bz2
+			https://www.x.org/pub/individual/driver/xf86-video-ati-7.9.0.tar.bz2
+			https://www.x.org/pub/individual/driver/xf86-video-fbdev-0.4.4.tar.bz2
+			https://github.com/01org/libva/releases/download/1.8.3/libva-1.8.3.tar.bz2
+			https://www.x.org/pub/individual/app/twm-1.0.9.tar.bz2
+			http://invisible-mirror.net/archives/xterm/xterm-330.tgz
+			https://www.x.org/pub/individual/app/xclock-1.0.7.tar.bz2
+			 https://www.x.org/pub/individual/app/xinit-1.3.4.tar.bz2
 		EOF
 	msg_success
 	return
@@ -263,6 +276,7 @@ _md5sum_list(){
 			1b34eab440263e32cfa39d19413fad54	SOURCES/libpng-1.6.31-apng.patch.gz
 			e80ebae4da01e77f68744319f01d52a3	SOURCES/pixman-0.34.0.tar.gz
 			af4c3ce0fb1143bdc4e43f85695a9bed	SOURCES/libepoxy-1.4.3.tar.xz
+			52c9610b6002f71d1642dc1a1cca5ec1	SOURCES/mtdev-1.1.5.tar.bz2
 		EOF
 		#	Xorg
 		cat >> ${PARENT}/SOURCES/md5sum-blfs <<- EOF
@@ -388,6 +402,18 @@ _md5sum_list(){
 			3eeb3fb44690b477d510bbd8f86cf5aa	SOURCES/font-xfree86-type1-1.0.4.tar.bz2
 			af9498e8954907d0a47f0f7b3d21e1ef	SOURCES/xkeyboard-config-2.21.tar.bz2
 			015d2fc4b9f2bfe7a626edb63a62c65e	SOURCES/xorg-server-1.19.3.tar.bz2
+			4f1cfaee8d75ea3fbbfeb99a98730952	SOURCES/libevdev-1.5.7.tar.xz
+			94c2c8354c74ab1cfbbb0a222078b9c6	SOURCES/xf86-input-evdev-2.10.5.tar.bz2
+			8247f0bb67052ffb272c50c3cb9c5998	SOURCES/libinput-1.8.1.tar.xz
+			14003139614b25cc76c9a4cad059df89	SOURCES/xf86-input-libinput-0.25.1.tar.bz2
+			58e5b7722a402114093bf193962d1e3a	SOURCES/xf86-input-synaptics-1.9.0.tar.bz2
+			bf3dfdae23879bdc0c8a7b955572ad90	SOURCES/xf86-video-ati-7.9.0.tar.bz2
+			3931c0e19d441cc576dc088f9eb9fd73	SOURCES/xf86-video-fbdev-0.4.4.tar.bz2
+			0d498a6ad65d21a8a15f990cb4ea5dff	SOURCES/libva-1.8.3.tar.bz2
+			59a6f076cdacb5f6945dac809bcf4906	SOURCES/twm-1.0.9.tar.bz2
+			9a6db7974aa4ccbb50eabebf72618467	SOURCES/xterm-330.tgz
+			6f150d063b20d08030b98c45b9bee7af	SOURCES/xclock-1.0.7.tar.bz2
+			4e928452dfaf73851413a2d8b8c76388	SOURCES/xinit-1.3.4.tar.bz2
 		EOF
 	msg_success
 

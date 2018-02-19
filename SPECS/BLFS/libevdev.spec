@@ -1,18 +1,16 @@
-#	
-Summary:	
-Name:		
-Version:	
+#	libevdev-1.5.7.tar.xz
+Summary:	The libevdev package contains common functions for Xorg input drivers. 
+Name:		libevdev
+Version:	1.5.7
 Release:	1
 License:	Any
 URL:		Any
 Group:		BLFS/Xorg
 Vendor:		Octothorpe
 Distribution:	BLFS-8.1
-ExclusiveArch:	x86_64
-Requires:	xorg-protocol-headers
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	%{name}-%{version}.tar.xz
 %description
-	
+	The libevdev package contains common functions for Xorg input drivers. 
 %define		XORG_CONFIG	--prefix=%{_prefix} --sysconfdir=/etc --localstatedir=/var --disable-static
 %prep
 %setup -q -n %{NAME}-%{VERSION}
@@ -28,16 +26,8 @@ Source0:	%{name}-%{version}.tar.bz2
 	find %{buildroot} -name '*.la' -delete
 	find "${RPM_BUILD_ROOT}" -not -type d -print > filelist.rpm
 	sed -i "s|^${RPM_BUILD_ROOT}||" filelist.rpm
-%post
-	/sbin/ldconfig
-	pushd /usr/share/info
-		rm -v dir
-		for f in *;do install-info $f dir 2>/dev/null;done
-	popd
-%postun
-	/sbin/ldconfig
 %files -f filelist.rpm
 	%defattr(-,root,root)
 %changelog
-*	Fri Feb 16 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Wed Feb 14 2018 baho-utot <baho-utot@columbus.rr.com> libevdev-1.5.7-1
 -	Initial build.	First version

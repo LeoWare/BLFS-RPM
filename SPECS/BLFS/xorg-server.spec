@@ -41,7 +41,8 @@ Source0:	%{name}-%{version}.tar.bz2
 		/tmp/.ICE-unix dir 1777 root root
 		/tmp/.X11-unix dir 1777 root root
 	EOF
-%postun
+	chmod u+s /usr/libexec/Xorg
+	chmod u+s /usr/bin/Xorg
 %files -f filelist.rpm
 	%defattr(-,root,root)
 %changelog
