@@ -151,7 +151,7 @@ for i in ${LIST};do
 		post)		_post ${i}	;;
 		*)		maker ${i}	
 				info  ${i}
-				installer ${i}	;;
+				#	installer ${i}		;;
 	esac
 done
 end-run

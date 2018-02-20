@@ -1,5 +1,7 @@
 Notes:
 
+rpm -Uvh --replacepkgs rpm_packagename.rpm
+
 What exactly are these messages about? I don't recall seeing them before.
 
 dmesg | grep 'used greatest stack depth'
