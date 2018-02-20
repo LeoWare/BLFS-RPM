@@ -96,6 +96,10 @@ _wget_list() {
 			https://www.cairographics.org/releases/pixman-0.34.0.tar.gz
 			https://github.com/anholt/libepoxy/releases/download/1.4.3/libepoxy-1.4.3.tar.xz
 			http://bitmath.org/code/mtdev/mtdev-1.1.5.tar.bz2
+			https://ftp.gnu.org/gnu/cpio/cpio-2.12.tar.bz2
+			https://downloads.sourceforge.net/pcre/pcre-8.41.tar.bz2
+			http://ftp.gnome.org/pub/gnome/sources/glib/2.52/glib-2.52.3.tar.xz
+			http://ftp.gnome.org/pub/gnome/sources/gobject-introspection/1.52/gobject-introspection-1.52.1.tar.xz
 		EOF
 		#	Xorg
 		cat >> ${PARENT}/SOURCES/wget-blfs <<- EOF
@@ -237,7 +241,7 @@ _wget_list() {
 			https://www.x.org/pub/individual/app/twm-1.0.9.tar.bz2
 			http://invisible-mirror.net/archives/xterm/xterm-330.tgz
 			https://www.x.org/pub/individual/app/xclock-1.0.7.tar.bz2
-			 https://www.x.org/pub/individual/app/xinit-1.3.4.tar.bz2
+			https://www.x.org/pub/individual/app/xinit-1.3.4.tar.bz2
 		EOF
 	msg_success
 	return
@@ -277,6 +281,10 @@ _md5sum_list(){
 			e80ebae4da01e77f68744319f01d52a3	SOURCES/pixman-0.34.0.tar.gz
 			af4c3ce0fb1143bdc4e43f85695a9bed	SOURCES/libepoxy-1.4.3.tar.xz
 			52c9610b6002f71d1642dc1a1cca5ec1	SOURCES/mtdev-1.1.5.tar.bz2
+			93eea9f07c0058c097891c73e4955456	SOURCES/cpio-2.12.tar.bz2
+			c160d22723b1670447341b08c58981c1	SOURCES/pcre-8.41.tar.bz2
+			89265d0289a436e99cad54491eb21ef4	SOURCES/glib-2.52.3.tar.xz
+			34157073991f9eeb0ed953351b65eb61	SOURCES/gobject-introspection-1.52.1.tar.xz
 		EOF
 		#	Xorg
 		cat >> ${PARENT}/SOURCES/md5sum-blfs <<- EOF
