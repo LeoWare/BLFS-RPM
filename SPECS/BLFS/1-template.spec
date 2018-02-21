@@ -48,6 +48,9 @@ Patch0:
 	popd
 %postun
 	/usr/sbin/userdel
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %files -f filelist.rpm
 	%defattr(-,root,root)
 %changelog

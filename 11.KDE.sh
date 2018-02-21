@@ -112,24 +112,52 @@ installer(){	#	$1:	name of package
 	fi
 }
 _prepare() {
-	return
 	local _log="${LOGPATH}/${1}"
-	msg "	Prepare processing:"
-	if [ ! -e ${LOGPATH}/${1} ]; then
-		true
-	fi		
-	touch ${_log}
+	_wget_list	#	Create wget list
+	_md5sum_list	#	Create md5sum list
+	#	Fetch source packages
+	local DESTDIR=""
+	local INPUTFILE=""
+	msg_line "	Fetching source: "
+		[ -d SOURCES ] || install -vdm 755 ${DESTDIR}
+		#	LFS sources
+		DESTDIR=${TOPDIR}/SOURCES
+		INPUTFILE=${TOPDIR}/SOURCES/kde.wget
+		wget --no-clobber --no-check-certificate --input-file=${INPUTFILE} --directory-prefix=${DESTDIR} > /dev/null 2>&1
+	msg_success
+	msg_line "	Checking source: "
+		md5sum -c ${TOPDIR}/SOURCES/kde.md5sum >> ${_log}
+	msg_success
 	return
 }
 _post() {
 	return
 	local _log="${LOGPATH}/${1}"
 	msg "	Post processing:"
-	if [ ! -e ${LOGPATH}/${1} ]; then
-		msg_line "	BLFS: Post: " 
-		msg_success
-	fi		
-	touch ${_log}
+	return
+}
+_wget_list() {
+	msg_line "	Creating wget-list: "
+		cat > ${PARENT}/SOURCES/kde.wget <<- EOF
+			http://download.kde.org/stable/phonon/4.9.1/phonon-4.9.1.tar.xz
+		EOF
+		#	dependencies
+		cat >> ${PARENT}/SOURCES/kde.wget <<- EOF
+			http://download.kde.org/stable/frameworks/5.37/extra-cmake-modules-5.37.0.tar.xz
+		EOF
+	msg_success
+	return
+}
+_md5sum_list(){
+	msg_line "	Creating wget-list: "
+		cat > ${PARENT}/SOURCES/kde.md5sum <<- EOF
+			7896a560f5da345a626e782610c8e71e	SOURCES/phonon-4.9.1.tar.xz
+		EOF
+		#	Dependencies
+		cat >> ${PARENT}/SOURCES/kde.md5sum <<- EOF
+			29883c1580c5b9e4c736a138fc832e1a	SOURCES/extra-cmake-modules-5.37.0.tar.xz
+		EOF
+	msg_success
 	return
 }
 #
@@ -142,18 +170,31 @@ _post() {
 msg "Building KDE"
 LIST=""
 LIST+="prepare "
-#	Dependences
-LIST+=""
 #	KDE
-LIST+=""
-#	Other
-LIST+=""
-LIST+="post
+LIST+="extra-cmake-modules "
+#	depens for QT
+#alsa-lib-1.1.4.1
+#Cups-2.2.4
+#gst-plugins-base-1.12.2
+#HarfBuzz-1.4.8
+#ICU-59.1
+#JasPer-2.0.12
+#libjpeg-turbo-1.5.2
+#libmng-2.0.3
+#libpng-1.6.31
+#LibTIFF-4.0.8
+#libxkbcommon-0.7.2
+#OpenSSL-1.0.2l Libraries
+#pcre2-10.30
+#SQLite-3.20.0
+# qt "
+#phonon " - needs QT
+LIST+="post"
 for i in ${LIST};do
 	rm -rf BUILD BUILDROOT
 	case ${i} in
-		prepare)	_prepare ${i}	;;
-		post)		_post ${i}	;;
+		prepare)	_prepare "kde.${i}"	;;
+		post)		_post ${i}		;;
 		*)		maker ${i}	
 				info  ${i}
 				installer ${i}		;;

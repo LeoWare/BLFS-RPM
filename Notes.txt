@@ -122,3 +122,33 @@ chmod u+s /usr/libexec/Xorg
 chmod u+s /usr/bin/Xorg
 #	Complete	#
 
+Kernel config
+
+Kernel hacking --->
+	Memory Debugging --->
+		Check for stack overflows [n]
+		Stack utilization instrumentation [n]
+
+#	Suund
+Device Drivers --->
+  <*/m> Sound card support --->                  [CONFIG_SOUND]
+    <*/m> Advanced Linux Sound Architecture ---> [CONFIG_SND]
+            Select settings and drivers appropriate for your hardware.
+    < >   Open Sound System (DEPRECATED)         [CONFIG_SOUND_PRIME]
+In the Device Drivers ? Sound card support ? Advanced Linux Sound Architecture section of the kernel configuration,
+select the settings and drivers appropriate for your hardware. 
+Ensure that the deprecated Device Drivers -> Sound card support -> Open Sound System is not selected.
+If necessary, recompile and install your new kernel. 
+
+Device Drivers  --->
+  Graphics support --->
+   <*> Direct Rendering Manager (XFree86 ... support) ---> [CONFIG_DRM]
+   <*> ATI Radeon                                          [CONFIG_DRM_RADEON]
+
+Device Drivers  --->
+	  Generic Driver Options --->
+		Include in-kernel firmware blobs in kernel binary
+		Firmware blobs root directory
+
+CONFIG_EXTRA_FIRMWARE="radeon/BTC_rlc.bin radeon/CAICOS_mc.bin radeon/CAICOS_me.bin radeon/CAICOS_pfp.bin radeon/CAICOS_smc.bin radeon/JUNIPER_me.bin radeon/JUNIPER_pfp.bin radeon/JUNIPER_rlc.bin radeon/JUNIPER_smc.bin "
+CONFIG_EXTRA_FIRMWARE_DIR="/lib/firmware"
