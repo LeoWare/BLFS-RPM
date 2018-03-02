@@ -37,8 +37,8 @@ Patch0:
 	find "${RPM_BUILD_ROOT}" -not -type d -print > filelist.rpm
 	sed -i "s|^${RPM_BUILD_ROOT}||" filelist.rpm
 %pre
-	/usr/sbin/groupadd -g 
-	/usr/sbin/useradd  -c 
+	/usr/bin/getent group  myservice || /usr/sbin/groupadd -g 
+	/usr/bin/getent passwd myservice || /usr/sbin/useradd  -c
 %post
 	pushd /usr/share/info
 	rm -v dir

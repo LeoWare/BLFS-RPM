@@ -128,6 +128,9 @@ _prepare() {
 	msg_line "	Checking source: "
 		md5sum -c ${TOPDIR}/SOURCES/kde.md5sum >> ${_log}
 	msg_success
+	cp config-4.12.7.graphics.patch		SOURCES
+	cp config-4.12.7.sound.patch		SOURCES
+	cp config-4.12.7.powersave.patch	SOURCES
 	return
 }
 _post() {
@@ -143,7 +146,17 @@ _wget_list() {
 		EOF
 		#	dependencies
 		cat >> ${PARENT}/SOURCES/kde.wget <<- EOF
+			https://curl.haxx.se/download/curl-7.55.1.tar.xz
+			https://cmake.org/files/v3.9/cmake-3.9.1.tar.gz
 			http://download.kde.org/stable/frameworks/5.37/extra-cmake-modules-5.37.0.tar.xz
+			ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.4.1.tar.bz2
+			https://ftp.gnu.org/gnu/libunistring/libunistring-0.9.7.tar.xz
+			https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.12.tar.gz
+			https://github.com/p11-glue/p11-kit/releases/download/0.23.8/p11-kit-0.23.8.tar.gz
+			https://www.gnupg.org/ftp/gcrypt/gnutls/v3.5/gnutls-3.5.14.tar.xz
+			https://github.com//libusb/libusb/releases/download/v1.0.21/libusb-1.0.21.tar.bz2
+			https://dbus.freedesktop.org/releases/dbus/dbus-1.10.22.tar.gz
+			https://github.com/apple/cups/releases/download/v2.2.4/cups-2.2.4-source.tar.gz
 		EOF
 	msg_success
 	return
@@ -155,7 +168,17 @@ _md5sum_list(){
 		EOF
 		#	Dependencies
 		cat >> ${PARENT}/SOURCES/kde.md5sum <<- EOF
+			ac4a59c38c47adc160ea71eace20257b	SOURCES/curl-7.55.1.tar.xz
+			00f43c6a56d4903436317c14f9ca7f37	SOURCES/cmake-3.9.1.tar.gz
 			29883c1580c5b9e4c736a138fc832e1a	SOURCES/extra-cmake-modules-5.37.0.tar.xz
+			29fa3e69122d3cf3e8f0e01a0cb1d183	SOURCES/alsa-lib-1.1.4.1.tar.bz2
+			82e0545363d111bfdfec2ddbfe62ffd3	SOURCES/libunistring-0.9.7.tar.xz
+			5c724bd1f73aaf4a311833e1cd297b21	SOURCES/libtasn1-4.12.tar.gz
+			3caf26d841df1527d52549e7adc62966	SOURCES/p11-kit-0.23.8.tar.gz
+			1e84b57a472b5f3b01f2c1b7a3a2bcbe	SOURCES/gnutls-3.5.14.tar.xz
+			1da9ea3c27b3858fa85c5f4466003e44	SOURCES/libusb-1.0.21.tar.bz2
+			baaa10b7cb49086ad91179a8decfadc5	SOURCES/dbus-1.10.22.tar.gz
+			d26e5a0a574a69fe1d01079b2931fc49	SOURCES/cups-2.2.4-source.tar.gz
 		EOF
 	msg_success
 	return
@@ -169,26 +192,56 @@ _md5sum_list(){
 #
 msg "Building KDE"
 LIST=""
-LIST+="prepare "
-#	KDE
-LIST+="extra-cmake-modules "
-#	depens for QT
-#alsa-lib-1.1.4.1
-#Cups-2.2.4
-#gst-plugins-base-1.12.2
-#HarfBuzz-1.4.8
-#ICU-59.1
-#JasPer-2.0.12
-#libjpeg-turbo-1.5.2
-#libmng-2.0.3
-#libpng-1.6.31
-#LibTIFF-4.0.8
-#libxkbcommon-0.7.2
-#OpenSSL-1.0.2l Libraries
-#pcre2-10.30
-#SQLite-3.20.0
-# qt "
-#phonon " - needs QT
+LIST+="prepare linux "
+#
+#	extra-cmake-modules-5.37.0
+#
+LIST+="openssl "
+LIST+="Certificate-Authority-Certificates "	#	OpenSSL-1.1.0f
+LIST+="curl "					#	Certificate Authority Certificates (runtime) and OpenSSL-1.1.0f
+LIST+="libxml2 "				#	none
+LIST+="libarchive "				#	libxml2-2.9.4, LZO-2.10, and Nettle-3.3 or OpenSSL-1.1.0f
+LIST+="cmake "					#	cURL-7.55.1 and libarchive-3.3.2
+LIST+="extra-cmake-modules "			#	CMake-3.9.1
+#
+#	Phonon-4.9.1
+#
+LIST+="pcre "					#	none
+LIST+="libffi "					#	none
+LIST+="Python2 "				#	libffi-3.2.1, openssl
+LIST+="Python "					#	libffi-3.2.1, openssl
+LIST+="glib "					#	pcre, libffi-3.2.1 and Python-2.7.13 or Python-3.6.2
+LIST+="xorg-libs "				#	from .10-Xorg.sh
+LIST+="alsa-lib "				#	none
+#	QT
+#	Python-2.7.13 and Xorg Libraries
+#	alsa-lib-1.1.4.1, Certificate Authority Certificates, Cups-2.2.4, GLib-2.52.3, 
+LIST+="nettle "					#	none
+LIST+="libunistring "				#	none
+LIST+="libtasn1 "				#	none
+LIST+="p11-kit "				#	Certificate Authority Certificates, libtasn1-4.12, and libffi-3.2.1 
+LIST+="gnutls "					#	Nettle-3.3, Certificate Authority Certificates, libunistring-0.9.7, libtasn1-4.12, and p11-kit-0.23.8
+LIST+="libusb "					#	none
+LIST+="dbus "					#	xorg-libs
+LIST+="cups "					#	GnuTLS-3.5.14 Runtime: cups-filters-1.17.2 Gutenprint-5.2.12, Rec: Colord-1.2.12, dbus-1.10.22, and libusb-1.0.21 
+#	cups-filters-1.17.2:	Cups-2.2.4, GLib-2.52.3, ghostscript-9.21, IJS-0.35, Little CMS-2.8, mupdf-1.11 (mutool), Poppler-0.57.0, and Qpdf-6.0.0
+#				libjpeg-turbo-1.5.2, libpng-1.6.31 and LibTIFF-4.0.8
+#	Gutenprint-5.2.12 :	Cups-2.2.4
+
+
+#	QT
+
+
+#	gst-plugins-base-1.12.2 (QtMultimedia backend), HarfBuzz-1.4.8, ICU-59.1, JasPer-2.0.12,
+#	libjpeg-turbo-1.5.2, libmng-2.0.3, libpng-1.6.31, LibTIFF-4.0.8, libxkbcommon-0.7.2,
+#	Mesa-17.1.6, mtdev-1.1.5, OpenSSL-1.0.2l Libraries, pcre2-10.30, SQLite-3.20.0,
+#	Wayland-1.14.0 (Mesa must be built with Wayland EGL backend), xcb-util-image-0.4.0,
+#	xcb-util-keysyms-0.4.0, xcb-util-renderutil-0.3.9, and xcb-util-wm-0.4.1 
+#
+#LIST+="qt "					#
+#LIST+="phonon "				#	CMake-3.9.1, extra-cmake-modules-5.37.0, GLib-2.52.3, and Qt-5.9.1 
+
+
 LIST+="post"
 for i in ${LIST};do
 	rm -rf BUILD BUILDROOT
