@@ -157,6 +157,27 @@ _wget_list() {
 			https://github.com//libusb/libusb/releases/download/v1.0.21/libusb-1.0.21.tar.bz2
 			https://dbus.freedesktop.org/releases/dbus/dbus-1.10.22.tar.gz
 			https://github.com/apple/cups/releases/download/v2.2.4/cups-2.2.4-source.tar.gz
+			https://www.openprinting.org/download/cups-filters/cups-filters-1.17.2.tar.xz
+			http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
+			https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-1.5.2.tar.gz
+			http://download.osgeo.org/libtiff/tiff-4.0.8.tar.gz
+			https://downloads.sourceforge.net/qpdf/qpdf-6.0.0.tar.gz
+			https://poppler.freedesktop.org/poppler-0.57.0.tar.xz
+			https://poppler.freedesktop.org/poppler-data-0.4.8.tar.gz
+			https://downloads.sourceforge.net/lcms/lcms2-2.8.tar.gz
+			https://downloads.sourceforge.net/openjpeg.mirror/openjpeg-1.5.2.tar.gz
+			https://www.cairographics.org/releases/pixman-0.34.0.tar.gz
+			https://www.cairographics.org/releases/cairo-1.14.10.tar.xz
+			https://archive.mozilla.org/pub/nspr/releases/v4.16/src/nspr-4.16.tar.gz
+			https://archive.mozilla.org/pub/security/nss/releases/NSS_3_32_RTM/src/nss-3.32.tar.gz
+			https://sqlite.org/2017/sqlite-autoconf-3200000.tar.gz
+			https://archive.mozilla.org/pub/security/nss/releases/NSS_3_32_RTM/src/nss-3.32.tar.gz
+			http://www.linuxfromscratch.org/patches/blfs/8.1/nss-3.32-standalone-1.patch
+			http://download.icu-project.org/files/icu4c/59.1/icu4c-59_1-src.tgz
+			https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs921/ghostscript-9.21.tar.gz
+			https://downloads.sourceforge.net/gs-fonts/ghostscript-fonts-std-8.11.tar.gz
+			https://downloads.sourceforge.net/gs-fonts/gnu-gs-fonts-other-6.0.tar.gz
+			
 		EOF
 	msg_success
 	return
@@ -179,6 +200,25 @@ _md5sum_list(){
 			1da9ea3c27b3858fa85c5f4466003e44	SOURCES/libusb-1.0.21.tar.bz2
 			baaa10b7cb49086ad91179a8decfadc5	SOURCES/dbus-1.10.22.tar.gz
 			d26e5a0a574a69fe1d01079b2931fc49	SOURCES/cups-2.2.4-source.tar.gz
+			cbc3d40d572b25a78c828ea04f1248e8	SOURCES/cups-filters-1.17.2.tar.xz
+			fc9e586751ff789b34b1f21d572d96af	SOURCES/yasm-1.3.0.tar.gz
+			6b4923e297a7eaa255f08511017a8818	SOURCES/libjpeg-turbo-1.5.2.tar.gz
+			2a7d1c1318416ddf36d5f6fa4600069b	SOURCES/tiff-4.0.8.tar.gz
+			e014bd3ecf1c4d1a520bbc14d84ac20e	SOURCES/qpdf-6.0.0.tar.gz
+			bc5a191741604552c90d484103229374	SOURCES/poppler-0.57.0.tar.xz
+			00f8989c804de84af0ba2ea629949980	SOURCES/poppler-data-0.4.8.tar.gz
+			87a5913f1a52464190bb655ad230539c	SOURCES/lcms2-2.8.tar.gz
+			c41772c30fb1c272358b3707233134a1	SOURCES/openjpeg-1.5.2.tar.gz
+			e80ebae4da01e77f68744319f01d52a3	SOURCES/pixman-0.34.0.tar.gz
+			146f5f4d0b4439fc3792fd3452b7b12a	SOURCES/cairo-1.14.10.tar.xz
+			42fd8963a4b394f62d43ba604f03fab7	SOURCES/nspr-4.16.tar.gz
+			076abf8ed88b6bb28f3396b072d252ed	SOURCES/nss-3.32.tar.gz
+			e262a28b73cc330e7e83520c8ce14e4d	SOURCES/sqlite-autoconf-3200000.tar.gz
+			076abf8ed88b6bb28f3396b072d252ed	SOURCES/nss-3.32.tar.gz
+			54923fa9fab5b2b83f235fb72523de37	SOURCES/icu4c-59_1-src.tgz
+			5f213281761d2750fcf27476c404d17f	SOURCES/ghostscript-9.21.tar.gz
+			6865682b095f8c4500c54b285ff05ef6	SOURCES/ghostscript-fonts-std-8.11.tar.gz
+			33457d3f37de7ef03d2eea05a9e6aa4f	SOURCES/gnu-gs-fonts-other-6.0.tar.gz
 		EOF
 	msg_success
 	return
@@ -224,6 +264,33 @@ LIST+="gnutls "					#	Nettle-3.3, Certificate Authority Certificates, libunistri
 LIST+="libusb "					#	none
 LIST+="dbus "					#	xorg-libs
 LIST+="cups "					#	GnuTLS-3.5.14 Runtime: cups-filters-1.17.2 Gutenprint-5.2.12, Rec: Colord-1.2.12, dbus-1.10.22, and libusb-1.0.21 
+#	cups-filter
+LIST+="yasm "					#	none
+LIST+="libjpeg-turbo "				#	yasm
+LIST+="tiff "					#	libjpeg-turbo-1.5.2
+LIST+="qpdf "					#	PCRE-8.41
+LIST+="fontconfig "				#	10-Xor.sh
+LIST+="libpng "					#	none
+LIST+="lcms2 "					#	ibjpeg-turbo-1.5.2 and LibTIFF-4.0.8
+LIST+="openjpeg "				#	Little CMS-2.8, libpng-1.6.31, LibTIFF-4.0.8
+LIST+="pixman "					#	none
+LIST+="cairo "					#	libpng-1.6.31 and Pixman-0.34.0 Rec:  Fontconfig-2.12.4, GLib-2.52.3 (required for most GUIs) and Xorg Libraries 
+LIST+="nspr "					#	none
+LIST+="sqlite-autoconf "				#	none
+LIST+="nss "					#	NSPR-4.16 sqlite
+LIST+="poppler "				#	Fontconfig-2.12.4, REC:	 Cairo-1.14.10, libjpeg-turbo-1.5.2, libpng-1.6.31, NSS-3.32, and OpenJPEG-1.5.2 
+LIST+="ghostscript "				#
+LIST+="icu "					#	LLVM-4.0.1 (with Clang), and Doxygen-1.8.13 (for documentation) 
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
 #	cups-filters-1.17.2:	Cups-2.2.4, GLib-2.52.3, ghostscript-9.21, IJS-0.35, Little CMS-2.8, mupdf-1.11 (mutool), Poppler-0.57.0, and Qpdf-6.0.0
 #				libjpeg-turbo-1.5.2, libpng-1.6.31 and LibTIFF-4.0.8
 #	Gutenprint-5.2.12 :	Cups-2.2.4
@@ -240,7 +307,6 @@ LIST+="cups "					#	GnuTLS-3.5.14 Runtime: cups-filters-1.17.2 Gutenprint-5.2.12
 #
 #LIST+="qt "					#
 #LIST+="phonon "				#	CMake-3.9.1, extra-cmake-modules-5.37.0, GLib-2.52.3, and Qt-5.9.1 
-
 
 LIST+="post"
 for i in ${LIST};do
