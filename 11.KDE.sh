@@ -177,7 +177,12 @@ _wget_list() {
 			https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs921/ghostscript-9.21.tar.gz
 			https://downloads.sourceforge.net/gs-fonts/ghostscript-fonts-std-8.11.tar.gz
 			https://downloads.sourceforge.net/gs-fonts/gnu-gs-fonts-other-6.0.tar.gz
-			
+			https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.4.8.tar.bz2
+			http://www.mupdf.com/downloads/archive/mupdf-1.11-source.tar.gz
+			http://www.linuxfromscratch.org/patches/blfs/8.1/mupdf-1.11-shared_libs-1.patch
+			http://www.linuxfromscratch.org/patches/blfs/8.1/mupdf-1.11-openjpeg-2.patch
+			https://github.com/uclouvain/openjpeg/archive/v2.2.0/openjpeg-2.2.0.tar.gz
+			https://www.openprinting.org/download/ijs/download/ijs-0.35.tar.bz2
 		EOF
 	msg_success
 	return
@@ -219,6 +224,10 @@ _md5sum_list(){
 			5f213281761d2750fcf27476c404d17f	SOURCES/ghostscript-9.21.tar.gz
 			6865682b095f8c4500c54b285ff05ef6	SOURCES/ghostscript-fonts-std-8.11.tar.gz
 			33457d3f37de7ef03d2eea05a9e6aa4f	SOURCES/gnu-gs-fonts-other-6.0.tar.gz
+			d1aa446e1e65717311c15d9ac0cf31ee	SOURCES/harfbuzz-1.4.8.tar.bz2
+			ab9a6629f572225e803c4cf426bdb09c	SOURCES/mupdf-1.11-source.tar.gz
+			269bb0b175476f3addcc0d03bd9a97b6	SOURCES/openjpeg-2.2.0.tar.gz
+			896fdcb7a01c586ba6eb81398ea3f6e9	SOURCES/ijs-0.35.tar.bz2
 		EOF
 	msg_success
 	return
@@ -281,9 +290,10 @@ LIST+="nss "					#	NSPR-4.16 sqlite
 LIST+="poppler "				#	Fontconfig-2.12.4, REC:	 Cairo-1.14.10, libjpeg-turbo-1.5.2, libpng-1.6.31, NSS-3.32, and OpenJPEG-1.5.2 
 LIST+="ghostscript "				#
 LIST+="icu "					#	LLVM-4.0.1 (with Clang), and Doxygen-1.8.13 (for documentation) 
-LIST+=" "					#
-LIST+=" "					#
-LIST+=" "					#
+LIST+="harfbuzz "				#	GLib-2.52.3 (required for Pango), ICU-59.1 and FreeType-2.8 (after HarfBuzz-1.4.8 is installed, reinstall FreeType-2.8) 
+LIST+="openjpeg2 "				#	CMake-3.9.1:	Little CMS-2.8, libpng-1.6.31, LibTIFF-4.0.8, and Doxygen-1.8.13 (to build the API documentation) 
+LIST+="mupdf "					#	Xorg Libraries, REC:  HarfBuzz-1.4.8, libjpeg-turbo-1.5.2, OpenJPEG-2.2.0, and cURL-7.55.1 
+LIST+="ijs "					#
 LIST+=" "					#
 LIST+=" "					#
 LIST+=" "					#

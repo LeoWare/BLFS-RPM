@@ -1,4 +1,4 @@
-#		
+#		 
 Summary:	
 Name:		
 Version:	
@@ -53,5 +53,5 @@ Patch0:
 	%defattr(-,root,root)
 #	%%{buildroot}%%{_datarootdir}/licenses/%%{name}/LICENSE
 %changelog
-*	Tue Mar 06 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Wed Mar 07 2018 baho-utot <baho-utot@columbus.rr.com> -1
 -	Initial build.	First version
