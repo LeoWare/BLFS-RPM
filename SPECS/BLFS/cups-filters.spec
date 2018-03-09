@@ -10,23 +10,21 @@ Vendor:		Octothorpe
 Distribution:	BLFS-8.1
 ExclusiveArch:	x86_64
 #	Requires:	 Cups-2.2.4, GLib-2.52.3, ghostscript-9.21, IJS-0.35, Little CMS-2.8, mupdf-1.11 (mutool), Poppler-0.57.0, and Qpdf-6.0.0 
-Requires(pre): /usr/sbin/useradd, /usr/bin/getent
-Requires(postun): /usr/sbin/userdel
-Source0:	%{name}-%{version}.tar.gz
-Source0:	%{name}-%{version}.tar.bz2
 Source0:	%{name}-%{version}.tar.xz
-Patch0:		
 %description
 	The CUPS Filters package contains backends, filters and other software that was once 
 	part of the core CUPS distribution but is no longer maintained by Apple Inc
 %prep
-	install -vdm 755  %{_builddir}/%{name}-%{version}
 %setup -q -n %{NAME}-%{VERSION}
-%setup -q -T -D -a 1  -n %{name}-%{version}
-%patch0 -p1
 %build
 	./configure \
-		--prefix=%{_prefix}
+		--prefix=%{_prefix} \
+		--sysconfdir=%{_sysconfdir} \
+		--localstatedir=%{_localstatedir} \
+		--without-rcdir \
+		--disable-static \
+		--disable-avahi \
+		--docdir=%{_datarootdir}/doc/%{NAME}-%{VERSION}
 	make %{?_smp_mflags}
 %install
 	make DESTDIR=%{buildroot} install
@@ -35,25 +33,37 @@ Patch0:
 	#	Create file list
 	rm -rf %{buildroot}/usr/share/info/dir
 	find %{buildroot} -name '*.la' -delete
-	find "${RPM_BUILD_ROOT}" -not -type d -print > filelist.rpm
-	sed -i "s|^${RPM_BUILD_ROOT}||" filelist.rpm
-%pre
-	/usr/bin/getent group  myservice || /usr/sbin/groupadd -g 
-	/usr/bin/getent passwd myservice || /usr/sbin/useradd  -c
-%post
-	pushd /usr/share/info
-	rm -v dir
-	for f in *
-		do install-info $f dir 2>/dev/null
-	done
-	popd
-%postun
-	/usr/sbin/userdel
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
-
-%files -f filelist.rpm
-	%defattr(-,root,root)
+%files
+	%defattr(-,root,root,-)
+	%{_sysconfdir}/cups/cups-browsed.conf
+	%{_sysconfdir}/fonts/conf.d/99pdftoopvp.conf
+	%{_bindir}/driverless
+	%{_bindir}/foomatic-rip
+	%{_bindir}/ttfread
+	%{_includedir}/cupsfilters/*.h
+	%{_includedir}/fontembed/*.h
+	%{_libdir}/cups/backend
+	%{_libdir}/cups/driver/driverless
+	%{_libdir}/cups/filter
+	%{_libdir}/*.so
+	%{_libdir}/*.0
+	%{_libdir}/*.1
+	%{_libdir}/pkgconfig/*.pc
+	%{_sbindir}/cups-browsed
+	%{_datarootdir}/cups/banners
+	%{_datarootdir}/cups/braille
+	%{_datarootdir}/cups/charsets
+	%{_datarootdir}/cups/data
+	%{_datarootdir}/cups/drv
+	%{_datarootdir}/cups/mime
+	%{_datarootdir}/cups/ppdc
+	%{_datarootdir}/doc/%{NAME}-%{VERSION}
+	%{_datarootdir}/ppd/cupsfilters
+	%{_mandir}/man1/*.gz
+	%{_mandir}/man5/*.gz
+	%{_mandir}/man8/*.gz
 %changelog
 *	Tue Mar 06 2018 baho-utot <baho-utot@columbus.rr.com> 1.17.2-1
 -	Initial build.	First version

@@ -115,6 +115,8 @@ _prepare() {
 	local _log="${LOGPATH}/${1}"
 	_wget_list	#	Create wget list
 	_md5sum_list	#	Create md5sum list
+	rsync -va  /home/lfs/BLFS-RPM/11.KDE.sh .
+	rsync -var /home/lfs/BLFS-RPM/SPECS/* SPECS/
 	#	Fetch source packages
 	local DESTDIR=""
 	local INPUTFILE=""
@@ -183,6 +185,21 @@ _wget_list() {
 			http://www.linuxfromscratch.org/patches/blfs/8.1/mupdf-1.11-openjpeg-2.patch
 			https://github.com/uclouvain/openjpeg/archive/v2.2.0/openjpeg-2.2.0.tar.gz
 			https://www.openprinting.org/download/ijs/download/ijs-0.35.tar.bz2
+			https://www.openprinting.org/download/cups-filters/cups-filters-1.17.2.tar.xz
+			https://downloads.sourceforge.net/pcre/pcre2-10.30.tar.bz2
+			https://openssl.org/source/openssl-1.0.2l.tar.gz
+			http://www.linuxfromscratch.org/patches/blfs/8.1/openssl-1.0.2l-compat_versioned_symbols-1.patch
+			https://downloads.sourceforge.net/libmng/libmng-2.0.3.tar.xz
+			http://www.ece.uvic.ca/~frodo/jasper/software/jasper-2.0.12.tar.gz
+			https://xkbcommon.org/download/libxkbcommon-0.7.2.tar.xz
+			https://downloads.xiph.org/releases/ogg/libogg-1.3.2.tar.xz
+			https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.5.tar.xz
+			https://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.xz
+			https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-3.75.tar.xz
+			https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
+			http://www.linuxfromscratch.org/patches/blfs/8.1/cdparanoia-III-10.2-gcc_fixes-1.patch
+			https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.2.tar.xz
+			https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.2.tar.xz
 		EOF
 	msg_success
 	return
@@ -228,6 +245,18 @@ _md5sum_list(){
 			ab9a6629f572225e803c4cf426bdb09c	SOURCES/mupdf-1.11-source.tar.gz
 			269bb0b175476f3addcc0d03bd9a97b6	SOURCES/openjpeg-2.2.0.tar.gz
 			896fdcb7a01c586ba6eb81398ea3f6e9	SOURCES/ijs-0.35.tar.bz2
+			cbc3d40d572b25a78c828ea04f1248e8	SOURCES/cups-filters-1.17.2.tar.xz
+			d3adf4b130eed854a530390f00020a65	SOURCES/pcre2-10.30.tar.bz2
+			f85123cd390e864dfbe517e7616e6566	SOURCES/openssl-1.0.2l.tar.gz
+			e9e899adb1b681b17f14d91e261878c5	SOURCES/libmng-2.0.3.tar.xz
+			b839a8bf418a64aa2d06413b23dd5ab3	SOURCES/jasper-2.0.12.tar.gz
+			f53fa65beb5ae4b6a6b7f08f9dedabc4	SOURCES/libxkbcommon-0.7.2.tar.xz
+			5c3a34309d8b98640827e5d0991a4015	SOURCES/libogg-1.3.2.tar.xz
+			28cb28097c07a735d6af56e598e1c90f	SOURCES/libvorbis-1.3.5.tar.xz
+			9eeabf1ad65b7f41533854a59f7a716d	SOURCES/libtheora-1.1.1.tar.xz
+			9ba173b69d4360003414f23837597a92	SOURCES/iso-codes-3.75.tar.xz
+			4748860621607ffd96244fb79c86c238	SOURCES/gstreamer-1.12.2.tar.xz
+			77f5379c4ca677616b415e3b3ff95578	SOURCES/gst-plugins-base-1.12.2.tar.xz
 		EOF
 	msg_success
 	return
@@ -294,27 +323,29 @@ LIST+="harfbuzz "				#	GLib-2.52.3 (required for Pango), ICU-59.1 and FreeType-2
 LIST+="openjpeg2 "				#	CMake-3.9.1:	Little CMS-2.8, libpng-1.6.31, LibTIFF-4.0.8, and Doxygen-1.8.13 (to build the API documentation) 
 LIST+="mupdf "					#	Xorg Libraries, REC:  HarfBuzz-1.4.8, libjpeg-turbo-1.5.2, OpenJPEG-2.2.0, and cURL-7.55.1 
 LIST+="ijs "					#
-LIST+=" "					#
-LIST+=" "					#
-LIST+=" "					#
-LIST+=" "					#
-LIST+=" "					#
-LIST+=" "					#
-LIST+=" "					#
-#	cups-filters-1.17.2:	Cups-2.2.4, GLib-2.52.3, ghostscript-9.21, IJS-0.35, Little CMS-2.8, mupdf-1.11 (mutool), Poppler-0.57.0, and Qpdf-6.0.0
-#				libjpeg-turbo-1.5.2, libpng-1.6.31 and LibTIFF-4.0.8
-#	Gutenprint-5.2.12 :	Cups-2.2.4
-
-
+LIST+="cups-filters "				#	Cups-2.2.4, GLib-2.52.3, ghostscript-9.21, IJS-0.35, Little CMS-2.8, mupdf-1.11 (mutool), Poppler-0.57.0, and Qpdf-6.0.0: libjpeg-turbo-1.5.2, libpng-1.6.31 and LibTIFF-4.0.8
 #	QT
-
-
 #	gst-plugins-base-1.12.2 (QtMultimedia backend), HarfBuzz-1.4.8, ICU-59.1, JasPer-2.0.12,
 #	libjpeg-turbo-1.5.2, libmng-2.0.3, libpng-1.6.31, LibTIFF-4.0.8, libxkbcommon-0.7.2,
 #	Mesa-17.1.6, mtdev-1.1.5, OpenSSL-1.0.2l Libraries, pcre2-10.30, SQLite-3.20.0,
 #	Wayland-1.14.0 (Mesa must be built with Wayland EGL backend), xcb-util-image-0.4.0,
 #	xcb-util-keysyms-0.4.0, xcb-util-renderutil-0.3.9, and xcb-util-wm-0.4.1 
-#
+LIST+="pcre2 "					#	None
+LIST+="openssl-libs "				#	None
+LIST+="libmng "					#
+LIST+="jasper "					#	CMake-3.9.1:	libjpeg-turbo-1.5.2
+LIST+="libxkbcommon "				#	xkeyboard-config-2.21:	libxcb-1.12
+LIST+="libogg "					#
+LIST+="libvorbis "				#	libogg-1.3.2
+LIST+="libtheora "				#	libogg-1.3.2:	libvorbis-1.3.5
+LIST+="iso-codes "				#	Python-3.6.2
+LIST+="cdparanoia-III "				#	None
+LIST+="gstreamer "				#	GLib-2.52.3:	gobject-introspection-1.52.1
+LIST+="gst-plugins-base "			#	gstreamer-1.12.2:	 alsa-lib-1.1.4.1, CDParanoia-III-10.2 (for building the CDDA plugin), gobject-introspection-1.52.1, ISO Codes-3.75, libogg-1.3.2, libtheora-1.1.1, libvorbis-1.3.5, and Xorg Libraries 
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
 #LIST+="qt "					#
 #LIST+="phonon "				#	CMake-3.9.1, extra-cmake-modules-5.37.0, GLib-2.52.3, and Qt-5.9.1 
 
