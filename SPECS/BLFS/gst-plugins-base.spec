@@ -31,7 +31,7 @@ Source0:	%{name}-%{version}.tar.xz
 	find %{buildroot} -name '*.la' -delete
 	find "${RPM_BUILD_ROOT}" -not -type d -print > filelist.rpm
 	sed -i "s|^${RPM_BUILD_ROOT}||" filelist.rpm
-	sed -i '@man1@d' filelist.rpm
+	sed -i '/man1/d' filelist.rpm
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 %files -f filelist.rpm
