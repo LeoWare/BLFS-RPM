@@ -1,31 +1,27 @@
-#		 
-Summary:	
-Name:		
-Version:	
+#		https://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz
+Summary:	libmad is a high-quality MPEG audio decoder capable of 24-bit output
+Name:		libmad
+Version:	0.15.1b
 Release:	1
 License:	Any
 URL:		Any
 Group:		BLFS/
 Vendor:		Octothorpe
 Distribution:	BLFS-8.1
-Requires:	
-Requires(pre): /usr/sbin/useradd, /usr/bin/getent
-Requires(postun): /usr/sbin/userdel
 Source0:	%{name}-%{version}.tar.gz
-Source0:	%{name}-%{version}.tar.bz2
-Source0:	%{name}-%{version}.tar.xz
-Patch0:		
+Patch0:		libmad-0.15.1b-fixes-1.patch
 %description
-	
+	libmad is a high-quality MPEG audio decoder capable of 24-bit output
 %prep
 %setup -q -n %{NAME}-%{VERSION}
-%setup -q -T -D -a 1  -n %{name}-%{version}
 %patch0 -p1
+sed "s@AM_CONFIG_HEADER@AC_CONFIG_HEADERS@g" -i configure.ac
+touch NEWS AUTHORS ChangeLog
 %build
+	autoreconf -fi
 	./configure \
-		--prefix=%{_prefix}\
+		--prefix=%{_prefix} \
 		--disable-static
-#		--docdir=%{_datarootdir}/doc/%{NAME}-%{VERSION}
 	make %{?_smp_mflags}
 %install
 	make DESTDIR=%{buildroot} install
@@ -34,24 +30,15 @@ Patch0:
 	#	Create file list
 	rm -rf %{buildroot}/usr/share/info/dir
 	find %{buildroot} -name '*.la' -delete
-%pre
-	/usr/bin/getent group  myservice || /usr/sbin/groupadd -g 
-	/usr/bin/getent passwd myservice || /usr/sbin/useradd  -c
-%post
-	pushd /usr/share/info
-	rm -v dir
-	for f in *
-		do install-info $f dir 2>/dev/null
-	done
-	popd
-%postun
-	/usr/sbin/userdel
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
-
 %files
 	%defattr(-,root,root)
 #	%%{buildroot}%%{_datarootdir}/licenses/%%{name}/LICENSE
+	%{_includedir}/mad.h
+	%{_libdir}/libmad.so
+	%{_libdir}/libmad.so.0
+	%{_libdir}/libmad.so.0.2.1
 %changelog
-*	Fri Mar 09 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Wed Mar 07 2018 baho-utot <baho-utot@columbus.rr.com> 0.15.1b-1
 -	Initial build.	First version

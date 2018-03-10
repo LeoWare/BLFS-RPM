@@ -1,7 +1,7 @@
 Summary:	Package manager
 Name:		rpm
 Version:	4.14.0
-Release:	3
+Release:	4
 License:	GPLv2
 URL:		http://rpm.org
 Group:		LFS/BASE
@@ -22,15 +22,16 @@ Source1:	http://download.oracle.com/berkeley-db/db-6.0.20.tar.gz
 	ln -vs db-6.0.20 db
 	./configure \
 		--prefix=%{_prefix} \
+		--program-prefix= \
+		--sysconfdir=/etc \
 		--with-crypto=openssl \
 		--without-external-db \
 		--without-archive \
-		--program-prefix= \
-		--sysconfdir=/etc \
-		--disable-dependency-tracking \
 		--without-lua \
-		--disable-silent-rules \
-		--enable-python
+		--disable-python \
+		--disable-plugins \
+		--disable-dependency-tracking \
+		--disable-silent-rules
 	make %{?_smp_mflags}
 %install
 	make DESTDIR=%{buildroot} install
@@ -55,8 +56,8 @@ Source1:	http://download.oracle.com/berkeley-db/db-6.0.20.tar.gz
 	%{_libdir}/*.0
 	%{_libdir}/*.8
 	%{_libdir}/pkgconfig/*.pc
-	%{_libdir}/python2.7/site-packages/rpm
-	%{_libdir}/rpm-plugins
+#	%{_libdir}/python2.7/site-packages/rpm
+#	%{_libdir}/rpm-plugins
 	%{_libdir}/rpm
 	%{_mandir}/fr/man8/rpm.8.gz
 	%{_mandir}/ja/man8/*.gz

@@ -1,4 +1,4 @@
-#		 
+#		 ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-1.1.4.tar.bz2
 Summary:	
 Name:		
 Version:	
@@ -23,8 +23,7 @@ Patch0:
 %patch0 -p1
 %build
 	./configure \
-		--prefix=%{_prefix}\
-		--disable-static
+		--prefix=%{_prefix}
 #		--docdir=%{_datarootdir}/doc/%{NAME}-%{VERSION}
 	make %{?_smp_mflags}
 %install
@@ -53,5 +52,5 @@ Patch0:
 	%defattr(-,root,root)
 #	%%{buildroot}%%{_datarootdir}/licenses/%%{name}/LICENSE
 %changelog
-*	Fri Mar 09 2018 baho-utot <baho-utot@columbus.rr.com> -1
+*	Wed Mar 07 2018 baho-utot <baho-utot@columbus.rr.com> -1
 -	Initial build.	First version

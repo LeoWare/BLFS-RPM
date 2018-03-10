@@ -200,6 +200,10 @@ _wget_list() {
 			http://www.linuxfromscratch.org/patches/blfs/8.1/cdparanoia-III-10.2-gcc_fixes-1.patch
 			https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.12.2.tar.xz
 			https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.12.2.tar.xz
+			https://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz
+			http://www.linuxfromscratch.org/patches/blfs/8.1/libmad-0.15.1b-fixes-1.patch
+			https://downloads.sourceforge.net/mpg123/mpg123-1.25.6.tar.bz2
+			http://www.libsdl.org/release/SDL-1.2.15.tar.gz
 		EOF
 	msg_success
 	return
@@ -257,6 +261,9 @@ _md5sum_list(){
 			9ba173b69d4360003414f23837597a92	SOURCES/iso-codes-3.75.tar.xz
 			4748860621607ffd96244fb79c86c238	SOURCES/gstreamer-1.12.2.tar.xz
 			77f5379c4ca677616b415e3b3ff95578	SOURCES/gst-plugins-base-1.12.2.tar.xz
+			1be543bc30c56fb6bea1d7bf6a64e66c	SOURCES/libmad-0.15.1b.tar.gz
+			43336bef78f67c2e66c4f6c288ca1eb3	SOURCES/mpg123-1.25.6.tar.bz2
+			9d96df8417572a2afb781a7c4c811a85	SOURCES/SDL-1.2.15.tar.gz
 		EOF
 	msg_success
 	return
@@ -342,9 +349,22 @@ LIST+="iso-codes "				#	Python-3.6.2
 LIST+="cdparanoia-III "				#	None
 LIST+="gstreamer "				#	GLib-2.52.3:	gobject-introspection-1.52.1
 LIST+="gst-plugins-base "			#	gstreamer-1.12.2:	 alsa-lib-1.1.4.1, CDParanoia-III-10.2 (for building the CDDA plugin), gobject-introspection-1.52.1, ISO Codes-3.75, libogg-1.3.2, libtheora-1.1.1, libvorbis-1.3.5, and Xorg Libraries 
+#	for plugins gst-plugins-base		#	None
+LIST+="libmad "					#
+LIST+="mpg123 "					#	alsa-lib-1.1.4.1
+#	ALSA
+LIST+="alsa-lib "				#
+LIST+="alsa-plugins "				#
 LIST+=" "					#
 LIST+=" "					#
 LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+
+
+
+#LIST+="SDL "					#
 LIST+=" "					#
 #LIST+="qt "					#
 #LIST+="phonon "				#	CMake-3.9.1, extra-cmake-modules-5.37.0, GLib-2.52.3, and Qt-5.9.1 

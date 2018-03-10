@@ -1,6 +1,6 @@
 #!/bin/bash
 #################################################
-#	Title:	10-Xorg.sh		#
+#	Title:	ALSA.sh				#
 #        Date:	2018-02-10			#
 #     Version:	1.1				#
 #      Author:	baho-utot@columbus.rr.com	#
@@ -16,6 +16,7 @@ LC_ALL=POSIX
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin
 export LC_ALL PATH
 #
+TITLE=${PRGNAME::-3}
 PARENT=/usr/src/Octothorpe
 LOGPATH=${TOPDIR}/LOGS/BLFS
 INFOPATH=${TOPDIR}/INFO/BLFS
@@ -112,24 +113,53 @@ installer(){	#	$1:	name of package
 	fi
 }
 _prepare() {
-	return
 	local _log="${LOGPATH}/${1}"
-	msg "	Prepare processing:"
-	if [ ! -e ${LOGPATH}/${1} ]; then
-		true
-	fi		
-	touch ${_log}
+	_wget_list	#	Create wget list
+	_md5sum_list	#	Create md5sum list
+	rsync -va  /home/lfs/BLFS-RPM/${TITLE}.sh .
+	rsync -var /home/lfs/BLFS-RPM/SPECS/* SPECS/
+	#	Fetch source packages
+	local DESTDIR=""
+	local INPUTFILE=""
+	msg_line "	Fetching source: "
+		[ -d SOURCES ] || install -vdm 755 ${DESTDIR}
+		#	LFS sources
+		DESTDIR=${TOPDIR}/SOURCES
+		INPUTFILE=${TOPDIR}/SOURCES/${TITLE}.wget
+		wget --no-clobber --no-check-certificate --input-file=${INPUTFILE} --directory-prefix=${DESTDIR} > /dev/null 2>&1
+	msg_success
+	msg_line "	Checking source: "
+		md5sum -c ${TOPDIR}/SOURCES/${TITLE}.md5sum >> ${_log}
+	msg_success
+	cp config-4.12.7.graphics.patch		SOURCES
+	cp config-4.12.7.sound.patch		SOURCES
+	cp config-4.12.7.powersave.patch	SOURCES
 	return
 }
 _post() {
 	return
 	local _log="${LOGPATH}/${1}"
 	msg "	Post processing:"
-	if [ ! -e ${LOGPATH}/${1} ]; then
-		msg_line "	BLFS: Post: " 
-		msg_success
-	fi		
-	touch ${_log}
+	return
+}
+_wget_list() {
+	msg_line "	Creating wget-list: "
+		cat > ${PARENT}/SOURCES/${TITLE}.wget <<- EOF
+			ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.1.4.1.tar.bz2
+			ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-1.1.4.tar.bz2
+			http://www.mega-nerd.com/SRC/libsamplerate-0.1.9.tar.gz
+		EOF
+	msg_success
+	return
+}
+_md5sum_list(){
+	msg_line "	Creating wget-list: "
+		cat > ${PARENT}/SOURCES/${TITLE}.md5sum <<- EOF
+			29fa3e69122d3cf3e8f0e01a0cb1d183	SOURCES/alsa-lib-1.1.4.1.tar.bz2
+			de51130a7444b79b2dd3c25e28420754	SOURCES/alsa-plugins-1.1.4.tar.bz2
+			2b78ae9fe63b36b9fbb6267fad93f259	SOURCES/libsamplerate-0.1.9.tar.gz
+		EOF
+	msg_success
 	return
 }
 #
@@ -139,34 +169,25 @@ _post() {
 #
 #	BLFS Desktop system
 #
-msg "Building BLFS Desktop"
+msg "Building KDE"
 LIST=""
-LIST+="prepare screen "
-#	Dependences
-LIST+="libffi Python libxml2 wayland libgpg-error libgcrypt Python2 python2-funcsigs Beaker "
-LIST+="MarkupSafe Mako Certificate-Authority-Certificates curl libarchive cmake llvm libpng "
-LIST+="pixman libepoxy mtdev "
+LIST+="prepare linux "
+LIST+="Python2 "				#
+LIST+="alsa-lib "				#	Python2
+LIST+="libsamplerate "				#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+LIST+=" "					#
+#LIST+="alsa-plugins "				#
 
-#	Xorg
-LIST+="util-macros xorg-protocol-headers libXau libXdmcp xcb-proto libxcb "
-LIST+="freetype fontconfig "
-LIST+="xtrans libX11 libXext libFS libICE libSM libXScrnSaver libXt libXmu "
-LIST+="libXpm libXaw libXfixes libXcomposite libXrender libXcursor libXdamage "
-LIST+="libfontenc libXfont2 libXft libXi libXinerama libXrandr libXres libXtst "
-LIST+="libXv libXvMC libXxf86dga libXxf86vm libdmx libpciaccess libxkbfile libxshmfence "
-LIST+="xcb-util xcb-util-image xcb-util-keysyms xcb-util-renderutil xcb-util-wm "
-LIST+="xcb-util-cursor libdrm nettle elfutils libvdpau xorg-libs mesa xbitmaps xorg-apps "
-LIST+="xcursor-themes xorg-fonts xkeyboard-config xorg-server libevdev xf86-input-evdev "
-LIST+="libinput xf86-input-libinput xf86-input-synaptics "
-LIST+="graphics-firmware xf86-video-ati xf86-video-fbdev libva twm  xterm xclock xinit "
-
-#LIST+=""
-#LIST+="post
+LIST+="post "
 for i in ${LIST};do
 	rm -rf BUILD BUILDROOT
 	case ${i} in
-		prepare)	_prepare ${i}	;;
-		post)		_post ${i}	;;
+		prepare)	_prepare "kde.${i}"	;;
+		post)		_post ${i}		;;
 		*)		maker ${i}	
 				info  ${i}
 				installer ${i}		;;

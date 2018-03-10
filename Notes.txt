@@ -175,3 +175,10 @@ Device Drivers  --->
     <*/M> PC-style hardware            [CONFIG_PARPORT_PC]
   Character devices  --->
     <*/M> Parallel printer support     [CONFIG_PRINTER]
+
+#	ALSA
+Device Drivers --->
+  <*/m> Sound card support --->                  [CONFIG_SOUND]
+    <*/m> Advanced Linux Sound Architecture ---> [CONFIG_SND]
+            Select settings and drivers appropriate for your hardware.
+    < >   Open Sound System (DEPRECATED)         [CONFIG_SOUND_PRIME]
